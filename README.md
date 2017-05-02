@@ -7,6 +7,8 @@
 
 InfrastructureLight makes it easier for developers to create regular .Net projects.
 
+For more information see the wiki [EN](https://github.com/artemmatveev/InfrastructureLight/wiki/EN) or [RU](https://github.com/artemmatveev/InfrastructureLight/wiki/RU)
+
 ## Install Package
 
 To use InfrastructureLight in your C# project, you can use the NuGet package manager installed, you can grab them automatically. Once you have the InfrastructureLight libraries properly referenced in your project, you can include calls to them in your code.
