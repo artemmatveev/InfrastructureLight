@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:c="clr-namespace:InfrastructureLight.Wpf.Common.Converters">
+
+    <c:InverseBooleanConverter x:Key="xInverseBooleanConverter"/>
+    <c:EnumToDescriptionConverter x:Key="xEnumToDescriptionConverter"/>
+    <c:NullToVisibleConverter x:Key="xNullToVisibleConverter"/>
+    <c:NullToBooleanConverter x:Key="xNullToBooleanConverter"/>
+    <c:InverseNullToVisibleConverter x:Key="xInverseNullToVisibleConverter"/>
+
+</ResourceDictionary>
