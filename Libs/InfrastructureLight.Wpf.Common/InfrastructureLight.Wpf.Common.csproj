@@ -34,6 +34,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,19 +44,22 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\SaveCloseButtonPanel.xaml.cs">
+      <DependentUpon>SaveCloseButtonPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\EnumToDescriptionConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\InverseNullToVisibleConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\NullToVisibleConverter.cs" />
+    <Compile Include="Factory\IViewFactory.cs" />
+    <Compile Include="Factory\ViewFactory.cs" />
+    <Compile Include="MarkupExtensions\EnumToIEnumerable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
     <Folder Include="Dialogs\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Factory\" />
-    <Folder Include="MarkupExtensions\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\InfrastructureLight.Common\InfrastructureLight.Common.csproj">
@@ -65,6 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Assets\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SaveCloseButtonPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
