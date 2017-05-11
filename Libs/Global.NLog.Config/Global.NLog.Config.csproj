@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B2BC23C9-EFE8-4E60-B8B1-66C65BDAF4DA}</ProjectGuid>
+    <ProjectGuid>{0945B3E8-BB53-472F-8B6D-9BCAF6BE69D6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Global.NLog.Config</RootNamespace>

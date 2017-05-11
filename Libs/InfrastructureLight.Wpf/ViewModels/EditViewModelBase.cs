@@ -10,4 +10,12 @@ namespace InfrastructureLight.Wpf.ViewModels
     {
 
     }
+
+    public abstract class EditViewModelBase<T> : EditViewModelBase where T : class
+    {
+        public void MapFrom(T entity)
+        {
+
+        }
+    }
 }
