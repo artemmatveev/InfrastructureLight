@@ -47,6 +47,7 @@
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="EventArgs\CloseDialogEventArgs.cs" />
     <Compile Include="EventArgs\ConfirmEventArgs.cs" />
+    <Compile Include="EventArgs\FailureEventArgs.cs" />
     <Compile Include="EventArgs\OpenDialogEventArgs.cs" />
     <Compile Include="Factory\IViewModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
