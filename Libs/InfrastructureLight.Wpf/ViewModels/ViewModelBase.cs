@@ -224,7 +224,27 @@ namespace InfrastructureLight.Wpf.ViewModels
             EventHandler<ConfirmEventArgs> handler = _confirmInvocList;
             if (handler != null) handler(this, new ConfirmEventArgs(message, callback));
         }
-        
+
+       
+        private EventHandler<FailureEventArgs> _failureInvocList;
+        public event EventHandler<FailureEventArgs> Failure
+        {
+            add
+            {
+                if (_failureInvocList == null || _failureInvocList.GetInvocationList()
+                    .All(m => m.Method != value.Method))
+                {
+                    _failureInvocList += value;
+                }
+            }
+            remove { _failureInvocList -= value; }
+        }
+        protected virtual void OnFailure(string message, Action callback)
+        {
+            EventHandler<FailureEventArgs> handler = _failureInvocList;
+            if (handler != null) handler(this, new FailureEventArgs(message, callback));
+        }
+
         private EventHandler<CloseDialogEventArgs> _closedInvocList;
         public event EventHandler<CloseDialogEventArgs> Closed
         {
