@@ -45,6 +45,7 @@
     <Compile Include="Behaviors\ISearch.cs" />
     <Compile Include="Behaviors\SearchCommon.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Commands\DelegateCommandAsync.cs" />
     <Compile Include="EventArgs\CloseDialogEventArgs.cs" />
     <Compile Include="EventArgs\ConfirmEventArgs.cs" />
     <Compile Include="EventArgs\FailureEventArgs.cs" />

@@ -68,6 +68,7 @@
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ImageSelector.cs" />
+    <Compile Include="Extensions\PasswordBoxExtension.cs" />
     <Compile Include="Factory\IViewFactory.cs" />
     <Compile Include="Factory\ViewFactory.cs" />
     <Compile Include="MarkupExtensions\EnumToIEnumerable.cs" />
@@ -78,9 +79,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\InfrastructureLight.Common\InfrastructureLight.Common.csproj">
       <Project>{b6ce1022-4cd6-4253-accc-3b723b0ba890}</Project>

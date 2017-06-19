@@ -12,7 +12,7 @@ namespace InfrastructureLight.Wpf.ViewModels
     public abstract class CatalogViewModelBase : AsyncViewModel
     {
         #region Fileds
-        
+       
         string _searchText;
         public string SearchText
         {
@@ -54,7 +54,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         #endregion
 
         #region Events
-        
+       
         private EventHandler<OpenDialogEventArgs<ViewModelBase>> _editInvocList;
         public event EventHandler<OpenDialogEventArgs<ViewModelBase>> EditDialog
         {
@@ -96,7 +96,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         {
             _searchCommand = new SearchCommon<T>(this);
         }
-        
+       
         ObservableCollection<T> _itemsSource;
         public ObservableCollection<T> ItemsSource
         {
@@ -109,6 +109,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         {
             get { return _selectedItem; }
             set { _selectedItem = value; RaisePropertyChangedEvent("SelectedItem"); }
-        }        
+        }
+        
     }
 }

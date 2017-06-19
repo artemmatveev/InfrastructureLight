@@ -4,8 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.ComponentModel;
 using System.Diagnostics;
-
 using System.Windows.Input;
+using System.Runtime.CompilerServices;
 
 namespace InfrastructureLight.Wpf.ViewModels
 {
@@ -17,14 +17,13 @@ namespace InfrastructureLight.Wpf.ViewModels
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChangedEvent(string propertyName)
+          
+        protected void RaisePropertyChangedEvent([CallerMemberName] string propertyName = null)
         {
             if (PropertyChanged != null)
             {
                 VerifyPropertyName(propertyName);
-                var e = new PropertyChangedEventArgs(propertyName);
-                PropertyChanged(this, e);
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
@@ -135,7 +134,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         #endregion
 
         #region Fields
-        
+       
         string _title;
         public string Title
         {
@@ -224,8 +223,7 @@ namespace InfrastructureLight.Wpf.ViewModels
             EventHandler<ConfirmEventArgs> handler = _confirmInvocList;
             if (handler != null) handler(this, new ConfirmEventArgs(message, callback));
         }
-
-       
+        
         private EventHandler<FailureEventArgs> _failureInvocList;
         public event EventHandler<FailureEventArgs> Failure
         {
@@ -244,7 +242,7 @@ namespace InfrastructureLight.Wpf.ViewModels
             EventHandler<FailureEventArgs> handler = _failureInvocList;
             if (handler != null) handler(this, new FailureEventArgs(message, callback));
         }
-
+        
         private EventHandler<CloseDialogEventArgs> _closedInvocList;
         public event EventHandler<CloseDialogEventArgs> Closed
         {
