@@ -1,0 +1,41 @@
+﻿<Controls:MetroWindow x:Class="InfrastructureLight.Wpf.Common.Dialogs.DialogWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d">
+
+    <Controls:MetroWindow.CommandBindings>
+        <CommandBinding Command="Close" Executed="OnClose" />
+    </Controls:MetroWindow.CommandBindings>
+
+    <Controls:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/InfrastructureLight.Wpf.Common;component/Assets/Images.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Controls:MetroWindow.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ContentControl x:Name="xImageContentControl" VerticalAlignment="Top" ContentTemplateSelector="{StaticResource ImageSelector}" />
+        <ContentControl x:Name="xContentControl" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+        <DockPanel Margin="0,2.5,0,0" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="2">
+            <Button x:Name="xButton1" Command="Close" FontWeight="Normal" Margin="5" FontSize="14" MinWidth="70" Background="LightCoral"/>
+            <Button x:Name="xButton2" Command="Close" FontWeight="Normal" Margin="5" FontSize="14" MinWidth="70" Background="LightGreen"/>
+        </DockPanel>
+
+    </Grid>
+</Controls:MetroWindow>
