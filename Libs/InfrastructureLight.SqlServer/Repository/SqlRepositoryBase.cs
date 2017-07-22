@@ -21,7 +21,7 @@ namespace InfrastructureLight.SqlServer.Repository
             _logger = logger;
         }
 
-        #region Члены ISqlRepository
+        #region Members ISqlRepository
 
         public List<TEntity> Get<TEntity>(string query, Action<TEntity, IDataRecord> fill) where TEntity : new()
         {

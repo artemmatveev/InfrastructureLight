@@ -27,7 +27,7 @@ namespace InfrastructureLight.SqlServer.Factory
 
             if (cryptConnection != null)
             {
-                var encryptConnection = new SqlConnectionStringBuilder(Encrypter.DecryptString(cryptConnection.ConnectionString, cryptKey));
+                var encryptConnection = new SqlConnectionStringBuilder(Crypto.DecryptString(cryptConnection.ConnectionString, cryptKey));
                 DataBaseName = (dbName == null) ? string.Empty : dbName.ConnectionString;
 
                 if (!string.IsNullOrEmpty(DataBaseName))

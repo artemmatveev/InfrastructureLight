@@ -11,9 +11,9 @@ namespace InfrastructureLight.Wpf.ViewModels
 
     }
 
-    public abstract class EditViewModelBase<T> : EditViewModelBase where T : class
+    public abstract class EditViewModelBase<TEntity> : EditViewModelBase where TEntity : class
     {
-        public void MapFrom(T entity)
+        public void MapFrom(TEntity entity)
         {
 
         }
