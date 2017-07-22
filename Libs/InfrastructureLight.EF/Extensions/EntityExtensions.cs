@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.ComponentModel.DataAnnotations;
 
+using InfrastructureLight.Domain;
+
 namespace InfrastructureLight.EF.Extensions
 {
     public static class EntityExtensions
@@ -8,7 +10,7 @@ namespace InfrastructureLight.EF.Extensions
         /// <summary>
         ///     Copy data from an entity to an entity
         /// </summary>
-        public static void CopyDataTo<TEntity>(this TEntity source, TEntity dest) where TEntity : class
+        public static void CopyDataTo<TEntity>(this TEntity source, TEntity dest) where TEntity : IEntity
         {
             var sourceType = source.GetType();
             var destType = dest.GetType();
