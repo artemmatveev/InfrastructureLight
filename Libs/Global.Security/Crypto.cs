@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Global.Security
 {
-    public class Encrypter
+    public class Crypto
     {
         public static string EncryptString(string text, string password)
         {
