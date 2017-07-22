@@ -20,5 +20,18 @@ namespace InfrastructureLight.Domain
         {
             get { return Id == 0; }
         }
+
+        [Column("DeletedFlag")]
+        public bool DeletedFlag
+        { get; set; }
+
+        #region Methods
+
+        public void Delete()
+        {
+            DeletedFlag = true;
+        }
+
+        #endregion
     }
 }
