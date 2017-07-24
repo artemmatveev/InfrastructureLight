@@ -13,6 +13,20 @@ For more information see the wiki [EN](https://github.com/artemmatveev/Infrastru
 
 To use InfrastructureLight in your C# project, you can use the NuGet package manager installed, you can grab them automatically. Once you have the InfrastructureLight libraries properly referenced in your project, you can include calls to them in your code.
 
+### For Domain:
+
+```
+    PM> Install-Package InfrastructureLight.Domain    
+```
+
+### For Data Access Layer:
+
+```
+    PM> Install-Package InfrastructureLight.EF 
+```
+
+### For WPF App:
+
 ```
     PM> Install-Package InfrastructureLight.Wpf    
 ```
