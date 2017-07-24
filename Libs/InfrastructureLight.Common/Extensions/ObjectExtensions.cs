@@ -12,5 +12,10 @@
         {
             return source == null;
         }
+
+        public static bool IsNotNull(this object source)
+        {
+            return source != null;
+        }
     }
 }
