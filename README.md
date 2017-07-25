@@ -22,7 +22,7 @@ To use InfrastructureLight in your C# project, you can use the NuGet package man
 ### For Data Access Layer:
 
 ```
-    PM> Install-Package InfrastructureLight.EF 
+    PM> Install-Package InfrastructureLight.DAL 
 ```
 
 ### For WPF App:
