@@ -11,8 +11,8 @@ namespace InfrastructureLight.EF.Repository
 {
     public class EntityRepositoryBase : IEntityRepository
     {
-        private readonly object _locked = new object();
-        private DbContext _dataContext;
+        protected readonly object _locked = new object();
+        protected DbContext _dataContext;
 
         public EntityRepositoryBase(DbContext dataContext)
         {
