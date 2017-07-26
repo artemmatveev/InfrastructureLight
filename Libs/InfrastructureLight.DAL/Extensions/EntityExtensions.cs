@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 using InfrastructureLight.Domain;
 
-namespace InfrastructureLight.EF.Extensions
+namespace InfrastructureLight.DAL.Extensions
 {
     public static class EntityExtensions
     {

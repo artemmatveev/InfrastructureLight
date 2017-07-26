@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace InfrastructureLight.SqlServer
+namespace InfrastructureLight.DAL.Factory
 {
     public interface IConnectionFactory
     {

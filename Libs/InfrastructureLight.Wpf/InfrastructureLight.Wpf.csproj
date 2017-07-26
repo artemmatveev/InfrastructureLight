@@ -56,6 +56,9 @@
     <Compile Include="ViewModels\CatalogViewModelBase.cs" />
     <Compile Include="ViewModels\EditViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

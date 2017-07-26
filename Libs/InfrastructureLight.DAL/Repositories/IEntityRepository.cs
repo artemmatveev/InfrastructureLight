@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 using InfrastructureLight.Domain;
 
-namespace InfrastructureLight.EF.Repository
+namespace InfrastructureLight.DAL.Repository
 {
     public interface IEntityRepository
     {

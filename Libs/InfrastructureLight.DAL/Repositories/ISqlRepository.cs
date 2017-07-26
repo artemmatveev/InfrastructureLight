@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace InfrastructureLight.SqlServer.Repository
+namespace InfrastructureLight.DAL.Repository
 {
     public interface ISqlRepository
     {

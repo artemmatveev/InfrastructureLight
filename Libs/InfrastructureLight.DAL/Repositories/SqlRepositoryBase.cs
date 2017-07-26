@@ -8,8 +8,10 @@ using System.Data;
 using System.Data.SqlClient;
 using NLog;
 
-namespace InfrastructureLight.SqlServer.Repository
+namespace InfrastructureLight.DAL.Repository
 {
+    using Factory;
+
     public abstract class SqlRepositoryBase : ISqlRepository
     {
         private IConnectionFactory _connectionFactory;
