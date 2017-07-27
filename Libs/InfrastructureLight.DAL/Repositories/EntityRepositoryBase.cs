@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 using InfrastructureLight.Domain;
 
-namespace InfrastructureLight.DAL.Repository
+namespace InfrastructureLight.DAL.Repositories
 {
     public class EntityRepositoryBase : IEntityRepository
     {

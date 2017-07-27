@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using System.Data;
 using System.Data.SqlClient;
 using NLog;
 
-namespace InfrastructureLight.DAL.Repository
+namespace InfrastructureLight.DAL.Repositories
 {
     using Factory;
 
