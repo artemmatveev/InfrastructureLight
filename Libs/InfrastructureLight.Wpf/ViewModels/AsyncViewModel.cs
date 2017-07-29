@@ -11,7 +11,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         public bool Busy
         {
             get { return _busy; }
-            protected set { _busy = value; RaisePropertyChangedEvent("Busy"); }
+            protected set { _busy = value; RaisePropertyChangedEvent(); }
         }
 
         #endregion

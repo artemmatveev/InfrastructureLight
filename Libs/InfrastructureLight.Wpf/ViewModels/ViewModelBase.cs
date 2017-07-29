@@ -139,7 +139,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         public string Title
         {
             get { return _title; }
-            set { _title = value; RaisePropertyChangedEvent("Title"); }
+            set { _title = value; RaisePropertyChangedEvent(); }
         }
 
         #endregion

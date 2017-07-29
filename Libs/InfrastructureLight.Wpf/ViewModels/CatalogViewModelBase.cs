@@ -17,7 +17,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         public string SearchText
         {
             get { return _searchText; }
-            set { _searchText = value; RaisePropertyChangedEvent("SearchText"); }
+            set { _searchText = value; RaisePropertyChangedEvent(); }
         }
 
         #endregion
@@ -101,14 +101,14 @@ namespace InfrastructureLight.Wpf.ViewModels
         public ObservableCollection<T> ItemsSource
         {
             get { return _itemsSource ?? (_itemsSource = new ObservableCollection<T>()); }
-            set { _itemsSource = value; RaisePropertyChangedEvent("ItemsSource"); }
+            set { _itemsSource = value; RaisePropertyChangedEvent(); }
         }
         
         T _selectedItem;
         public T SelectedItem
         {
             get { return _selectedItem; }
-            set { _selectedItem = value; RaisePropertyChangedEvent("SelectedItem"); }
+            set { _selectedItem = value; RaisePropertyChangedEvent(); }
         }
         
     }
