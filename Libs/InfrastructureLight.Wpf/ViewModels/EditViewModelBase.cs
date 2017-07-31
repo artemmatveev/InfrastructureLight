@@ -1,6 +1,6 @@
 ﻿namespace InfrastructureLight.Wpf.ViewModels
 {
-    public abstract class EditViewModelBase : ViewModelBase
+    public abstract class EditViewModelBase : AsyncViewModel
     {
 
     }
