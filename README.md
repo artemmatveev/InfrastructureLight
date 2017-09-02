@@ -4,6 +4,7 @@
 [![Join the chat at https://gitter.im/InfrastructureLight/Lobby](https://badges.gitter.im/InfrastructureLight/Lobby.svg)](https://gitter.im/InfrastructureLight/Lobby)
 <a href="https://www.paypal.me/artemmatveev" title="Support project"><img src="https://img.shields.io/badge/Support%20project-paypal-brightgreen.svg"></a>
 [![license](https://img.shields.io/github/license/artemmatveev/InfrastructureLight.svg?maxAge=2592000)](https://github.com/artemmatveev/InfrastructureLight/blob/master/LICENSE)
+[![GitHub version](https://badge.fury.io/gh/artemmatveev%2FInfrastructureLight.svg)](https://badge.fury.io/gh/artemmatveev%2FInfrastructureLight)
 
 InfrastructureLight makes it easier for developers to create regular .Net projects.
 
