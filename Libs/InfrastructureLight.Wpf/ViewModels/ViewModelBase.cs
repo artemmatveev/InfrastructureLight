@@ -13,11 +13,11 @@ namespace InfrastructureLight.Wpf.ViewModels
     using EventArgs;
 
     public abstract class ViewModelBase : INotifyPropertyChanged, IDataErrorInfo
-    {        
+    {
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
-          
+
         protected void RaisePropertyChangedEvent([CallerMemberName] string propertyName = null)
         {
             if (PropertyChanged != null)
@@ -48,45 +48,63 @@ namespace InfrastructureLight.Wpf.ViewModels
 
         #region IDataErrorInfo, Validation Logic
 
-        private Dictionary<string, Binder> ruleMap = new Dictionary<string, Binder>();
-        
+        private Dictionary<string, List<Binder>> ruleMap = new Dictionary<string, List<Binder>>();
+
         public void AddRule<T>(Expression<Func<T>> propertyExpression, Func<bool> ruleDelegate, string errorMessage)
         {
             var propertyName = GetPropertyName(propertyExpression);
-            ruleMap.Add(propertyName, new Binder(ruleDelegate, errorMessage));
+            this.AddRule(propertyName, ruleDelegate, errorMessage);
         }
-        
+
+        public void AddRule(string propertyName, Func<bool> ruleDelegate, string errorMessage)
+        {
+            if (ruleMap.Any(r => r.Key == propertyName))
+            {
+                ruleMap[propertyName].Add(new Binder(ruleDelegate, errorMessage));
+            }
+            else
+            {
+                ruleMap.Add(propertyName, new List<Binder>() { new Binder(ruleDelegate, errorMessage) });
+            }
+        }
+
         public bool HasErrors
         {
             get
             {
-                var values = ruleMap.Values.ToList();
+                var values = ruleMap.Values.SelectMany(v => v).ToList();
                 values.ForEach(b => b.Update());
 
                 return values.Any(b => b.HasError);
             }
         }
-        
+
         public string Error
         {
             get
             {
-                var errors = from b in ruleMap.Values
+                var errors = from b in ruleMap.Values.SelectMany(v => v).ToList()
                              where b.HasError
                              select b.Error;
 
                 return string.Join("\n", errors);
             }
         }
-           
+
         public string this[string columnName]
         {
             get
             {
                 if (ruleMap.ContainsKey(columnName))
-                {
-                    ruleMap[columnName].Update();
-                    return ruleMap[columnName].Error;
+                {                    
+                    foreach (var value in ruleMap[columnName])
+                    {
+                        value.Update();
+                        if (value.HasError)
+                        {
+                            return value.Error;
+                        }
+                    }                    
                 }
                 return string.Empty;
             }
@@ -134,7 +152,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         #endregion
 
         #region Fields
-       
+
         string _title;
         public string Title
         {
@@ -145,7 +163,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         #endregion
 
         #region Commands
-        
+
         private ICommand _saveCommand;
         public ICommand SaveCommand
         {
@@ -163,7 +181,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         {
             return true;
         }
-        
+
         private ICommand _closeCommand;
         public ICommand CloseCommand
         {
@@ -182,10 +200,10 @@ namespace InfrastructureLight.Wpf.ViewModels
             return true;
         }
 
-        #endregion     
+        #endregion
 
         #region Events
-        
+
         private EventHandler _savedInvocList;
         public event EventHandler Saved
         {
@@ -204,7 +222,7 @@ namespace InfrastructureLight.Wpf.ViewModels
             EventHandler handler = _savedInvocList;
             if (handler != null) handler(this, System.EventArgs.Empty);
         }
-        
+
         private EventHandler<ConfirmEventArgs> _confirmInvocList;
         public event EventHandler<ConfirmEventArgs> Confirm
         {
@@ -223,7 +241,7 @@ namespace InfrastructureLight.Wpf.ViewModels
             EventHandler<ConfirmEventArgs> handler = _confirmInvocList;
             if (handler != null) handler(this, new ConfirmEventArgs(message, callback));
         }
-        
+
         private EventHandler<FailureEventArgs> _failureInvocList;
         public event EventHandler<FailureEventArgs> Failure
         {
@@ -242,7 +260,7 @@ namespace InfrastructureLight.Wpf.ViewModels
             EventHandler<FailureEventArgs> handler = _failureInvocList;
             if (handler != null) handler(this, new FailureEventArgs(message, callback));
         }
-        
+
         private EventHandler<CloseDialogEventArgs> _closedInvocList;
         public event EventHandler<CloseDialogEventArgs> Closed
         {
