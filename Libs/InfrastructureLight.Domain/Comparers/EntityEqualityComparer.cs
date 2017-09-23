@@ -6,15 +6,16 @@ namespace InfrastructureLight.Domain.Comparers
     ///     Entity Equality Comparer
     /// </summary>
     /// <typeparam name="TEntity">Entity type</typeparam>
-    public class EntityEqualityComparer<TEntity> : IEqualityComparer<TEntity>
-        where TEntity : class, IEntity
+    public class EntityEqualityComparer<TEntity, T> : IEqualityComparer<TEntity>
+        where TEntity : class, IEntity<T>
     {
         public bool Equals(TEntity x, TEntity y)
         {
             if (x == null || y == null)
                 return false;
 
-            return x.Id == y.Id;
+            // TODO: fixed x.Id = y.Id
+            return x == y;
         }
 
         public int GetHashCode(TEntity obj)

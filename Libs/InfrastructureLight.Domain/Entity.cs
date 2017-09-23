@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InfrastructureLight.Domain
 {
-    public abstract class Entity : IEntity
+    public abstract class Entity : IEntity<int>
     {
         [Key]
         [Required]
