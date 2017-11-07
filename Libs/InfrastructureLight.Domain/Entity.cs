@@ -8,7 +8,7 @@ namespace InfrastructureLight.Domain
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("Id", TypeName = "int")]
+        [Column("Id", Order = 0, TypeName = "int")]
         public int Id { get; set; }
 
         /// <summary>

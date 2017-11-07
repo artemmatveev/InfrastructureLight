@@ -14,6 +14,15 @@ namespace InfrastructureLight.Wpf.ViewModels
 
     public abstract class ViewModelBase : INotifyPropertyChanged, IDataErrorInfo
     {
+        readonly ICommand _saveCommand;
+        readonly ICommand _closeCommand;
+
+        public ViewModelBase()
+        {
+            _saveCommand = new DelegateCommand(action => Save(), action => CanSave());
+            _closeCommand = new DelegateCommand(action => Close(), action => CanClose());
+        }
+
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -164,15 +173,7 @@ namespace InfrastructureLight.Wpf.ViewModels
 
         #region Commands
 
-        private ICommand _saveCommand;
-        public ICommand SaveCommand
-        {
-            get
-            {
-                return _saveCommand ??
-                    (_saveCommand = new DelegateCommand(action => Save(), action => CanSave()));
-            }
-        }
+        public ICommand SaveCommand => _saveCommand;
         protected virtual void Save()
         {
             OnSaved();
@@ -182,15 +183,7 @@ namespace InfrastructureLight.Wpf.ViewModels
             return true;
         }
 
-        private ICommand _closeCommand;
-        public ICommand CloseCommand
-        {
-            get
-            {
-                return _closeCommand ??
-                    (_closeCommand = new DelegateCommand(action => Close(), action => CanClose()));
-            }
-        }
+        public ICommand CloseCommand => _closeCommand;
         protected virtual void Close()
         {
             OnClosed(false);

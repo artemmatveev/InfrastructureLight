@@ -1,4 +1,4 @@
-﻿namespace InfrastructureLite.Domain
+﻿namespace InfrastructureLight.Domain
 {
     /// <summary>
     ///     Describes the selectable item

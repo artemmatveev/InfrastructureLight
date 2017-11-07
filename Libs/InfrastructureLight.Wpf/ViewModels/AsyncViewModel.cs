@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace InfrastructureLight.Wpf.ViewModels
 {
@@ -12,6 +13,38 @@ namespace InfrastructureLight.Wpf.ViewModels
         {
             get { return _busy; }
             protected set { _busy = value; RaisePropertyChangedEvent(); }
+        }
+
+        #endregion
+
+        #region Methods Use Dispatcher
+
+        /// <summary>
+        ///     Для выполнения действия в потоке 
+        ///     пользовательского интерфейса.
+        /// </summary>
+        /// <param name="action">A delegate to invoke asynchronously.</param>
+        /// <remarks>
+        ///     Можно использовать, чтобы избежать эффекта Freezes Interface возникающего при отрисовке
+        ///     большого количества данных.
+        ///     После каждого действия, которое необходимо отрисовать, необходимо 
+        ///     вызывать InfrastructureLight.Wpf.Common.Helpers.ApplicationHelper.DoEvents() 
+        /// </remarks>
+        protected void GoDispatcher(Action action)
+        {
+            Busy = false;
+
+            DispatcherOperation op = Dispatcher.CurrentDispatcher
+                .BeginInvoke(DispatcherPriority.Background, (DispatcherOperationCallback) delegate
+                {
+
+                    Busy = true;
+                    action.Invoke();                                        
+                    return null;
+
+                }, null);
+
+            op.Completed += (o, e) => { Busy = false; };
         }
 
         #endregion

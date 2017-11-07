@@ -8,9 +8,18 @@ namespace InfrastructureLight.Wpf.ViewModels
     using Behaviors;
     using Commands;
     using EventArgs;
+    using Common.Extensions;
 
     public abstract class CatalogViewModelBase : AsyncViewModel
     {
+        protected ISearch _searchCommand;
+        readonly ICommand _updateCommand;
+
+        public CatalogViewModelBase()
+        {
+            _updateCommand = new DelegateCommand(action => Update(), action => CanUpdate());
+        }
+
         #region Fileds
        
         string _searchText;
@@ -24,24 +33,8 @@ namespace InfrastructureLight.Wpf.ViewModels
 
         #region Commands
 
-        protected ISearch _searchCommand;
-        public ICommand SearchCommand
-        {
-            get
-            {
-                return _searchCommand.Searched();
-            }
-        }
-
-        private ICommand _updateCommand;
-        public ICommand UpdateCommand
-        {
-            get
-            {
-                return _updateCommand ??
-                    (_updateCommand = new DelegateCommand(action => Update(), action => CanUpdate()));
-            }
-        }
+        public ICommand SearchCommand => _searchCommand.Searched();
+        public ICommand UpdateCommand => _updateCommand;
         protected virtual void Update()
         {
             RefreshAsynch();
@@ -50,11 +43,11 @@ namespace InfrastructureLight.Wpf.ViewModels
         {
             return true;
         }
-
+        
         #endregion
 
         #region Events
-       
+
         private EventHandler<OpenDialogEventArgs<ViewModelBase>> _editInvocList;
         public event EventHandler<OpenDialogEventArgs<ViewModelBase>> EditDialog
         {
@@ -105,11 +98,19 @@ namespace InfrastructureLight.Wpf.ViewModels
         }
         
         T _selectedItem;
-        public T SelectedItem
+        public virtual T SelectedItem
         {
             get { return _selectedItem; }
             set { _selectedItem = value; RaisePropertyChangedEvent(); }
         }
-        
+
+        #region Commands
+
+        protected override bool CanSave()
+        {
+            return SelectedItem.IsNotNull();
+        }
+
+        #endregion
     }
 }

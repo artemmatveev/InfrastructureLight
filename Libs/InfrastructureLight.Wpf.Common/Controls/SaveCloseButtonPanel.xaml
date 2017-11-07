@@ -6,10 +6,10 @@
              mc:Ignorable="d">
 
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-        <Button Content="Сохранить" FontSize="14" Background="LightGreen" FontWeight="Normal" Margin="5,15,2.5,5"
+        <Button Content="Сохранить" FontSize="12" Background="LightGreen" FontWeight="Normal" Margin="5,15,2.5,5"
                 x:Name="xSaveButton"
                 Command="{Binding SaveCommand}"/>
-        <Button Content="Отменить" FontSize="14" Background="LightCoral" FontWeight="Normal" Margin="2.5,15,5,5"
+        <Button Content="Отменить" FontSize="12" Background="LightCoral" FontWeight="Normal" Margin="2.5,15,5,5"
                 x:Name="xCloseButton"
                 Command="{Binding CloseCommand}"/>
     </StackPanel>

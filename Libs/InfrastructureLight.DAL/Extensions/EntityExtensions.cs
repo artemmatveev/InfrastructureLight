@@ -10,7 +10,7 @@ namespace InfrastructureLight.DAL.Extensions
         /// <summary>
         ///     Copy data from an entity to an entity
         /// </summary>
-        public static void CopyDataTo<TEntity, T>(this TEntity source, TEntity dest) where TEntity : IEntity<T>
+        public static void CopyDataTo<TEntity>(this TEntity source, TEntity dest) where TEntity : IEntity<int>
         {
             var sourceType = source.GetType();
             var destType = dest.GetType();

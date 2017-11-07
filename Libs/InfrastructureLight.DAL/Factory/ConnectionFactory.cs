@@ -14,9 +14,9 @@ namespace InfrastructureLight.DAL.Factory
 
         #endregion
 
-        public ConnectionFactory(string cryptKey)
+        public ConnectionFactory(string cryptKey, string name)
         {
-            var cryptConnection = ConfigurationManager.ConnectionStrings["CryptConnectionString"];
+            var cryptConnection = ConfigurationManager.ConnectionStrings[name];
             var dbName = ConfigurationManager.ConnectionStrings["DataBaseName"];
 
             if (cryptConnection != null)

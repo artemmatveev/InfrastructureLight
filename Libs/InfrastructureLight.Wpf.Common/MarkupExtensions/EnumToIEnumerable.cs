@@ -4,7 +4,7 @@ using System.Linq;
 
 using InfrastructureLight.Common.Extensions;
 
-namespace nfrastructureLight.Wpf.Common.MarkupExtensions
+namespace InfrastructureLight.Wpf.Common.MarkupExtensions
 {    
     public class EnumToIEnumerable : MarkupExtension
     {
