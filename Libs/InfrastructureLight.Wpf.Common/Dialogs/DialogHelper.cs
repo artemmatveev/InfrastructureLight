@@ -148,6 +148,8 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
                     window.xButton1.Visibility = Visibility.Visible;
                     window.xButton1.Content = Resources.OKButtonContent;
                     window.xButton1.IsDefault = true;
+
+                    window.xButton2.Visibility = Visibility.Collapsed;                    
                     break;
                 case MessageBoxButton.OKCancel:
                     window.xButton1.Visibility = Visibility.Visible;
