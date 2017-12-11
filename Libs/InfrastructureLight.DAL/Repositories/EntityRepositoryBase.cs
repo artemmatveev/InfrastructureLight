@@ -9,7 +9,7 @@ using InfrastructureLight.Domain;
 
 namespace InfrastructureLight.DAL.Repositories
 {
-    public class EntityRepositoryBase : IEntityRepository
+    public class EntityRepositoryBase : IEntityRepository, IDisposable
     {
         protected readonly object _locked = new object();
         protected DbContext _dataContext;
@@ -21,12 +21,12 @@ namespace InfrastructureLight.DAL.Repositories
 
         #region IEntityRepository
 
-        public IQueryable<TEntity> Get<TEntity>(Expression<Func<TEntity, bool>> condition = null, bool trackingFlag = false,
+        public IQueryable<TEntity> Get<TEntity>(Expression<Func<TEntity, bool>> condition = null, bool NoTrackingFlag = false,
             params Expression<Func<TEntity, object>>[] includes) where TEntity : class
         {
             lock (_locked)
             {
-                IQueryable<TEntity> set = trackingFlag
+                IQueryable<TEntity> set = NoTrackingFlag
                     ? _dataContext.Set<TEntity>().AsNoTracking()
                     : _dataContext.Set<TEntity>();
 
@@ -71,7 +71,6 @@ namespace InfrastructureLight.DAL.Repositories
                 entity.Delete();
             }
         }
-
         public void Delete(Entity entity)
         {
             Delete(new[] { entity });
@@ -79,9 +78,19 @@ namespace InfrastructureLight.DAL.Repositories
 
         public void Commit()
         {
-            lock (_locked)
+            try
             {
-                _dataContext.SaveChanges();
+                lock (_locked)
+                {
+                    _dataContext.SaveChanges();
+                }
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw;
+            }         
+            catch (Exception ex) {
+                throw;
             }
         }
 
@@ -93,10 +102,8 @@ namespace InfrastructureLight.DAL.Repositories
                 {
                     switch (entry.State)
                     {
-                        case EntityState.Detached:
-                            break;
-                        case EntityState.Unchanged:
-                            break;
+                        case EntityState.Detached: break;
+                        case EntityState.Unchanged: break;
                         case EntityState.Added:
                             entry.State = EntityState.Detached;
                             break;
@@ -116,18 +123,25 @@ namespace InfrastructureLight.DAL.Repositories
 
         public virtual void Reload()
         {
-            lock (_locked)
-            {
-
-            }
+            
         }
 
-        public bool HasChanges()
+        public bool HasChanges() 
+            => _dataContext.ChangeTracker.HasChanges();
+
+        #endregion
+
+        #region Dispose
+
+        bool _disposed;
+        public void Dispose()
         {
-            lock (_locked)
-            {
-                return _dataContext.ChangeTracker.HasChanges();
-            }
+            if (_disposed) return;
+
+            _dataContext?.Dispose();
+            _dataContext = null;
+
+            _disposed = true;
         }
 
         #endregion

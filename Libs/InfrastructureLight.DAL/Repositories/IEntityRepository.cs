@@ -7,7 +7,7 @@ using InfrastructureLight.Domain;
 
 namespace InfrastructureLight.DAL.Repositories
 {
-    public interface IEntityRepository
+    public interface IEntityRepository : IDisposable
     {
         IQueryable<TEntity> Get<TEntity>(Expression<Func<TEntity, bool>> condition = null, bool trackingFlag = false,
             params Expression<Func<TEntity, object>>[] includes) where TEntity : class;
