@@ -27,7 +27,7 @@ namespace InfrastructureLight.Domain
 
         #region Methods
 
-        public void Delete()
+        public virtual void Delete()
         {
             DeletedFlag = true;
         }
