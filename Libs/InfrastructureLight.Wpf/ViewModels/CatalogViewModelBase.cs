@@ -7,8 +7,7 @@ namespace InfrastructureLight.Wpf.ViewModels
 {
     using Behaviors;
     using Commands;
-    using EventArgs;
-    using Common.Extensions;
+    using EventArgs;    
 
     public abstract class CatalogViewModelBase : AsyncViewModel
     {
@@ -108,7 +107,7 @@ namespace InfrastructureLight.Wpf.ViewModels
 
         protected override bool CanSave()
         {
-            return SelectedItem.IsNotNull();
+            return SelectedItem != null;
         }
 
         #endregion

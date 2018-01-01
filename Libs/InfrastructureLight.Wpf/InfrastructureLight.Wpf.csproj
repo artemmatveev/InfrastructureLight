@@ -30,9 +30,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="InfrastructureLight.Wpf.Common">
+      <HintPath>..\InfrastructureLight.Wpf.Common\bin\Debug\InfrastructureLight.Wpf.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MahApps.Metro.1.5.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +58,8 @@
     <Compile Include="Behaviors\SearchCommon.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Commands\DelegateCommandAsync.cs" />
+    <Compile Include="Dialogs\IViewVisualizer.cs" />
+    <Compile Include="Dialogs\ViewVisualizer.cs" />
     <Compile Include="EventArgs\CloseDialogEventArgs.cs" />
     <Compile Include="EventArgs\ConfirmEventArgs.cs" />
     <Compile Include="EventArgs\FailureEventArgs.cs" />
@@ -66,6 +80,9 @@
       <Project>{b6ce1022-4cd6-4253-accc-3b723b0ba890}</Project>
       <Name>InfrastructureLight.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
