@@ -216,6 +216,25 @@ namespace InfrastructureLight.Wpf.ViewModels
             if (handler != null) handler(this, System.EventArgs.Empty);
         }
 
+        private EventHandler<CloseDialogEventArgs> _closedInvocList;
+        public event EventHandler<CloseDialogEventArgs> Closed
+        {
+            add
+            {
+                if (_closedInvocList == null || _closedInvocList.GetInvocationList()
+                    .All(m => m.Method != value.Method))
+                {
+                    _closedInvocList += value;
+                }
+            }
+            remove { _closedInvocList -= value; }
+        }
+        protected virtual void OnClosed(bool dialogResult)
+        {
+            EventHandler<CloseDialogEventArgs> handler = _closedInvocList;
+            if (handler != null) handler(this, new CloseDialogEventArgs(dialogResult));
+        }
+
         private EventHandler<ConfirmEventArgs> _confirmInvocList;
         public event EventHandler<ConfirmEventArgs> Confirm
         {
@@ -252,26 +271,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         {
             EventHandler<FailureEventArgs> handler = _failureInvocList;
             if (handler != null) handler(this, new FailureEventArgs(message, callback));
-        }
-
-        private EventHandler<CloseDialogEventArgs> _closedInvocList;
-        public event EventHandler<CloseDialogEventArgs> Closed
-        {
-            add
-            {
-                if (_closedInvocList == null || _closedInvocList.GetInvocationList()
-                    .All(m => m.Method != value.Method))
-                {
-                    _closedInvocList += value;
-                }
-            }
-            remove { _closedInvocList -= value; }
-        }
-        protected virtual void OnClosed(bool dialogResult)
-        {
-            EventHandler<CloseDialogEventArgs> handler = _closedInvocList;
-            if (handler != null) handler(this, new CloseDialogEventArgs(dialogResult));
-        }
+        }        
 
         #endregion
     }

@@ -45,6 +45,7 @@
       <HintPath>..\..\packages\MahApps.Metro.1.5.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,8 +59,11 @@
     <Compile Include="Behaviors\SearchCommon.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Commands\DelegateCommandAsync.cs" />
-    <Compile Include="Dialogs\IViewVisualizer.cs" />
-    <Compile Include="Dialogs\ViewVisualizer.cs" />
+    <Compile Include="Dialogs\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\IDialogVisualizer.cs" />
+    <Compile Include="Dialogs\DialogVisualizer.cs" />
     <Compile Include="EventArgs\CloseDialogEventArgs.cs" />
     <Compile Include="EventArgs\ConfirmEventArgs.cs" />
     <Compile Include="EventArgs\FailureEventArgs.cs" />
@@ -83,6 +87,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Dialogs\DialogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

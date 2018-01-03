@@ -8,7 +8,7 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
 {
     using Properties;
 
-    public static class DialogHelper
+    public static class MessageDialogHelper
     {
         /// <summary>
         ///     The margins to wrap string content with.
@@ -48,7 +48,7 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
             bool scrollable = false, MessageBoxButton messageBoxButton = MessageBoxButton.OK,
             ResizeMode resizeMode = ResizeMode.NoResize, MessageBoxImage messageBoxImage = MessageBoxImage.None)
         {
-            DialogWindow simpleDialogWindow = CreateDialogWindow(title, resizeMode, messageBoxImage);
+            MessageDialogWindow simpleDialogWindow = CreateMessageDialogWindow(title, resizeMode, messageBoxImage);
             SetMessageBoxButtons(simpleDialogWindow, messageBoxButton);
 
             if (scrollable)
@@ -85,7 +85,7 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
             MessageBoxButton messageBoxButton = MessageBoxButton.OK, ResizeMode resizeMode = ResizeMode.NoResize,
             MessageBoxImage messageBoxImage = MessageBoxImage.None)
         {
-            DialogWindow simpleDialogWindow = CreateDialogWindow(title, resizeMode, messageBoxImage);
+            MessageDialogWindow simpleDialogWindow = CreateMessageDialogWindow(title, resizeMode, messageBoxImage);
             simpleDialogWindow.Content = WrapContent(content);
             simpleDialogWindow.SizeToContent = SizeToContent.WidthAndHeight;
 
@@ -96,9 +96,9 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
 
         #region Private members
 
-        private static DialogWindow CreateDialogWindow(string title, ResizeMode resizeMode, MessageBoxImage messageBoxImage)
+        private static MessageDialogWindow CreateMessageDialogWindow(string title, ResizeMode resizeMode, MessageBoxImage messageBoxImage)
         {
-            var dialogWindow = new DialogWindow
+            var dialogWindow = new MessageDialogWindow
             {
                 Title = title,
                 ResizeMode = resizeMode,
@@ -140,7 +140,7 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
             };
         }
 
-        private static void SetMessageBoxButtons(DialogWindow window, MessageBoxButton messageBoxButton)
+        private static void SetMessageBoxButtons(MessageDialogWindow window, MessageBoxButton messageBoxButton)
         {
             switch (messageBoxButton)
             {

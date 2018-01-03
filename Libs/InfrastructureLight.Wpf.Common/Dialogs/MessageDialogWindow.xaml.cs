@@ -4,9 +4,9 @@ using MahApps.Metro.Controls;
 
 namespace InfrastructureLight.Wpf.Common.Dialogs
 {    
-    public partial class DialogWindow : MetroWindow
+    public partial class MessageDialogWindow : MetroWindow
     {
-        public DialogWindow()
+        public MessageDialogWindow()
         {
             InitializeComponent();
         }

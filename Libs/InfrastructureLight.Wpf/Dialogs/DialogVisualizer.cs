@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using MahApps.Metro.Controls;
+using InfrastructureLight.Wpf.Common.Dialogs;
+using System.Linq;
 
 namespace InfrastructureLight.Wpf.Dialogs
 {
     using Common.Factory;
     using ViewModels;
 
-    public class ViewVisualizer : IViewVisualizer
+    public class DialogVisualizer : IDialogVisualizer
     {
         private readonly IDictionary<ViewModelBase, Window> _windows
             = new Dictionary<ViewModelBase, Window>();
 
         private readonly IViewFactory _viewFactory;
-        public ViewVisualizer(IViewFactory viewFactory)
+        public DialogVisualizer(IViewFactory viewFactory)
         {
             _viewFactory = viewFactory;
         }
@@ -28,10 +29,10 @@ namespace InfrastructureLight.Wpf.Dialogs
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="viewModel"></param>
-        public void Show<T>(T viewModel)
+        public void Show<T>(T viewModel, Action<T> callback = null)
             where T : ViewModelBase
         {
-            Show<T, ViewModelBase>(viewModel, null);
+            Show<T, ViewModelBase>(viewModel, null, callback);
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace InfrastructureLight.Wpf.Dialogs
         /// <typeparam name="TOwner"></typeparam>
         /// <param name="viewModel"></param>
         /// <param name="owner"></param>
-        public void Show<T, TOwner>(T viewModel, TOwner owner)
+        public void Show<T, TOwner>(T viewModel, TOwner owner, Action<T> callback = null)
             where T : ViewModelBase where TOwner : ViewModelBase
         {
             var window = GetWindow(viewModel);
@@ -52,13 +53,14 @@ namespace InfrastructureLight.Wpf.Dialogs
             }
             else
             {
-                window = RegisterViewModel(viewModel);
+                window = RegisterViewModel(viewModel, callback);
                 if (window != null)
                 {
-                    window.Owner = owner != null
-                        ? GetWindow(owner) ?? Application.Current.MainWindow
-                        : Application.Current.MainWindow;
-
+                    if (owner != null)
+                    {
+                        window.Owner = GetWindow(owner);
+                    }
+                    
                     window.Show();
                 }
             }
@@ -73,10 +75,10 @@ namespace InfrastructureLight.Wpf.Dialogs
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="viewModel"></param>
-        public bool? ShowDialog<T>(T viewModel)
+        public bool? ShowDialog<T>(T viewModel, Action<T> callback = null)
             where T : ViewModelBase
         {
-            return ShowDialog<T, ViewModelBase>(viewModel, null);
+            return ShowDialog<T, ViewModelBase>(viewModel, null, callback);
         }
 
         /// <summary>
@@ -87,18 +89,18 @@ namespace InfrastructureLight.Wpf.Dialogs
         /// <typeparam name="TOwner"></typeparam>
         /// <param name="viewModel"></param>
         /// <param name="owner"></param>
-        public bool? ShowDialog<T, TOwner>(T viewModel, TOwner owner)
+        public bool? ShowDialog<T, TOwner>(T viewModel, TOwner owner, Action<T> callback = null)
             where T : ViewModelBase where TOwner : ViewModelBase
         {
             if (GetWindow(viewModel) != null)
                 throw new ArgumentException("Повторно вызвано открытие диалога ещё не закрытого диалогового окна", nameof(viewModel));
 
-            var window = RegisterViewModel(viewModel);
+            var window = RegisterViewModel(viewModel, callback);
             if (window != null)
             {
                 window.Owner = owner != null
-                    ? GetWindow(owner) ?? Application.Current.MainWindow
-                    : Application.Current.MainWindow;
+                    ? GetWindow(owner) ?? Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive)
+                    : Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
 
                 return window.ShowDialog();
             }
@@ -106,22 +108,7 @@ namespace InfrastructureLight.Wpf.Dialogs
         }
 
         #endregion
-
-        #region Close
-
-        /// <summary>
-        ///     Закрыть открытое окно 
-        ///     для ViewModel
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="viewModel"></param>
-        public void Close<T>(T viewModel) where T : ViewModelBase
-        {
-            GetWindow(viewModel)?.Close();
-        }
-
-        #endregion
-
+        
         #region Private
 
         /// <summary>
@@ -131,7 +118,7 @@ namespace InfrastructureLight.Wpf.Dialogs
         /// <typeparam name="T"></typeparam>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        private Window RegisterViewModel<T>(T viewModel) where T : ViewModelBase
+        private Window RegisterViewModel<T>(T viewModel, Action<T> callback = null) where T : ViewModelBase
         {
             var view = _viewFactory.CreateView(viewModel);
             var viewType = view.GetType();
@@ -144,7 +131,7 @@ namespace InfrastructureLight.Wpf.Dialogs
             else if (viewType.IsSubclassOf(typeof(UserControl)))
             {
                 var uc = view as UserControl;
-                window = new MetroWindow
+                window = new DialogWindow
                 {
                     Content = uc,
                     Title = viewModel.Title,
@@ -152,38 +139,50 @@ namespace InfrastructureLight.Wpf.Dialogs
                     GlowBrush = Brushes.Black,
                     BorderThickness = new Thickness(0)
                 };
-
-                ResourceDictionary resource = new ResourceDictionary
-                {
-                    Source = new Uri("pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml")
-                };
-
-                window.Resources.MergedDictionaries.Add(resource);
             }
 
             if (window != null)
             {
+                viewModel.Saved += (s, e) => {                   
+                    window.Close();                    
+                    callback(viewModel);                    
+                };
+
+                viewModel.Closed += (s, e) => {                                    
+                    window.Close();
+                };
+
+                viewModel.Confirm += (s, e) => {
+                    bool? result = MessageDialogHelper.ShowDialog("Подтверждение", e.Message,
+                            MessageBoxButton.YesNo, messageBoxImage: MessageBoxImage.Question);
+
+                    if (result == true) {
+                        e.Callback();
+                    }
+                };
+
+                viewModel.Failure += (s, e) => {
+                    bool? result = MessageDialogHelper.ShowDialog("Ошибка", e.Message,
+                            MessageBoxButton.OK, messageBoxImage: MessageBoxImage.Error);
+
+                    if (result == true) {
+                        e.Callback();
+                    }
+                };
+
+
                 window.DataContext = viewModel;
-                window.Closed += Window_Closed;
+                window.Closed += (s, e) => {
+                    if (_windows.ContainsKey(viewModel))
+                    {
+                        _windows.Remove(viewModel);                        
+                    }
+                };
 
                 _windows.Add(viewModel, window);
             }
 
             return window;
-        }
-
-        private void Window_Closed(object sender, System.EventArgs e)
-        {
-            var window = sender as Window;
-            var viewModel = window?.DataContext as ViewModelBase;
-
-            if (viewModel != null)
-            {
-                if (_windows.ContainsKey(viewModel))
-                {
-                    _windows.Remove(viewModel);
-                }
-            }
         }
 
         private Window GetWindow<T>(T viewModel) where T : ViewModelBase
@@ -198,8 +197,8 @@ namespace InfrastructureLight.Wpf.Dialogs
             var result = false;
             if (window != null && window.WindowState == WindowState.Minimized)
             {
-                window.WindowState = WindowState.Normal;
-            }
+                window.WindowState = WindowState.Normal;                
+            }            
             return result;
         }
 

@@ -66,9 +66,9 @@
     <Compile Include="Converters\InverseNullToVisibleConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\NullToVisibleConverter.cs" />
-    <Compile Include="Dialogs\DialogHelper.cs" />
-    <Compile Include="Dialogs\DialogWindow.xaml.cs">
-      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    <Compile Include="Dialogs\MessageDialogHelper.cs" />
+    <Compile Include="Dialogs\MessageDialogWindow.xaml.cs">
+      <DependentUpon>MessageDialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ImageSelector.cs" />
     <Compile Include="Extensions\PasswordBoxExtension.cs" />
@@ -134,7 +134,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\DialogWindow.xaml">
+    <Page Include="Dialogs\MessageDialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

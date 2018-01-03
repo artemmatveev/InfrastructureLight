@@ -20,8 +20,7 @@ namespace InfrastructureLight.Wpf.Common.Factory
                     string.Format("Unable to find view type: {0} for given view model.", assemblyQualifiedName), "viewModel");
 
             var view = (FrameworkElement)Activator.CreateInstance(viewType);
-            view.DataContext = viewModel;
-
+                        
             return view;
         }
     }

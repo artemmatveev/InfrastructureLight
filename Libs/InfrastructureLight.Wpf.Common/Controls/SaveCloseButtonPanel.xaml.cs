@@ -29,6 +29,6 @@ namespace InfrastructureLight.Wpf.Common.Controls
                     this.xCloseButton.Content = value;
                 }
             }
-        }
+        }        
     }
 }

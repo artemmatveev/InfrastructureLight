@@ -44,33 +44,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         }
         
         #endregion
-
-        #region Events
-
-        private EventHandler<OpenDialogEventArgs<ViewModelBase>> _editInvocList;
-        public event EventHandler<OpenDialogEventArgs<ViewModelBase>> EditDialog
-        {
-            add
-            {
-                if (_editInvocList == null || _editInvocList.GetInvocationList()
-                    .All(m => m.Method != value.Method))
-                {
-                    _editInvocList += value;
-                }
-            }
-            remove { _editInvocList -= value; }
-        }
-        protected virtual void OnEditDialog(ViewModelBase viewModel, Action<ViewModelBase> callback = null)
-        {
-            EventHandler<OpenDialogEventArgs<ViewModelBase>> handler = _editInvocList;
-            if (handler != null)
-            {
-                handler(this, new OpenDialogEventArgs<ViewModelBase>(viewModel, callback));
-            }
-        }
-
-        #endregion
-
+       
         public virtual void RefreshAsynch()
         {
             Go(Refresh);
