@@ -15,6 +15,13 @@ namespace InfrastructureLight.Wpf.ViewModels
             protected set { _busy = value; RaisePropertyChangedEvent(); }
         }
 
+        private string _busyMessage;
+        public string BusyMessage
+        {
+            get { return _busyMessage; }
+            protected set { _busyMessage = value; RaisePropertyChangedEvent(); }
+        }
+
         #endregion
 
         #region Methods Use Dispatcher

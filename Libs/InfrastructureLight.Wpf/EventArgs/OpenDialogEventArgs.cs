@@ -1,5 +1,4 @@
 ﻿using System;
-
 namespace InfrastructureLight.Wpf.EventArgs
 {
     public class OpenDialogEventArgs<T> : System.EventArgs where T : class

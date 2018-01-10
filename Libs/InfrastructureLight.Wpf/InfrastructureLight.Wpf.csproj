@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="InfrastructureLight.Wpf.Common">
-      <HintPath>..\InfrastructureLight.Wpf.Common\bin\Debug\InfrastructureLight.Wpf.Common.dll</HintPath>
-    </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -83,6 +80,10 @@
     <ProjectReference Include="..\InfrastructureLight.Common\InfrastructureLight.Common.csproj">
       <Project>{b6ce1022-4cd6-4253-accc-3b723b0ba890}</Project>
       <Name>InfrastructureLight.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InfrastructureLight.Wpf.Common\InfrastructureLight.Wpf.Common.csproj">
+      <Project>{7a2647d1-46db-4482-9491-00f69cdf0873}</Project>
+      <Name>InfrastructureLight.Wpf.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

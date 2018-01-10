@@ -15,44 +15,22 @@ namespace InfrastructureLight.Wpf.ViewModels
     public abstract class ViewModelBase : INotifyPropertyChanged, IDataErrorInfo
     {
         readonly ICommand _saveCommand;
-        readonly ICommand _closeCommand;
+        readonly ICommand _cancelCommand;
 
         public ViewModelBase()
         {
             _saveCommand = new DelegateCommand(action => Save(), action => CanSave());
-            _closeCommand = new DelegateCommand(action => Close(), action => CanClose());
+            _cancelCommand = new DelegateCommand(action => Cancel(), action => CanCancel());
         }
 
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected void RaisePropertyChangedEvent([CallerMemberName] string propertyName = null)
         {
-            if (PropertyChanged != null)
-            {
-                VerifyPropertyName(propertyName);
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        [Conditional("DEBUG")]
-        [DebuggerStepThrough]
-        public void VerifyPropertyName(string propertyName)
-        {
-            if (TypeDescriptor.GetProperties(this)[propertyName] == null)
-            {
-                string msg = "Не сущесвует свойство с именем: " + propertyName;
-
-                if (this.ThrowOnInvalidPropertyName)
-                    throw new Exception(msg);
-                else
-                    Debug.Fail(msg);
-            }
-        }
-
-        protected virtual bool ThrowOnInvalidPropertyName { get; private set; }
-
+        
         #endregion
 
         #region IDataErrorInfo, Validation Logic
@@ -183,12 +161,12 @@ namespace InfrastructureLight.Wpf.ViewModels
             return true;
         }
 
-        public ICommand CloseCommand => _closeCommand;
-        protected virtual void Close()
+        public ICommand CancelCommand => _cancelCommand;
+        protected virtual void Cancel()
         {
-            OnClosed(false);
+            OnCanceled(false);
         }
-        protected virtual bool CanClose()
+        protected virtual bool CanCancel()
         {
             return true;
         }
@@ -216,23 +194,23 @@ namespace InfrastructureLight.Wpf.ViewModels
             if (handler != null) handler(this, System.EventArgs.Empty);
         }
 
-        private EventHandler<CloseDialogEventArgs> _closedInvocList;
-        public event EventHandler<CloseDialogEventArgs> Closed
+        private EventHandler<CancelDialogEventArgs> _canceledInvocList;
+        public event EventHandler<CancelDialogEventArgs> Canceled
         {
             add
             {
-                if (_closedInvocList == null || _closedInvocList.GetInvocationList()
+                if (_canceledInvocList == null || _canceledInvocList.GetInvocationList()
                     .All(m => m.Method != value.Method))
                 {
-                    _closedInvocList += value;
+                    _canceledInvocList += value;
                 }
             }
-            remove { _closedInvocList -= value; }
+            remove { _canceledInvocList -= value; }
         }
-        protected virtual void OnClosed(bool dialogResult)
+        protected virtual void OnCanceled(bool dialogResult)
         {
-            EventHandler<CloseDialogEventArgs> handler = _closedInvocList;
-            if (handler != null) handler(this, new CloseDialogEventArgs(dialogResult));
+            EventHandler<CancelDialogEventArgs> handler = _canceledInvocList;
+            if (handler != null) handler(this, new CancelDialogEventArgs(dialogResult));
         }
 
         private EventHandler<ConfirmEventArgs> _confirmInvocList;

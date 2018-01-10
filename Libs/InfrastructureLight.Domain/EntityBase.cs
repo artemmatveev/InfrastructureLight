@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace InfrastructureLight.Domain
 {
     public class EntityBase : Entity
-    {
+    {       
         [Column("ModifyDate", TypeName = "datetime")]
         public DateTime ModifyDate
         { get; set; }
@@ -13,6 +13,6 @@ namespace InfrastructureLight.Domain
         [Column("ModifyBy", TypeName = "nvarchar")]
         [StringLength(255)]
         public string ModifyBy
-        { get; set; }
+        { get; set; }       
     }
 }

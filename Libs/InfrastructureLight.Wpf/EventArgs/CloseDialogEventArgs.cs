@@ -1,10 +1,10 @@
 ﻿namespace InfrastructureLight.Wpf.EventArgs
 {
-    public class CloseDialogEventArgs : System.EventArgs
+    public class CancelDialogEventArgs : System.EventArgs
     {
         public bool DialogResult { get; private set; }
 
-        public CloseDialogEventArgs(bool dialogResult)
+        public CancelDialogEventArgs(bool dialogResult)
         {
             DialogResult = dialogResult;
         }

@@ -9,5 +9,6 @@ namespace InfrastructureLight.Wpf.Dialogs
         void Show<T, TOwner>(T viewModel, TOwner owner, Action<T> callback = null) where T : ViewModelBase where TOwner : ViewModelBase;
         bool? ShowDialog<T>(T viewModel, Action<T> callback = null) where T : ViewModelBase;
         bool? ShowDialog<T, TOwner>(T viewModel, TOwner owner, Action<T> callback = null) where T : ViewModelBase where TOwner : ViewModelBase;        
+        void Close<T>(T viewModel) where T : ViewModelBase;
     }
 }

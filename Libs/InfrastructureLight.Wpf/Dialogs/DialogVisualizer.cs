@@ -107,8 +107,18 @@ namespace InfrastructureLight.Wpf.Dialogs
             return false;
         }
 
+        /// <summary>
+        ///     Закрывает окно, которое сопоставлено заданной модели представления
+        /// </summary>
+        /// <param name="viewModel">Модель представления</param>
+        /// <typeparam name="T">Тип модели представления</typeparam>
+        public void Close<T>(T viewModel) where T : ViewModelBase
+        {
+            GetWindow(viewModel)?.Close();
+        }
+
         #endregion
-        
+
         #region Private
 
         /// <summary>
@@ -148,7 +158,7 @@ namespace InfrastructureLight.Wpf.Dialogs
                     callback(viewModel);                    
                 };
 
-                viewModel.Closed += (s, e) => {                                    
+                viewModel.Canceled += (s, e) => {                                    
                     window.Close();
                 };
 
