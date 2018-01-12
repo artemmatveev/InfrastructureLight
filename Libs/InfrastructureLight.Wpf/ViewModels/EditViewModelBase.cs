@@ -7,7 +7,7 @@
 
     public abstract class EditViewModelBase<TEntity> : EditViewModelBase where TEntity : class
     {
-        public void MapFrom(TEntity entity, params object[] parameters)
+        public virtual void MapFrom(TEntity entity, params object[] parameters)
         {
 
         }
