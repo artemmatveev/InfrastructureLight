@@ -7,8 +7,8 @@ using System.Resources;
 
 [assembly: NeutralResourcesLanguage("en-US")]
 
-[assembly: AssemblyVersion("1.0.56.82")]
-[assembly: AssemblyFileVersion("1.0.56.82")]
+[assembly: AssemblyVersion("1.0.57.83")]
+[assembly: AssemblyFileVersion("1.0.57.83")]
 
 /*
     Нумерация версии ПО: 
