@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows.Input;
 using System.Runtime.CompilerServices;
 
@@ -249,7 +248,21 @@ namespace InfrastructureLight.Wpf.ViewModels
         {
             EventHandler<FailureEventArgs> handler = _failureInvocList;
             if (handler != null) handler(this, new FailureEventArgs(message, callback));
-        }        
+        }
+
+        #endregion
+
+        #region Methods
+
+        protected bool SetValue<T>(ref T field, T value = default(T), [CallerMemberName] string propertyName = null)
+        {
+            bool equalsFlag = EqualityComparer<T>.Default.Equals(field, value);
+            if (!equalsFlag) {
+                field = value;
+                RaisePropertyChangedEvent(propertyName);
+            }            
+            return !equalsFlag;
+        }
 
         #endregion
     }

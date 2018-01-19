@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
@@ -67,30 +68,39 @@ namespace InfrastructureLight.Wpf.ViewModels
         protected void Go(Action action, Action onSuccess = null, Action<Exception> onFailure = null)
         {
             var task = new Task(action);
+            var context = SynchronizationContext.Current;
 
             task.ContinueWith(t =>
             {
                 Busy = false;
+                Action nextOperation = null;
 
-                if (t.IsFaulted)
-                {
-                    if (onFailure != null)
-                    {
-                        onFailure(t.Exception);
+                if (t.IsFaulted) {
+                    if (onFailure != null) {
+                        nextOperation = () => onFailure(t.Exception);
                     }
-                    else
-                    {
-                        OnFailure(t.Exception);
+                    else {
+                        nextOperation = () => OnFailure(t.Exception);
                     }
+                }
 
+                if (onSuccess != null) {
+                    nextOperation = onSuccess;
+                }
+
+                if (nextOperation != null) {
+                    if (context == null) {
+                        nextOperation();
+                    }
+                    else {
+                        context.Post(delegate { nextOperation(); }, null);
+                    }
+                }
+                else {
                     return;
                 }
 
-                if (onSuccess != null)
-                {
-                    onSuccess();
-                }
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            }, TaskScheduler.Current);
 
             Busy = true;
             task.Start();
