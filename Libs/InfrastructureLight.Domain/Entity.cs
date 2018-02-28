@@ -22,14 +22,14 @@ namespace InfrastructureLight.Domain
         }
 
         [Column("DeletedFlag")]
-        public bool DeletedFlag
+        public bool IsDeleted
         { get; set; }
 
         #region Methods
 
         public virtual void Delete()
         {
-            DeletedFlag = true;
+            IsDeleted = true;
         }
 
         #endregion

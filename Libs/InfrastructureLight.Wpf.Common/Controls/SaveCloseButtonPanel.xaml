@@ -11,7 +11,7 @@
                 Command="{Binding SaveCommand}"/>
         <Button Content="Отменить" FontSize="12" Background="LightCoral" FontWeight="Normal" Margin="2.5,15,5,5"
                 x:Name="xCloseButton"
-                Command="{Binding CloseCommand}"/>
+                Command="{Binding CancelCommand}"/>
     </StackPanel>
 
 </UserControl>

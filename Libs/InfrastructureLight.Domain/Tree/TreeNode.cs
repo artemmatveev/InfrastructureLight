@@ -5,7 +5,7 @@ namespace InfrastructureLight.Domain.Tree
     public abstract class TreeNode<T> : EntityBase
          where T : TreeNode<T>
     {
-        private readonly ICollection<T> children = new HashSet<T>();
+        private readonly ICollection<T> _children = new HashSet<T>();
 
         /// <summary>
         ///     Возвращает родительский узел
@@ -18,7 +18,7 @@ namespace InfrastructureLight.Domain.Tree
         /// </summary>
         public virtual ICollection<T> Childrens
         {
-            get { return children; }
+            get { return _children; }
         }
 
         protected T This
@@ -32,7 +32,7 @@ namespace InfrastructureLight.Domain.Tree
         /// <param name="child"></param>
         public virtual void AddChild(T child)
         {
-            children.Add(child);
+            _children.Add(child);
             child.Parent = This;
         }
 

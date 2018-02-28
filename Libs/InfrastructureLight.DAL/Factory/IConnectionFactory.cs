@@ -2,7 +2,7 @@
 
 namespace InfrastructureLight.DAL.Factory
 {
-    public interface IConnectionFactory
+    public interface IConnectionManager
     {
         IDbConnection CreateConnection();
 

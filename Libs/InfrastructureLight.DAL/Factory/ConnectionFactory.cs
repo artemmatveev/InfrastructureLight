@@ -5,7 +5,7 @@ using Global.Security;
 
 namespace InfrastructureLight.DAL.Factory
 {
-    public class ConnectionFactory : IConnectionFactory
+    public class ConnectionManager : IConnectionManager
     {
         #region Fields
 
@@ -14,7 +14,7 @@ namespace InfrastructureLight.DAL.Factory
 
         #endregion
 
-        public ConnectionFactory(string cryptKey, string name)
+        public ConnectionManager(string cryptKey, string name)
         {
             var cryptConnection = ConfigurationManager.ConnectionStrings[name];
             var dbName = ConfigurationManager.ConnectionStrings["DataBaseName"];

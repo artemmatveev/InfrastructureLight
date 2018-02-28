@@ -108,7 +108,8 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
 
             if (Application.Current != null)
             {
-                dialogWindow.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+                var activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+                dialogWindow.Owner = activeWindow != null ? activeWindow : Application.Current.MainWindow;
                 dialogWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             }
             else

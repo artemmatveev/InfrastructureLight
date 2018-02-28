@@ -68,13 +68,19 @@ namespace InfrastructureLight.DAL.Repositories
         {
             foreach (Entity entity in entities)
             {
-                entity.Delete();
+                if (entity.IsTransient) {
+                    DbSet dbSet = _dataContext.Set(entity.GetType());
+                    dbSet.Remove(entity);
+                }
+                else {
+                    entity.Delete();
+                }
             }
         }
         public void Delete(Entity entity)
         {
             Delete(new[] { entity });
-        }
+        }        
 
         public void Commit()
         {

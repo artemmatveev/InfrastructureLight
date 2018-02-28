@@ -23,27 +23,14 @@ namespace InfrastructureLight.Wpf.Dialogs
         }
 
         #region Methods Show
-
-        /// <summary>
-        ///     Отобразить окно для ViewModel
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="viewModel"></param>
-        public void Show<T>(T viewModel, Action<T> callback = null)
+        
+        public void Show<T>(T viewModel, IDialogSettings dialogSettings = null, Action<T> callback = null)
             where T : ViewModelBase
         {
-            Show<T, ViewModelBase>(viewModel, null, callback);
+            Show<T, ViewModelBase>(viewModel, null, dialogSettings, callback);
         }
-
-        /// <summary>
-        ///     Отобразить окно для ViewModel
-        ///     и задать владельца
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TOwner"></typeparam>
-        /// <param name="viewModel"></param>
-        /// <param name="owner"></param>
-        public void Show<T, TOwner>(T viewModel, TOwner owner, Action<T> callback = null)
+     
+        public void Show<T, TOwner>(T viewModel, TOwner owner, IDialogSettings dialogSettings = null, Action<T> callback = null)
             where T : ViewModelBase where TOwner : ViewModelBase
         {
             var window = GetWindow(viewModel);
@@ -53,7 +40,7 @@ namespace InfrastructureLight.Wpf.Dialogs
             }
             else
             {
-                window = RegisterViewModel(viewModel, callback);
+                window = RegisterViewModel(viewModel, dialogSettings, callback);
                 if (window != null)
                 {
                     if (owner != null)
@@ -69,49 +56,32 @@ namespace InfrastructureLight.Wpf.Dialogs
         #endregion
 
         #region Methods ShowDialog
-
-        /// <summary>
-        ///     Отобразить ДИАЛОГОВОЕ окно для ViewModel
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="viewModel"></param>
-        public bool? ShowDialog<T>(T viewModel, Action<T> callback = null)
+        
+        public bool? ShowDialog<T>(T viewModel, IDialogSettings dialogSettings = null, Action<T> callback = null)
             where T : ViewModelBase
         {
-            return ShowDialog<T, ViewModelBase>(viewModel, null, callback);
+            return ShowDialog<T, ViewModelBase>(viewModel, null, dialogSettings, callback);
         }
-
-        /// <summary>
-        ///     Отобразить ДИАЛОГОВОЕ окно для ViewModel
-        ///     и задать владельца
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TOwner"></typeparam>
-        /// <param name="viewModel"></param>
-        /// <param name="owner"></param>
-        public bool? ShowDialog<T, TOwner>(T viewModel, TOwner owner, Action<T> callback = null)
+        
+        public bool? ShowDialog<T, TOwner>(T viewModel, TOwner owner, IDialogSettings dialogSettings = null, Action<T> callback = null)
             where T : ViewModelBase where TOwner : ViewModelBase
         {
             if (GetWindow(viewModel) != null)
                 throw new ArgumentException("Повторно вызвано открытие диалога ещё не закрытого диалогового окна", nameof(viewModel));
 
-            var window = RegisterViewModel(viewModel, callback);
+            var window = RegisterViewModel(viewModel, dialogSettings, callback);
             if (window != null)
             {
+                var activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);                
                 window.Owner = owner != null
-                    ? GetWindow(owner) ?? Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive)
-                    : Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+                    ? GetWindow(owner) ?? (activeWindow != null ? activeWindow : Application.Current.MainWindow)
+                    : (activeWindow != null ? activeWindow : Application.Current.MainWindow);
 
                 return window.ShowDialog();
             }
             return false;
         }
-
-        /// <summary>
-        ///     Закрывает окно, которое сопоставлено заданной модели представления
-        /// </summary>
-        /// <param name="viewModel">Модель представления</param>
-        /// <typeparam name="T">Тип модели представления</typeparam>
+        
         public void Close<T>(T viewModel) where T : ViewModelBase
         {
             GetWindow(viewModel)?.Close();
@@ -128,7 +98,7 @@ namespace InfrastructureLight.Wpf.Dialogs
         /// <typeparam name="T"></typeparam>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        private Window RegisterViewModel<T>(T viewModel, Action<T> callback = null) where T : ViewModelBase
+        private Window RegisterViewModel<T>(T viewModel, IDialogSettings dialogSettings = null, Action<T> callback = null) where T : ViewModelBase
         {
             var view = _viewFactory.CreateView(viewModel);
             var viewType = view.GetType();
@@ -143,12 +113,29 @@ namespace InfrastructureLight.Wpf.Dialogs
                 var uc = view as UserControl;
                 window = new DialogWindow
                 {
-                    Content = uc,
-                    Title = viewModel.Title,
+                    Content = uc,                    
                     SaveWindowPosition = true,
                     GlowBrush = Brushes.Black,
-                    BorderThickness = new Thickness(0)
+                    BorderThickness = new Thickness(0),
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner
                 };
+
+                if (!string.IsNullOrEmpty(viewModel.Title)) {
+                    window.Title = viewModel.Title;
+                }
+
+                if (dialogSettings != null)
+                {
+                    if (!string.IsNullOrEmpty(dialogSettings.Title)) {
+                        window.Title = dialogSettings.Title;
+                    }
+                    if (dialogSettings.DialogHeight != default(double)) {
+                        window.Height = dialogSettings.DialogHeight;
+                    }
+                    if (dialogSettings.DialogWidth != default(double)) {
+                        window.Width = dialogSettings.DialogWidth;
+                    }
+                }                
             }
 
             if (window != null)

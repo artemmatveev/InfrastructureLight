@@ -144,7 +144,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         {
             get { return _title; }
             set { _title = value; RaisePropertyChangedEvent(); }
-        }
+        }       
 
         #endregion
 
