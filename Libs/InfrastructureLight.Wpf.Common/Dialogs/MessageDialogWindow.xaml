@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"             
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+                      KeyDown="MessageDialogWindow_OnKeyDown">
 
     <Controls:MetroWindow.CommandBindings>
         <CommandBinding Command="Close" Executed="OnClose" />
@@ -32,7 +33,7 @@
         <ContentControl x:Name="xImageContentControl" VerticalAlignment="Top" ContentTemplateSelector="{StaticResource ImageSelector}" />
         <ContentControl x:Name="xContentControl" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-        <DockPanel Margin="0,2.5,0,0" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="2">
+        <DockPanel Margin="0,2.5,10,0" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="2">
             <Button x:Name="xButton1" Command="Close" FontWeight="Normal" Margin="5" FontSize="14" MinWidth="70" Background="LightCoral"/>
             <Button x:Name="xButton2" Command="Close" FontWeight="Normal" Margin="5" FontSize="14" MinWidth="70" Background="LightGreen"/>
         </DockPanel>

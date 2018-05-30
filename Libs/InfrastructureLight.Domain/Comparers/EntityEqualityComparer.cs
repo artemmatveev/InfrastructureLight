@@ -2,12 +2,14 @@
 
 namespace InfrastructureLight.Domain.Comparers
 {
+    using Interfaces;
+
     /// <summary>
     ///     Entity Equality Comparer
     /// </summary>
     /// <typeparam name="TEntity">Entity type</typeparam>
     public class EntityEqualityComparer<TEntity> : IEqualityComparer<TEntity>
-        where TEntity : class, IEntity<int>
+        where TEntity : class, IKeyedEntity<int>
     {
         public bool Equals(TEntity x, TEntity y)
         {

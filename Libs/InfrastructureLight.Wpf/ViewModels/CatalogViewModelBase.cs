@@ -103,6 +103,13 @@ namespace InfrastructureLight.Wpf.ViewModels
             set { _selectedItem = value; RaisePropertyChangedEvent(); }
         }
 
+        ObservableCollection<T> _selectedItems;
+        public virtual ObservableCollection<T> SelectedItems
+        {
+            get { return _selectedItems ?? (_selectedItems = new ObservableCollection<T>()); }
+            set { _selectedItems = value; RaisePropertyChangedEvent(); }
+        }
+
         #region Commands
 
         protected override bool CanSave()

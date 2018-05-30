@@ -8,12 +8,12 @@ namespace InfrastructureLight.DAL.Repositories
 {
     using Factory;
 
-    public abstract class SqlRepositoryBase : ISqlRepository
+    public abstract class SqlRepository : ISqlRepository
     {
         private IConnectionManager _connectionFactory;
         private readonly ILogger _logger;
 
-        public SqlRepositoryBase(IConnectionManager connectionFactory, ILogger logger)
+        public SqlRepository(IConnectionManager connectionFactory, ILogger logger)
         {
             _connectionFactory = connectionFactory;
             _logger = logger;

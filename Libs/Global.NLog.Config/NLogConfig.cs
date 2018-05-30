@@ -7,15 +7,16 @@ using NLog.Config;
 
 namespace Global.NLog.Config
 {
+    using Properties;
+
     public sealed class NLogConfig
     {
         public static void ConfigureNLog(string appName, string companyName)
         {
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Global.NLog.Config.NLog.config"))
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(Resources.ConfigName))
             {
                 var xml = new StreamReader(stream).ReadToEnd()
-                    .Replace("@companyName", companyName)
-                    .Replace("@appName", appName);
+                    .Replace("@companyName", companyName).Replace("@appName", appName);
 
                 using (var sr = new StringReader(xml))
                 {

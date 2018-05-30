@@ -1,14 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using InfrastructureLight.ComponentModel;
 
 namespace InfrastructureLight.Domain
 {
-    public abstract class Entity : IEntity<int>
+    using Interfaces;
+
+    public class NotifyKeyedEntity : NotifyPropertyEntry, IKeyedEntity<int>
     {
+        #region IKeyedEntity
+
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("Id", Order = 0, TypeName = "int")]
+        [Column(nameof(Id), Order = 0)]
         public int Id { get; set; }
 
         /// <summary>
@@ -19,17 +24,6 @@ namespace InfrastructureLight.Domain
         public bool IsTransient
         {
             get { return Id == 0; }
-        }
-
-        [Column("DeletedFlag")]
-        public bool IsDeleted
-        { get; set; }
-
-        #region Methods
-
-        public virtual void Delete()
-        {
-            IsDeleted = true;
         }
 
         #endregion

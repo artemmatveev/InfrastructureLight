@@ -35,5 +35,8 @@ namespace InfrastructureLight.Common.Extensions
         {
             return enumerable == null || enumerable.Any() == false;
         }
+
+        public static bool IsIn<T>(this T item, IEnumerable<T> collection)
+            => collection.Any(m => m.Equals(item));
     }
 }

@@ -3,7 +3,11 @@ using System.Windows.Input;
 using MahApps.Metro.Controls;
 
 namespace InfrastructureLight.Wpf.Common.Dialogs
-{    
+{
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows;
+
     public partial class MessageDialogWindow : MetroWindow
     {
         public MessageDialogWindow()
@@ -37,6 +41,29 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
 
             e.Handled = true;
             Close();
+        }
+
+        private void MessageDialogWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.C)
+            {
+                TextBlock tb = xContentControl.Content as TextBlock;
+                var sv = xContentControl.Content as ScrollViewer;
+
+                if (tb != null)
+                {
+                    Clipboard.SetText(tb.Text);
+                }
+                else if (sv != null)
+                {
+                    tb = sv.Content as TextBlock;
+
+                    if (tb != null)
+                    {
+                        Clipboard.SetText(tb.Text);
+                    }
+                }
+            }
         }
     }
 }

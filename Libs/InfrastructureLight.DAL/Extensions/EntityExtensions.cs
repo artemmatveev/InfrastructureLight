@@ -1,16 +1,16 @@
 ﻿using System.Linq;
 using System.ComponentModel.DataAnnotations;
 
-using InfrastructureLight.Domain;
-
 namespace InfrastructureLight.DAL.Extensions
 {
+    using Domain.Interfaces;
+
     public static class EntityExtensions
     {
         /// <summary>
         ///     Copy data from an entity to an entity
         /// </summary>
-        public static void CopyDataTo<TEntity>(this TEntity source, TEntity dest) where TEntity : IEntity<int>
+        public static void CopyDataTo<TEntity>(this TEntity source, TEntity dest) where TEntity : IEntity
         {
             var sourceType = source.GetType();
             var destType = dest.GetType();

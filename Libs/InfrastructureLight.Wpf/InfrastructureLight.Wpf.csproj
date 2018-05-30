@@ -30,15 +30,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.4.4.13\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MahApps.Metro.1.5.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
@@ -82,8 +88,16 @@
       <Project>{b6ce1022-4cd6-4253-accc-3b723b0ba890}</Project>
       <Name>InfrastructureLight.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\InfrastructureLight.ComponentModel\InfrastructureLight.ComponentModel.csproj">
+      <Project>{c2645268-4203-41d1-a940-8c60c38d568b}</Project>
+      <Name>InfrastructureLight.ComponentModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InfrastructureLight.Domain\InfrastructureLight.Domain.csproj">
+      <Project>{3b58be83-b88d-4732-a525-e660d8e7f20a}</Project>
+      <Name>InfrastructureLight.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InfrastructureLight.Wpf.Common\InfrastructureLight.Wpf.Common.csproj">
-      <Project>{7a2647d1-46db-4482-9491-00f69cdf0873}</Project>
+      <Project>{7A2647D1-46DB-4482-9491-00F69CDF0873}</Project>
       <Name>InfrastructureLight.Wpf.Common</Name>
     </ProjectReference>
   </ItemGroup>

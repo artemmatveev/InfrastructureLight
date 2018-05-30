@@ -10,8 +10,9 @@ namespace InfrastructureLight.Wpf.ViewModels
 {
     using Commands;
     using EventArgs;
+    using ComponentModel;
 
-    public abstract class ViewModelBase : INotifyPropertyChanged, IDataErrorInfo
+    public abstract class ViewModelBase : NotifyPropertyEntry, IDataErrorInfo
     {
         readonly ICommand _saveCommand;
         readonly ICommand _cancelCommand;
@@ -21,17 +22,7 @@ namespace InfrastructureLight.Wpf.ViewModels
             _saveCommand = new DelegateCommand(action => Save(), action => CanSave());
             _cancelCommand = new DelegateCommand(action => Cancel(), action => CanCancel());
         }
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void RaisePropertyChangedEvent([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
         
-        #endregion
-
         #region IDataErrorInfo, Validation Logic
 
         private Dictionary<string, List<Binder>> ruleMap = new Dictionary<string, List<Binder>>();

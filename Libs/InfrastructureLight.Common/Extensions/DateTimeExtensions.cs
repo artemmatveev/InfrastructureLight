@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using System.Globalization;
 
 namespace InfrastructureLight.Common.Extensions
 {
@@ -112,6 +114,126 @@ namespace InfrastructureLight.Common.Extensions
 
                 return total;
             }
+        }
+
+        /// <summary>
+        ///     Converts a date to a day
+        /// </summary>
+        public static string ToDayString(this DateTime value)
+        {
+            var sb = new StringBuilder();
+
+            string[] days = { "Вс ", "Пн ", "Вт ", "Ср ", "Чт ", "Пт ", "Сб " };
+            if (value != DateTime.MinValue)
+            {
+                int a = (14 - value.Month) / 12,
+                    y = value.Year - a,
+                    m = value.Month + 12 * a - 2;
+
+                string day = days[(7000 + (value.Day + y + y / 4 - y / 100 + y / 400 + (31 * m) / 12)) % 7];
+
+                sb.AppendFormat("{0}{1}", day, value.ToShortDateString());
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        ///     Converts a date to a month
+        /// </summary>
+        public static string ToMonthString(this DateTime value, bool isGenitive = false)
+        {
+            var sb = new StringBuilder();
+
+            string[] month = new string[]
+                    {
+                        "январь ", "февраль ", "март ",
+                        "апрель ", "май ", "июнь ", "июль ",
+                        "август ", "сентябрь ", "октябрь ",
+                        "ноябрь ", "декабрь "
+                    };
+
+            string[] monthGenitive = new string[]
+                    {
+                        "января ", "февраля ", "марта ", "апреля ",
+                        "мая ", "июня ", "июля ", "августа ",
+                        "сентября ", "октября ",
+                        "ноября ", "декабря "
+                    };
+
+            if (value != DateTime.MinValue)
+            {
+                sb.Append(isGenitive ? monthGenitive[value.Month - 1] : month[value.Month - 1]);
+                sb.Append(value.Year.ToString());
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        ///     Converts a date to a quarter
+        /// </summary>
+        /// <summary>
+        ///     Converts a date to a quarter
+        /// </summary>
+        public static int ToQuaterNum(this DateTime value)
+        {
+            int quter = 0;
+            if (value != DateTime.MinValue)
+            {
+                switch (value.Month)
+                {
+                    case 1: case 2: case 3: quter = 1; break;
+                    case 4: case 5: case 6: quter = 2; break;
+                    case 7: case 8: case 9: quter = 3; break;
+                    case 10: case 11: case 12: quter = 4; break;
+                }
+            }
+            return quter;
+        }
+
+        /// <summary>
+        ///     Converts a date to a week   
+        /// </summary>
+        public static int ToWeekNum(this DateTime value)
+        {
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(value);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday) {
+                value = value.AddDays(3);
+            }
+
+            // Return the week of our adjusted day
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(value, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
+
+        /// <summary>
+        ///     Return DateTime by week number
+        /// </summary>        
+        public static DateTime GetFirstDateOfWeek(int year, int weekOfYear)
+        {
+            DateTime jan1 = new DateTime(year, 1, 1);
+            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
+
+            // Use first Thursday in January to get first week of the year as
+            // it will never be in Week 52/53
+            DateTime firstThursday = jan1.AddDays(daysOffset);
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            var weekNum = weekOfYear;
+            // As we're adding days to a date in Week 1,
+            // we need to subtract 1 in order to get the right date for week #1
+            if (firstWeek == 1)
+            {
+                weekNum -= 1;
+            }
+
+            // Using the first Thursday as starting week ensures that we are starting in the right year
+            // then we add number of weeks multiplied with days
+            var result = firstThursday.AddDays(weekNum * 7);
+
+            // Subtract 3 days from Thursday to get Monday, which is the first weekday in ISO8601
+            return result.AddDays(-3);
         }
     }
 }
