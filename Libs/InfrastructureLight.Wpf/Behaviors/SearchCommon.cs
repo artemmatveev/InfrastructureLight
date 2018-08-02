@@ -24,10 +24,8 @@ namespace InfrastructureLight.Wpf.Behaviors
         }
 
         public DelegateCommand Searched()
-        {
-            return _searchCommand ??
-                (_searchCommand = new DelegateCommand(action => Go(), action => CanGo())); ;
-        }
+            => _searchCommand ??
+                (_searchCommand = new DelegateCommand(action => Go(), action => CanGo()));        
 
         private void Go()
         {
@@ -47,8 +45,6 @@ namespace InfrastructureLight.Wpf.Behaviors
         }
 
         private bool CanGo()
-        {
-            return true;
-        }
+            => true;        
     }
 }

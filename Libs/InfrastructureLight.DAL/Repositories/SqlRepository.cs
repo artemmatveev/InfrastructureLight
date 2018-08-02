@@ -10,10 +10,10 @@ namespace InfrastructureLight.DAL.Repositories
 
     public abstract class SqlRepository : ISqlRepository
     {
-        private IConnectionManager _connectionFactory;
+        private readonly IConnectionManager _connectionFactory;
         private readonly ILogger _logger;
 
-        public SqlRepository(IConnectionManager connectionFactory, ILogger logger)
+        protected SqlRepository(IConnectionManager connectionFactory, ILogger logger)
         {
             _connectionFactory = connectionFactory;
             _logger = logger;

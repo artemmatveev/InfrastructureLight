@@ -14,19 +14,15 @@ namespace InfrastructureLight.Common.Extensions
         ///     or <see cref="System.DateTime"/> is null.
         /// </summary>
         public static bool IsNullOrOutOfRange(this DateTime? source, DateTime startDate, DateTime endDate)
-        {
-            return source.HasValue
+            => source.HasValue
                ? IsOutOfRange(source.Value, startDate, endDate)
-               : source.IsNull();
-        }
+               : source.IsNull();        
 
         /// <summary>        
         ///     Indicates the specified <see cref="System.DateTime"/> is between a DateRange
         /// </summary>   
         public static bool IsOutOfRange(this DateTime source, DateTime startDate, DateTime endDate)
-        {
-            return source < startDate || source > endDate;
-        }
+            => source < startDate || source > endDate;        
 
         /// <summary>
         ///     Calculating total night time        
@@ -132,7 +128,7 @@ namespace InfrastructureLight.Common.Extensions
 
                 string day = days[(7000 + (value.Day + y + y / 4 - y / 100 + y / 400 + (31 * m) / 12)) % 7];
 
-                sb.AppendFormat("{0}{1}", day, value.ToShortDateString());
+                sb.AppendFormat($"{day}{value.ToShortDateString()}");
             }
 
             return sb.ToString();

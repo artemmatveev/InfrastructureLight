@@ -44,8 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\NotFindFileException.cs" />
-    <Compile Include="Exceptions\UpdaterException.cs" />
     <Compile Include="FTPNetworkUpdater.cs" />
     <Compile Include="IUpdater.cs" />
     <Compile Include="LocalNetworkUpdater.cs" />

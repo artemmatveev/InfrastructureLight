@@ -55,7 +55,6 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -66,6 +65,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparers\CompareString.cs" />
+    <Compile Include="Exceptions\ContextDoNotMatchException.cs" />
+    <Compile Include="Exceptions\DomainException.cs" />
+    <Compile Include="Exceptions\EmptyException.cs" />
+    <Compile Include="Exceptions\ErrorSingleContextException.cs" />
+    <Compile Include="Exceptions\FieldValueMustBeGreaterException.cs" />
+    <Compile Include="Exceptions\NotFindFileException.cs" />
     <Compile Include="Extensions\CustomAttributeProviderExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
@@ -86,6 +91,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -17,7 +17,7 @@ namespace InfrastructureLight.Common.Extensions
         public static string GetDescription(this Enum value)
         {
             if (value.GetType().IsEnum == false)
-                throw new ArgumentOutOfRangeException("value", "value is not enum");
+                throw new ArgumentOutOfRangeException(nameof(value), "value is not enum");
 
             FieldInfo fieldInfo = value.GetType().GetField(value.ToString());
             if (fieldInfo == null)

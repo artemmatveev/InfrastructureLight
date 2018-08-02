@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InfrastructureLight.Domain.Exceptions
+namespace InfrastructureLight.Common.Exceptions
 {
     [Serializable]
     public sealed class EmptyException : DomainException {

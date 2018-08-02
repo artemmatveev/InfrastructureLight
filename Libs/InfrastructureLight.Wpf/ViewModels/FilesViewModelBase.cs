@@ -10,7 +10,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         readonly ICommand _deleteFileCommand;
         readonly ICommand _openFileCommand;
 
-        public FilesViewModelBase()
+        protected FilesViewModelBase()
         {
             _addFileCommand = new DelegateCommand(action => AddFile(), action => CanAddFile());
             _deleteFileCommand = new DelegateCommand(action => DeleteFile(), action => CanDeleteFile());
@@ -20,34 +20,16 @@ namespace InfrastructureLight.Wpf.ViewModels
         #region Commands
 
         public ICommand AddFileCommand => _addFileCommand;
-        protected virtual void AddFile()
-        {            
-            RefreshAsynch();
-        }
-        protected virtual bool CanAddFile()
-        {
-            return true;
-        }
+        protected virtual void AddFile() => RefreshAsynch();        
+        protected virtual bool CanAddFile() => true;        
 
         public ICommand DeleteFileCommand => _deleteFileCommand;
-        protected virtual void DeleteFile()
-        {
-            RefreshAsynch();
-        }
-        protected virtual bool CanDeleteFile()
-        {
-            return true;
-        }
+        protected virtual void DeleteFile() => RefreshAsynch();        
+        protected virtual bool CanDeleteFile() => true;
 
         public ICommand OpenFileCommand => _openFileCommand;
-        protected virtual void OpenFile()
-        {
-            RefreshAsynch();
-        }
-        protected virtual bool CanOpenFile()
-        {
-            return true;
-        }
+        protected virtual void OpenFile() => RefreshAsynch();
+        protected virtual bool CanOpenFile() => true;
 
         #endregion
     }

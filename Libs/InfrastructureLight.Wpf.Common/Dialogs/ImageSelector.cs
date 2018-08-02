@@ -29,7 +29,7 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
                 case MessageBoxImage.Information:
                     return Information;
                 default:
-                    throw new ArgumentOutOfRangeException("item", item, null);
+                    throw new ArgumentOutOfRangeException(nameof(item), item, null);
             }
         }
     }

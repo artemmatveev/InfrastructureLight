@@ -172,7 +172,7 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
                     window.xButton2.IsCancel = true;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("messageBoxButton", messageBoxButton, null);
+                    throw new ArgumentOutOfRangeException(nameof(messageBoxButton), messageBoxButton, null);
             }
         }
 

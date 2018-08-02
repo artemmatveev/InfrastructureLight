@@ -17,7 +17,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         readonly ICommand _saveCommand;
         readonly ICommand _cancelCommand;
 
-        public ViewModelBase()
+        protected ViewModelBase()
         {
             _saveCommand = new DelegateCommand(action => Save(), action => CanSave());
             _cancelCommand = new DelegateCommand(action => Cancel(), action => CanCancel());
@@ -25,7 +25,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         
         #region IDataErrorInfo, Validation Logic
 
-        private Dictionary<string, List<Binder>> ruleMap = new Dictionary<string, List<Binder>>();
+        readonly Dictionary<string, List<Binder>> ruleMap = new Dictionary<string, List<Binder>>();
 
         public void AddRule<T>(Expression<Func<T>> propertyExpression, Func<bool> ruleDelegate, string errorMessage)
         {
@@ -89,13 +89,13 @@ namespace InfrastructureLight.Wpf.ViewModels
 
         private class Binder
         {
-            private readonly Func<bool> ruleDelegate;
-            private readonly string message;
+            private readonly Func<bool> _ruleDelegate;
+            private readonly string _message;
 
             internal Binder(Func<bool> ruleDelegate, string message)
             {
-                this.ruleDelegate = ruleDelegate;
-                this.message = message;
+                this._ruleDelegate = ruleDelegate;
+                this._message = message;
             }
 
             internal string Error { get; set; }
@@ -107,9 +107,9 @@ namespace InfrastructureLight.Wpf.ViewModels
                 HasError = false;
                 try
                 {
-                    if (!ruleDelegate())
+                    if (!_ruleDelegate())
                     {
-                        Error = message;
+                        Error = _message;
                         HasError = true;
                     }
                 }
@@ -133,7 +133,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         string _title;
         public string Title
         {
-            get { return _title; }
+            get => _title;
             set { _title = value; RaisePropertyChangedEvent(); }
         }       
 
@@ -142,24 +142,12 @@ namespace InfrastructureLight.Wpf.ViewModels
         #region Commands
 
         public ICommand SaveCommand => _saveCommand;
-        protected virtual void Save()
-        {
-            OnSaved();
-        }
-        protected virtual bool CanSave()
-        {
-            return true;
-        }
+        protected virtual void Save() => OnSaved();
+        protected virtual bool CanSave() => true;
 
         public ICommand CancelCommand => _cancelCommand;
-        protected virtual void Cancel()
-        {
-            OnCanceled(false);
-        }
-        protected virtual bool CanCancel()
-        {
-            return true;
-        }
+        protected virtual void Cancel() => OnCanceled(false);
+        protected virtual bool CanCancel() => true;
 
         #endregion
 

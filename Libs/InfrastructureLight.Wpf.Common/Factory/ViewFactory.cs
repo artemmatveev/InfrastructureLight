@@ -17,7 +17,7 @@ namespace InfrastructureLight.Wpf.Common.Factory
             Type viewType = Type.GetType(assemblyQualifiedName);
             if (viewType == null)
                 throw new ArgumentException(
-                    string.Format("Unable to find view type: {0} for given view model.", assemblyQualifiedName), "viewModel");
+                    string.Format($"Unable to find view type: {assemblyQualifiedName} for given view model."), nameof(viewModel));
 
             var view = (FrameworkElement)Activator.CreateInstance(viewType);
                         

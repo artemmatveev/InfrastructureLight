@@ -6,7 +6,7 @@ namespace InfrastructureLight.Wpf.Commands
 {
     public class DelegateCommandAsync : ICommand
     {
-        private bool isExecuting;
+        private bool _isExecuting;
 
         private readonly Func<Task> _execute;
         private readonly Predicate<object> _canExecute;
@@ -22,8 +22,8 @@ namespace InfrastructureLight.Wpf.Commands
 
         public bool CanExecute(object parameter)
         {
-            if (!isExecuting && _canExecute == null) return true;
-            return (!isExecuting && _canExecute(parameter));
+            if (!_isExecuting && _canExecute == null) return true;
+            return (!_isExecuting && _canExecute(parameter));
         }
 
         public event EventHandler CanExecuteChanged
@@ -34,7 +34,7 @@ namespace InfrastructureLight.Wpf.Commands
 
         public async void Execute(object parameter)
         {
-            isExecuting = true;
+            _isExecuting = true;
 
             try
             {
@@ -42,7 +42,7 @@ namespace InfrastructureLight.Wpf.Commands
             }
             finally
             {
-                isExecuting = false;
+                _isExecuting = false;
             }
         }
 

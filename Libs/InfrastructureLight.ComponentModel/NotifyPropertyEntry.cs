@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.ComponentModel;
-using System.Windows.Input;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace InfrastructureLight.ComponentModel
@@ -14,9 +9,7 @@ namespace InfrastructureLight.ComponentModel
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void RaisePropertyChangedEvent([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));        
 
         #endregion
     }

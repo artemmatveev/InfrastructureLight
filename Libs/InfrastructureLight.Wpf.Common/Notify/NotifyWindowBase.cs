@@ -19,7 +19,7 @@ namespace InfrastructureLight.Wpf.Common.Notify
                 new FrameworkPropertyMetadata(typeof(NotifyWindowBase)));
         }
 
-        public NotifyWindowBase()
+        protected NotifyWindowBase()
         {
             Visibility = Visibility.Visible;            
             Width = 350;

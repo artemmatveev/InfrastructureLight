@@ -12,14 +12,14 @@ namespace InfrastructureLight.Wpf.ViewModels
         private bool _busy;
         public bool Busy
         {
-            get { return _busy; }
+            get => _busy;
             protected set { _busy = value; RaisePropertyChangedEvent(); }
         }
 
         private string _busyMessage;
         public string BusyMessage
         {
-            get { return _busyMessage; }
+            get => _busyMessage;
             protected set { _busyMessage = value; RaisePropertyChangedEvent(); }
         }
 

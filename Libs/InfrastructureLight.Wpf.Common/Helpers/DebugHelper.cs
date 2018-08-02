@@ -229,7 +229,7 @@
 
             public int CurrentPropertyIndex
             {
-                get { return _currentPropertyIndex; }
+                get => _currentPropertyIndex;
                 set
                 {
                     _currentPropertyIndex = value;

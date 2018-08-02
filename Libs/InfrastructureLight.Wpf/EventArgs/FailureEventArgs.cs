@@ -9,8 +9,8 @@ namespace InfrastructureLight.Wpf.EventArgs
 
         public FailureEventArgs(string message, Action callback)
         {
-            if (message == null) throw new ArgumentNullException("message");
-            if (callback == null) throw new ArgumentNullException("callback");
+            if (message == null) throw new ArgumentNullException(nameof(message));
+            if (callback == null) throw new ArgumentNullException(nameof(callback));
 
             Callback = callback;
             Message = message;

@@ -14,16 +14,14 @@ namespace InfrastructureLight.Common.Extensions
         ///     Converte IEnumerable to ObservableCollection
         /// </summary>
         public static ObservableCollection<T> ToObservable<T>(this IEnumerable<T> enumerable)
-        {
-            return new ObservableCollection<T>(enumerable);
-        }
+            => new ObservableCollection<T>(enumerable);        
 
         /// <summary>
         ///     Determines whether an element is in the List<T>   
         /// </summary>
         public static bool In<T>(this T source, params T[] list)
         {
-            if (null == source) { throw new ArgumentNullException("source"); }
+            if (null == source) { throw new ArgumentNullException(nameof(source)); }
             return list.Contains(source);
         }
 
@@ -32,9 +30,7 @@ namespace InfrastructureLight.Common.Extensions
         ///     is null or an Empty colection
         /// </summary>
         public static bool IsEmpty<T>(this IEnumerable<T> enumerable)
-        {
-            return enumerable == null || enumerable.Any() == false;
-        }
+            => enumerable == null || enumerable.Any() == false;        
 
         public static bool IsIn<T>(this T item, IEnumerable<T> collection)
             => collection.Any(m => m.Equals(item));

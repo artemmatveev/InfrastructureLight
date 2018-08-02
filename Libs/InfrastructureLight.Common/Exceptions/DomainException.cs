@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace InfrastructureLight.Domain.Exceptions
+namespace InfrastructureLight.Common.Exceptions
 {
     public class DomainException : Exception
     {

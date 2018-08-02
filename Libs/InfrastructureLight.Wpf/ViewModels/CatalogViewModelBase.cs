@@ -14,7 +14,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         protected ISearch _searchCommand;
         readonly ICommand _updateCommand;
 
-        public CatalogViewModelBase()
+        protected CatalogViewModelBase()
         {
             _updateCommand = new DelegateCommand(action => Update(), action => CanUpdate());
         }
@@ -24,7 +24,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         string _searchText;
         public string SearchText
         {
-            get { return _searchText; }
+            get => _searchText;
             set { _searchText = value; RaisePropertyChangedEvent(); }
         }
 
@@ -84,7 +84,7 @@ namespace InfrastructureLight.Wpf.ViewModels
 
     public abstract class CatalogViewModelBase<T> : CatalogViewModelBase where T : class
     {
-        public CatalogViewModelBase()
+        protected CatalogViewModelBase()
         {
             _searchCommand = new SearchCommon<T>(this);
         }
@@ -92,30 +92,28 @@ namespace InfrastructureLight.Wpf.ViewModels
         ObservableCollection<T> _itemsSource;
         public ObservableCollection<T> ItemsSource
         {
-            get { return _itemsSource ?? (_itemsSource = new ObservableCollection<T>()); }
+            get => _itemsSource ?? (_itemsSource = new ObservableCollection<T>()); 
             set { _itemsSource = value; RaisePropertyChangedEvent(); }
         }
         
         T _selectedItem;
         public virtual T SelectedItem
         {
-            get { return _selectedItem; }
+            get => _selectedItem; 
             set { _selectedItem = value; RaisePropertyChangedEvent(); }
         }
 
         ObservableCollection<T> _selectedItems;
         public virtual ObservableCollection<T> SelectedItems
         {
-            get { return _selectedItems ?? (_selectedItems = new ObservableCollection<T>()); }
+            get => _selectedItems ?? (_selectedItems = new ObservableCollection<T>()); 
             set { _selectedItems = value; RaisePropertyChangedEvent(); }
         }
 
         #region Commands
 
         protected override bool CanSave()
-        {
-            return SelectedItem != null;
-        }
+            => SelectedItem != null;        
 
         #endregion
     }

@@ -16,27 +16,21 @@ namespace InfrastructureLight.Common.Extensions
         ///     and inserts them into another string
         /// </summary>
         public static string f(this string source, params object[] args)
-        {
-            return string.Format(source, args);
-        }
+            => string.Format(source, args);        
 
         /// <summary>
         ///     Concatenates the specified elements of a string array, 
         ///     using the specified separator between each element
         /// </summary>
         public static string Join(this IEnumerable<string> source, string separator)
-        {
-            return string.Join(separator, source);
-        }
+            => string.Join(separator, source);        
 
         /// <summary>
         ///     Concatenates the specified elements of a string array, 
         ///     using the specified separator between each element
         /// </summary>
         public static string Join(this StringCollection source, string separator)
-        {
-            return string.Join(separator, source.Cast<string>());
-        }
+            => string.Join(separator, source.Cast<string>());        
 
         /// <summary>
         ///     Returns a value indicating whether a specified 
@@ -55,9 +49,7 @@ namespace InfrastructureLight.Common.Extensions
         ///     consists only of white-space characters
         /// </summary>        
         public static bool IsEmpty(this string source)
-        {
-            return string.IsNullOrWhiteSpace(source);
-        }
+            => string.IsNullOrWhiteSpace(source);        
 
         /// <summary>
         ///     Converts the string representation of a number to its 32-bit signed integer equivalent. 

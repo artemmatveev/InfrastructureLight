@@ -1,5 +1,6 @@
 ﻿using System;
 using NLog;
+using System.Runtime.CompilerServices;
 
 namespace InfrastructureLight.Common.Extensions
 {
@@ -45,18 +46,34 @@ namespace InfrastructureLight.Common.Extensions
         public string SQLCommand { get; set; }
         public string ErrorMessage { get; set; }
 
-        const string none = "[None]";
+        /// <summary>
+        ///     Имя метода или свойства
+        /// </summary>
+        public string MemberName { get; set; }
+        /// <summary>
+        ///     Полный путь исходного файла, содержащего вызывающий объект. Это путь к файлу во время компиляции
+        /// </summary>
+        public string SourceFilePath { get; set; }
+        /// <summary>
+        ///     Номер строки в исходном файле, в которой вызывается метод
+        /// </summary>
+        public int SourceLineNumber { get; set; }
+
+        const string None = "[None]";
         public override string ToString()
           =>
+            $"MemberName: {MemberName}\r\n" +
+            $"SourceFilePath: {SourceFilePath}\r\n" +
+            $"SourceLineNumber: {SourceLineNumber}\r\n" +
             $"User: {CurrentUser}\r\n" +
             $"SessionId: {SessionId}\r\n" +
-            $"TokenId: {TokenId ?? none}\r\n" +
+            $"TokenId: {TokenId ?? None}\r\n" +
             $"Encrypted Route: {EncryptedRoute}\r\n" +
             $"Route: {Route}\r\n" +
             $"Source: {Source}\r\n" +
             $"DBName: {DBName}\r\n" +            
-            $"SQL Command: {SQLCommand ?? none}\r\n" +
-            $"Exception message:\r\n  {ErrorMessage}\r\n";
+            $"SQL Command: {SQLCommand ?? None}\r\n" +
+            $"Exception message:\r\n  {ErrorMessage}\r\n";            
     }
 
     /// <summary>
@@ -64,22 +81,22 @@ namespace InfrastructureLight.Common.Extensions
     /// </summary>
     public static class ExceptionExtensions
     {        
-        const string sqlCommand = nameof(sqlCommand);
+        const string SqlCommand = nameof(SqlCommand);
 
         /// <summary>
         ///     Возвращает Sql запрос 
         ///     из ошибки:
         /// </summary>        
         public static string GetSqlCommand(this Exception exception) 
-            => (string)exception.Data[sqlCommand];
+            => (string)exception.Data[SqlCommand];
 
         /// <summary>
         ///     Пишет Sql запрос
         ///     в ошибку:
         /// </summary>        
-        public static void SetSqlCommand(this Exception exception, string sql) {
-            exception.Data[sqlCommand] = sql;
-        }
+        public static void SetSqlCommand(this Exception exception, string sql)
+            => exception.Data[SqlCommand] = sql;
+        
 
         /// <summary>
         ///     Возвращает дату в формате
@@ -112,15 +129,21 @@ namespace InfrastructureLight.Common.Extensions
         ///     Отправка сообщения в лог:
         /// </summary>
         /// <param name="errorMessage"></param>
-        public static void ToLog(this string errorMessage) {
-            LogManager.GetCurrentClassLogger().Error(errorMessage);
-        }
+        public static void ToLog(this string errorMessage) 
+            => LogManager.GetCurrentClassLogger().Error(errorMessage);        
 
         /// <summary>
         ///     Отправка сообщения в лог:
         /// </summary>        
-        public static void ToLog(this string errorMessage, LogBody logBody) {
+        public static void ToLog(this string errorMessage, LogBody logBody,
+                    [CallerMemberName] string memberName = "", [CallerFilePath] string sourceFilePath = "", 
+                    [CallerLineNumber] int sourceLineNumber = 0)
+        {
             logBody.ErrorMessage = errorMessage;
+            logBody.MemberName = memberName;
+            logBody.SourceFilePath = sourceFilePath;
+            logBody.SourceLineNumber = sourceLineNumber;
+
             LogManager.GetCurrentClassLogger().Error(logBody.ToString());
         }
     }

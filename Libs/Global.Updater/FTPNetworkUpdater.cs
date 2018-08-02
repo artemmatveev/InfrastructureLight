@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using FluentFTP;
 using InfrastructureLight.Common.Extensions;
+using InfrastructureLight.Common.Exceptions;
 
 namespace Global.Updater
 {
-    using Properties;
-    using Exceptions;
+    using Properties;    
 
     public sealed class FTPNetworkUpdater : UpdaterBase
     {        

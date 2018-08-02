@@ -3,11 +3,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using InfrastructureLight.Common.Extensions;
+using InfrastructureLight.Common.Exceptions;
 
 namespace Global.Updater
 {
-    using Properties;
-    using Exceptions;
+    using Properties;    
 
     public sealed class LocalNetworkUpdater : UpdaterBase
     {
@@ -29,7 +29,7 @@ namespace Global.Updater
                     {
                         string targetPath = Path.Combine(targetDirName, file.Name);                        
                         if (File.Exists(targetPath)
-                                && File.GetLastWriteTime(targetPath) >= file.LastWriteTime
+                                && File.GetLastWriteTime(targetPath) == file.LastWriteTime
                                 && new FileInfo(targetPath).Length == file.Length)
                             continue;
 

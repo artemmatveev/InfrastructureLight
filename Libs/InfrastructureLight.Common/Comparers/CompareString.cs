@@ -5,10 +5,8 @@ namespace InfrastructureLight.Common.Comparers
 {
     public class CompareString : IComparer<string>
     {
-        public int Compare(string x, string y)
-        {
-            return ComparerDigitalString(x, y);
-        }
+        public int Compare(string x, string y) 
+            => ComparerDigitalString(x, y);        
 
         private int ComparerDigitalString(string x, string y)
         {

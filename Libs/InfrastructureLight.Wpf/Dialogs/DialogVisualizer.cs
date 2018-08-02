@@ -17,18 +17,14 @@ namespace InfrastructureLight.Wpf.Dialogs
             = new Dictionary<ViewModelBase, Window>();
 
         private readonly IViewFactory _viewFactory;
-        public DialogVisualizer(IViewFactory viewFactory)
-        {
+        public DialogVisualizer(IViewFactory viewFactory) {
             _viewFactory = viewFactory;
         }
 
         #region Methods Show
         
-        public void Show<T>(T viewModel, IDialogSettings dialogSettings = null, Action<T> callback = null)
-            where T : ViewModelBase
-        {
-            Show<T, ViewModelBase>(viewModel, null, dialogSettings, callback);
-        }
+        public void Show<T>(T viewModel, IDialogSettings dialogSettings = null, Action<T> callback = null) where T : ViewModelBase
+                => Show<T, ViewModelBase>(viewModel, null, dialogSettings, callback);        
      
         public void Show<T, TOwner>(T viewModel, TOwner owner, IDialogSettings dialogSettings = null, Action<T> callback = null)
             where T : ViewModelBase where TOwner : ViewModelBase
@@ -57,11 +53,8 @@ namespace InfrastructureLight.Wpf.Dialogs
 
         #region Methods ShowDialog
         
-        public bool? ShowDialog<T>(T viewModel, IDialogSettings dialogSettings = null, Action<T> callback = null)
-            where T : ViewModelBase
-        {
-            return ShowDialog<T, ViewModelBase>(viewModel, null, dialogSettings, callback);
-        }
+        public bool? ShowDialog<T>(T viewModel, IDialogSettings dialogSettings = null, Action<T> callback = null) where T : ViewModelBase
+            => ShowDialog<T, ViewModelBase>(viewModel, null, dialogSettings, callback);        
         
         public bool? ShowDialog<T, TOwner>(T viewModel, TOwner owner, IDialogSettings dialogSettings = null, Action<T> callback = null)
             where T : ViewModelBase where TOwner : ViewModelBase
@@ -83,9 +76,7 @@ namespace InfrastructureLight.Wpf.Dialogs
         }
         
         public void Close<T>(T viewModel) where T : ViewModelBase
-        {
-            GetWindow(viewModel)?.Close();
-        }
+            => GetWindow(viewModel)?.Close();        
 
         #endregion
 
@@ -183,11 +174,9 @@ namespace InfrastructureLight.Wpf.Dialogs
         }
 
         private Window GetWindow<T>(T viewModel) where T : ViewModelBase
-        {
-            return _windows.ContainsKey(viewModel)
-                ? _windows[viewModel]
-                : null;
-        }
+            => _windows.ContainsKey(viewModel)
+                    ? _windows[viewModel]
+                    : null;        
 
         private bool TryFocusedWindow(Window window)
         {

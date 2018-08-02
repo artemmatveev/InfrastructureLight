@@ -23,17 +23,13 @@ namespace Global.Updater
         ///     Путь к директории назначения
         /// </summary>
         public string TargetDirectory
-        {
-            get { return _targetDirectory; }
-        }
+            => _targetDirectory;         
 
         /// <summary>
         ///     Путь к источнику файлов
         /// </summary>
         public string SourceDirectory
-        {
-            get { return _sourceDirectory; }
-        }
+            => _sourceDirectory;  
 
         #endregion
 
