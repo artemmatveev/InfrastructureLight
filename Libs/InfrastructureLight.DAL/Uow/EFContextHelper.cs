@@ -29,16 +29,8 @@ namespace InfrastructureLight.DAL.Uow
             var contextField = repository.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
                 .FirstOrDefault(y => y.FieldType == typeof(DbContext));
 
-            if (contextField != null)
-            {
-                if ((contextField.GetValue(repository) as DbContext).GetType() == context.GetType())
-                {
-                    contextField.SetValue(repository, context);
-                }
-                else
-                {
-                    throw new ContextDoNotMatchException();
-                }
+            if (contextField != null) {                
+                contextField.SetValue(repository, context);                
             }
 
             // Изменение контекста полей, 
@@ -47,7 +39,7 @@ namespace InfrastructureLight.DAL.Uow
             {
                 var value = fi.GetValue(repository);
                 return value.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                           .FirstOrDefault(y => y.FieldType == typeof(DbContext))?.GetValue(value)?.GetType() == context.GetType();
+                           .FirstOrDefault(y => y.FieldType == typeof(DbContext)) != null;
             }
 
             var repositoriesInfo = repository.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)

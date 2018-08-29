@@ -105,7 +105,7 @@ namespace InfrastructureLight.Wpf.Dialogs
                 window = new DialogWindow
                 {
                     Content = uc,                    
-                    SaveWindowPosition = true,
+                    SaveWindowPosition = false,
                     GlowBrush = Brushes.Black,
                     BorderThickness = new Thickness(0),
                     WindowStartupLocation = WindowStartupLocation.CenterOwner
@@ -120,11 +120,13 @@ namespace InfrastructureLight.Wpf.Dialogs
                     if (!string.IsNullOrEmpty(dialogSettings.Title)) {
                         window.Title = dialogSettings.Title;
                     }
-                    if (dialogSettings.DialogHeight != default(double)) {
+                    if (dialogSettings.DialogHeight != default(double) & dialogSettings.DialogWidth != default(double)) {
                         window.Height = dialogSettings.DialogHeight;
-                    }
-                    if (dialogSettings.DialogWidth != default(double)) {
                         window.Width = dialogSettings.DialogWidth;
+                    }
+                    else
+                    {
+                        window.WindowState = WindowState.Maximized;
                     }
                 }                
             }
@@ -158,6 +160,15 @@ namespace InfrastructureLight.Wpf.Dialogs
                     }
                 };
 
+                viewModel.Info += (s, e) => {
+                    bool? result = MessageDialogHelper.ShowDialog("Предупреждение", e.Message,
+                            MessageBoxButton.OK, messageBoxImage: MessageBoxImage.Information);
+
+                    if (result == true)
+                    {
+                        e.Callback();
+                    }
+                };
 
                 window.DataContext = viewModel;
                 window.Closed += (s, e) => {

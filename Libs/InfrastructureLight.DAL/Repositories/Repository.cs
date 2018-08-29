@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using System.Linq.Expressions;
+using System.Data.Entity.Infrastructure;
 
 namespace InfrastructureLight.DAL.Repositories
 {
@@ -14,36 +15,37 @@ namespace InfrastructureLight.DAL.Repositories
         protected DbContext _dataContext;                
         IDbSet<TEntity> _entities;
         
-        #region IRepository
-
-        protected IDbSet<TEntity> Entities 
+        protected IDbSet<TEntity> Entities
             => _entities ?? (_entities = _dataContext.Set<TEntity>());
 
-        public IQueryable<TEntity> AsNoTracking() 
+        protected IQueryable<TEntity> AsNoTracking()
             => Entities.AsNoTracking();
 
-        public IQueryable<T> Execute<T>(string sql, params object[] parameters)
+        protected IQueryable<T> Execute<T>(string sql, params object[] parameters)
             => _dataContext.Database.SqlQuery<T>(sql, parameters).AsQueryable();
 
-        protected IQueryable<TEntity> Get(bool asNoTrackingFlag = false, Expression<Func<TEntity, bool>> condition = null, params Expression<Func<TEntity, object>>[] includes)
+        protected IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> condition = null, bool asNoTrackingFlag = false, params Expression<Func<TEntity, object>>[] includes)
         {
             IQueryable<TEntity> set = asNoTrackingFlag ? AsNoTracking() : Entities;
             set = includes.Aggregate(set, (current, include) => current.Include(include));
 
-            if (condition != null) {
+            if (condition != null)
+            {
                 set = set.Where(condition);
             }
 
             return set;
         }
-                
-        protected virtual TEntity Create()
+
+        #region IRepository
+
+        public virtual TEntity Create()
         {
             _entities = _entities ?? (_entities = _dataContext.Set<TEntity>());
             return _entities.Create<TEntity>();
         }
 
-        protected virtual void Delete(IEnumerable<TEntity> entities)
+        public virtual void Delete(IEnumerable<TEntity> entities)
         {
             foreach (TEntity entity in entities)
             {
@@ -77,11 +79,27 @@ namespace InfrastructureLight.DAL.Repositories
         public virtual void AddOrUpdate(TEntity entity)
         {
             _entities = _entities ?? (_entities = _dataContext.Set<TEntity>());
-
+            
             var trEntity = entity as ITransientEntity;
-            if (trEntity != null) { _entities.Add(entity); }
+            if (trEntity != null && trEntity.IsTransient) { _entities.Add(entity); }            
         }
-        
+
+        public virtual void Attach(TEntity entity)
+        {
+            _entities = _entities ?? (_entities = _dataContext.Set<TEntity>());
+            _entities.Attach(entity);
+        }
+
+        public virtual void Detach(TEntity entity)
+        {
+            ((IObjectContextAdapter)_dataContext).ObjectContext.Detach(entity);
+        }
+      
+        public virtual void Reload(TEntity entity)
+        {
+            _dataContext.Entry(entity).Reload();
+        }
+
         #endregion
 
         #region Dispose

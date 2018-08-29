@@ -229,6 +229,25 @@ namespace InfrastructureLight.Wpf.ViewModels
             if (handler != null) handler(this, new FailureEventArgs(message, callback));
         }
 
+        private EventHandler<InfoEventArgs> _infoInvocList;
+        public event EventHandler<InfoEventArgs> Info
+        {
+            add
+            {
+                if (_infoInvocList == null || _infoInvocList.GetInvocationList()
+                    .All(m => m.Method != value.Method))
+                {
+                    _infoInvocList += value;
+                }
+            }
+            remove { _infoInvocList -= value; }
+        }
+        protected virtual void OnInfo(string message, Action callback)
+        {
+            EventHandler<InfoEventArgs> handler = _infoInvocList;
+            if (handler != null) handler(this, new InfoEventArgs(message, callback));
+        }
+
         #endregion
 
         #region Methods
