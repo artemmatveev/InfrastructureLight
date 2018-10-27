@@ -7,7 +7,6 @@ namespace InfrastructureLight.Common.Comparers
     {
         public int Compare(string x, string y) 
             => ComparerDigitalString(x, y);        
-
         private int ComparerDigitalString(string x, string y)
         {
             int d1, d2, i = 0, n, m;
@@ -64,5 +63,5 @@ namespace InfrastructureLight.Common.Comparers
 
             return 0;
         }
-    }
+    }    
 }

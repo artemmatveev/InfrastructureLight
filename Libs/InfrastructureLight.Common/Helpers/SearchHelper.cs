@@ -12,15 +12,16 @@ namespace InfrastructureLight.Common.Helpers
         ///     Filters the <paramref name="source" /> collection and returns the elements, where property 
         ///     value contains <paramref name="searchText" />
         /// </summary>         
-        public static IEnumerable<T> Search<T>(IEnumerable<T> source, string searchText) where T : class
+        public static IEnumerable<T> Search<T>(IEnumerable<T> source, string searchText, List<string> searchFields = null) where T : class
         {
             if (string.IsNullOrEmpty(searchText)) { return source; }
 
             Expression<Func<T, bool>> query = null, exp = null;
             if (source.Any())
             {
-                var fields = source.FirstOrDefault().GetType()
-                    .GetProperties();
+                var fields = searchFields == null
+                        ? source.FirstOrDefault().GetType().GetProperties()
+                        : source.FirstOrDefault().GetType().GetProperties().Where(p => searchFields.Contains(p.Name));
 
                 foreach (var field in fields)
                 {

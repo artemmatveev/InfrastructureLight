@@ -22,5 +22,10 @@ namespace InfrastructureLight.Wpf.Dialogs
         ///     Высота диалога
         /// </summary>
         double DialogHeight { get; set; }
+
+        /// <summary>
+        ///     Цвет диалогового окна
+        /// </summary>
+        string Color { get; set; }
     }
 }

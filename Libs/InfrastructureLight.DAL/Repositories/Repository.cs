@@ -9,10 +9,25 @@ namespace InfrastructureLight.DAL.Repositories
 {
     using Domain.Interfaces;
 
-    public abstract class Repository<TEntity> : IRepository<TEntity> 
-        where TEntity : class, IEntity, new()
+    public abstract class Repository : IRepository
     {
-        protected DbContext _dataContext;                
+        protected DbContext _dataContext;
+
+        #region Dispose
+
+        bool _disposed;
+        public void Dispose()
+        {
+            if (_disposed) { return; }            
+            _disposed = true;
+        }
+
+        #endregion
+    }
+
+    public abstract class Repository<TEntity> : Repository, IRepository<TEntity> 
+        where TEntity : class, new()
+    {                     
         IDbSet<TEntity> _entities;
         
         protected IDbSet<TEntity> Entities
@@ -26,12 +41,15 @@ namespace InfrastructureLight.DAL.Repositories
 
         protected IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> condition = null, bool asNoTrackingFlag = false, params Expression<Func<TEntity, object>>[] includes)
         {
-            IQueryable<TEntity> set = asNoTrackingFlag ? AsNoTracking() : Entities;
+            IQueryable<TEntity> set = Entities;
             set = includes.Aggregate(set, (current, include) => current.Include(include));
 
-            if (condition != null)
-            {
+            if (condition != null) {
                 set = set.Where(condition);
+            }
+
+            if (asNoTrackingFlag) {
+                set = set.AsNoTracking();
             }
 
             return set;
@@ -102,17 +120,17 @@ namespace InfrastructureLight.DAL.Repositories
 
         #endregion
 
-        #region Dispose
+        #region IDispose
 
         bool _disposed;
-        public void Dispose()
+        public new void Dispose()
         {
             if (_disposed) { return; }
 
-            _entities = null;            
+            _entities = null;
             _disposed = true;
         }
-        
+
         #endregion
     }
 }

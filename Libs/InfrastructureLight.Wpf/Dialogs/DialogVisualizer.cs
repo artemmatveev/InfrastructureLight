@@ -120,14 +120,21 @@ namespace InfrastructureLight.Wpf.Dialogs
                     if (!string.IsNullOrEmpty(dialogSettings.Title)) {
                         window.Title = dialogSettings.Title;
                     }
-                    if (dialogSettings.DialogHeight != default(double) & dialogSettings.DialogWidth != default(double)) {
+                    if (!string.IsNullOrEmpty(dialogSettings.Color)) {
+                        (window as DialogWindow).ChangeAppStyle(dialogSettings.Color);
+                    }
+
+                    if (dialogSettings.DialogHeight != default(double)) {
                         window.Height = dialogSettings.DialogHeight;
+                    }
+                    if (dialogSettings.DialogWidth != default(double)) {
                         window.Width = dialogSettings.DialogWidth;
                     }
-                    else
-                    {
+
+                    if (dialogSettings.DialogHeight == default(double) & 
+                            dialogSettings.DialogWidth == default(double)) {
                         window.WindowState = WindowState.Maximized;
-                    }
+                    }                    
                 }                
             }
 

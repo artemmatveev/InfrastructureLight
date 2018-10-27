@@ -4,5 +4,6 @@
     public interface IUnitOfWorkFactory
     {
         IUnitOfWork Create(params IRepository[] repositories);
+        void ReloadContext();
     }
 }

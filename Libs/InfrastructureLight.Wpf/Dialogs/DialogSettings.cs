@@ -11,5 +11,6 @@ namespace InfrastructureLight.Wpf.Dialogs
         public string Title { get; set; }
         public double DialogWidth { get; set; }
         public double DialogHeight { get; set; }
+        public string Color { get; set; }
     }
 }

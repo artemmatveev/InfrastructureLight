@@ -5,15 +5,13 @@ namespace InfrastructureLight.DAL.Uow
 {
     public abstract class UnitOfWorkFactoryBase : IUnitOfWorkFactory
     {
-        readonly DbContext _dbContext;
-        protected UnitOfWorkFactoryBase(DbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
+        protected DbContext _dbContext;        
         public IUnitOfWork Create(params IRepository[] repositories)
         {
+            ReloadContext();
             return new UnitOfWork(_dbContext, repositories);
         }
+
+        public abstract void ReloadContext();
     }
 }
