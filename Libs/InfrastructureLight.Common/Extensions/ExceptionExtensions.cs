@@ -1,5 +1,5 @@
-﻿using System;
-using NLog;
+﻿using NLog;
+using System;
 using System.Runtime.CompilerServices;
 
 namespace InfrastructureLight.Common.Extensions
@@ -33,7 +33,7 @@ namespace InfrastructureLight.Common.Extensions
         /// <summary>
         ///     Action или Method
         /// </summary>
-        public string Action { get; set; }        
+        public string Action { get; set; }
         public string EncryptedRoute { get; set; }
         /// <summary>
         ///     Маршрут
@@ -42,7 +42,7 @@ namespace InfrastructureLight.Common.Extensions
         /// <summary>
         ///     Истоник ошибки (Exception.Source)
         /// </summary>
-        public string Source { get; set; }        
+        public string Source { get; set; }
         public string SQLCommand { get; set; }
         public string ErrorMessage { get; set; }
 
@@ -71,23 +71,23 @@ namespace InfrastructureLight.Common.Extensions
             $"Encrypted Route: {EncryptedRoute}\r\n" +
             $"Route: {Route}\r\n" +
             $"Source: {Source}\r\n" +
-            $"DBName: {DBName}\r\n" +            
+            $"DBName: {DBName}\r\n" +
             $"SQL Command: {SQLCommand ?? None}\r\n" +
-            $"Exception message:\r\n  {ErrorMessage}\r\n";            
+            $"Exception message:\r\n  {ErrorMessage}\r\n";
     }
 
     /// <summary>
     ///     Extensions class for the <see cref="Exception"/>
     /// </summary>
     public static class ExceptionExtensions
-    {        
+    {
         const string SqlCommand = nameof(SqlCommand);
 
         /// <summary>
         ///     Возвращает Sql запрос 
         ///     из ошибки:
         /// </summary>        
-        public static string GetSqlCommand(this Exception exception) 
+        public static string GetSqlCommand(this Exception exception)
             => (string)exception.Data[SqlCommand];
 
         /// <summary>
@@ -96,23 +96,24 @@ namespace InfrastructureLight.Common.Extensions
         /// </summary>        
         public static void SetSqlCommand(this Exception exception, string sql)
             => exception.Data[SqlCommand] = sql;
-        
+
 
         /// <summary>
         ///     Возвращает дату в формате
         ///     день.месяц.год час_минута_секунда_милисекунда:
         /// </summary>
         /// <returns></returns>
-        static string GetLogDate() 
+        public static string GetLogDate()
             => $"{DateTime.Now.Day}.{DateTime.Now.Month}.{DateTime.Now.Year} {DateTime.Now.Hour}_{DateTime.Now.Minute}_{DateTime.Now.Second}.{DateTime.Now.Millisecond}";
-                
+
         /// <summary>
         ///     Возвращает полную информацию 
         ///     об ошибке:
         /// </summary>        
         public static string GetFullErrorInfo(this Exception ex, string exMessage = "", int offset = 0)
         {
-            if (ex != null) {
+            if (ex != null)
+            {
                 string strOffset = new string(' ', offset);
                 string indent1 = offset > 0 ? "|_" : "";
                 string indent2 = offset > 0 ? "  " : "";
@@ -129,14 +130,14 @@ namespace InfrastructureLight.Common.Extensions
         ///     Отправка сообщения в лог:
         /// </summary>
         /// <param name="errorMessage"></param>
-        public static void ToLog(this string errorMessage) 
-            => LogManager.GetCurrentClassLogger().Error(errorMessage);        
+        public static void ToLog(this string errorMessage)
+            => LogManager.GetCurrentClassLogger().Error(errorMessage);
 
         /// <summary>
         ///     Отправка сообщения в лог:
         /// </summary>        
         public static void ToLog(this string errorMessage, LogBody logBody,
-                    [CallerMemberName] string memberName = "", [CallerFilePath] string sourceFilePath = "", 
+                    [CallerMemberName] string memberName = "", [CallerFilePath] string sourceFilePath = "",
                     [CallerLineNumber] int sourceLineNumber = 0)
         {
             logBody.ErrorMessage = errorMessage;

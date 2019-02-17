@@ -1,15 +1,14 @@
-﻿using System.IO;
-using System.Xml;
-using System.Reflection;
-
-using NLog;
+﻿using NLog;
 using NLog.Config;
+using System.IO;
+using System.Reflection;
+using System.Xml;
 
 namespace Global.NLog.Config
 {
     using Properties;
 
-    public sealed class NLogConfig
+    public static class NLogConfig
     {
         public static void ConfigureNLog(string appName, string companyName)
         {

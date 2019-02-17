@@ -39,7 +39,7 @@ namespace InfrastructureLight.Common.Extensions
             {
                 byte[] bytesInStream = new byte[stream.Length];
 
-                stream.Read(bytesInStream, 0, (int)bytesInStream.Length);
+                stream.Read(bytesInStream, 0, bytesInStream.Length);
                 fileStream.Write(bytesInStream, 0, bytesInStream.Length);
             }
         }

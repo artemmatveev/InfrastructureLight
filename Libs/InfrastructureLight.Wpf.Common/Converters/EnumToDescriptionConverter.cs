@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Data;
+﻿using InfrastructureLight.Common.Extensions;
+using System;
 using System.Globalization;
-using InfrastructureLight.Common.Extensions;
+using System.Windows.Data;
 
 namespace InfrastructureLight.Wpf.Common.Converters
 {

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using LinqKit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using LinqKit;
 
 namespace InfrastructureLight.Common.Helpers
 {
@@ -11,7 +11,7 @@ namespace InfrastructureLight.Common.Helpers
         /// <summary>
         ///     Filters the <paramref name="source" /> collection and returns the elements, where property 
         ///     value contains <paramref name="searchText" />
-        /// </summary>         
+        /// </summary>
         public static IEnumerable<T> Search<T>(IEnumerable<T> source, string searchText, List<string> searchFields = null) where T : class
         {
             if (string.IsNullOrEmpty(searchText)) { return source; }

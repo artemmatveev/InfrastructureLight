@@ -11,8 +11,8 @@ namespace InfrastructureLight.Common.Extensions
         /// <summary>
         ///     Strongly typed version GetCustomAttributes method
         /// </summary>        
-        public static T[] GetCustomAttributes<T>(this ICustomAttributeProvider attributeProvider, bool inherit) where T : Attribute 
+        public static T[] GetCustomAttributes<T>(this ICustomAttributeProvider attributeProvider, bool inherit) where T : Attribute
             => (T[])attributeProvider.GetCustomAttributes(typeof(T), inherit);
-        
+
     }
 }

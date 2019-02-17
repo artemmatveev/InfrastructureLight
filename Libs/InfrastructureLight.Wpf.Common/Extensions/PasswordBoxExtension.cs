@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 
 namespace InfrastructureLight.Wpf.Common.Extensions
-{    
+{
     public static class PasswordBoxExtension
     {
         public static readonly DependencyProperty PasswordProperty =
@@ -55,7 +55,7 @@ namespace InfrastructureLight.Wpf.Common.Extensions
             PasswordBox passwordBox = sender as PasswordBox;
             passwordBox.PasswordChanged -= PasswordChanged;
 
-            if (!(bool)GetIsUpdating(passwordBox))
+            if (!GetIsUpdating(passwordBox))
             {
                 passwordBox.Password = (string)e.NewValue;
             }

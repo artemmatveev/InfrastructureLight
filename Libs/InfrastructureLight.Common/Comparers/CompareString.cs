@@ -3,17 +3,15 @@ using System.Collections.Generic;
 
 namespace InfrastructureLight.Common.Comparers
 {
-    public class CompareString : IComparer<string>
+    public class DigitalStringComparer : IComparer<string>
     {
-        public int Compare(string x, string y) 
-            => ComparerDigitalString(x, y);        
-        private int ComparerDigitalString(string x, string y)
+        public int Compare(string x, string y)
         {
             int d1, d2, i = 0, n, m;
             const int cNull = 48;
 
             while (i < x.Length && i < y.Length)
-            {                
+            {
                 if (char.IsNumber(x[i]) && char.IsNumber(y[i]))
                 {
                     d1 = Convert.ToInt16(x[i]) - cNull;
@@ -63,5 +61,5 @@ namespace InfrastructureLight.Common.Comparers
 
             return 0;
         }
-    }    
+    }
 }

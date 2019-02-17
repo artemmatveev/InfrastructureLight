@@ -1,7 +1,6 @@
-﻿using System.Linq;
+﻿using MahApps.Metro.Controls;
+using System.Linq;
 using System.Windows;
-
-using MahApps.Metro.Controls;
 
 namespace InfrastructureLight.Wpf.Common.Helpers
 {

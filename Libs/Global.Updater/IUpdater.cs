@@ -1,6 +1,7 @@
 ﻿namespace Global.Updater
 {
-    public interface IUpdater {
+    public interface IUpdater
+    {
         void Run();
     }
 }

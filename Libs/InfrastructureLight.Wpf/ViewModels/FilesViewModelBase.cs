@@ -3,7 +3,7 @@
 namespace InfrastructureLight.Wpf.ViewModels
 {
     using Commands;
-    
+
     public abstract class FilesViewModelBase<T> : CatalogViewModelBase<T> where T : class
     {
         readonly ICommand _addFileCommand;
@@ -20,11 +20,11 @@ namespace InfrastructureLight.Wpf.ViewModels
         #region Commands
 
         public ICommand AddFileCommand => _addFileCommand;
-        protected virtual void AddFile() => RefreshAsynch();        
-        protected virtual bool CanAddFile() => true;        
+        protected virtual void AddFile() => RefreshAsynch();
+        protected virtual bool CanAddFile() => true;
 
         public ICommand DeleteFileCommand => _deleteFileCommand;
-        protected virtual void DeleteFile() => RefreshAsynch();        
+        protected virtual void DeleteFile() => RefreshAsynch();
         protected virtual bool CanDeleteFile() => true;
 
         public ICommand OpenFileCommand => _openFileCommand;

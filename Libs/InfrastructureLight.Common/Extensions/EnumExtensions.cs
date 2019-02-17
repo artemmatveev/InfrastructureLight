@@ -16,7 +16,7 @@ namespace InfrastructureLight.Common.Extensions
         /// </summary>
         public static string GetDescription(this Enum value)
         {
-            if (value.GetType().IsEnum == false)
+            if (!value.GetType().IsEnum)
                 throw new ArgumentOutOfRangeException(nameof(value), "value is not enum");
 
             FieldInfo fieldInfo = value.GetType().GetField(value.ToString());
@@ -34,7 +34,7 @@ namespace InfrastructureLight.Common.Extensions
         /// </summary>
         public static IEnumerable<KeyValuePair<int, string>> ToKeyValuePairs<TEnum>() where TEnum : struct, IConvertible
         {
-            if (typeof(TEnum).IsEnum == false)
+            if (!typeof(TEnum).IsEnum)
                 throw new ArgumentException("TEnum must be an enumerated type");
 
             List<KeyValuePair<int, string>> items = Enum.GetValues(typeof(TEnum))

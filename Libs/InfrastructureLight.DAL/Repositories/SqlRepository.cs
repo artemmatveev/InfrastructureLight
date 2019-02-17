@@ -1,8 +1,8 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using NLog;
 
 namespace InfrastructureLight.DAL.Repositories
 {

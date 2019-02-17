@@ -15,3 +15,6 @@ using System.Runtime.InteropServices;
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
 [assembly: Guid("120982ad-f03c-4f82-b316-76a8022de0a0")]
+
+[assembly: AssemblyVersion("1.0.62.88")]
+[assembly: AssemblyFileVersion("1.0.62.88")]

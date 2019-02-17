@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Text;
 using System.Globalization;
+using System.Text;
 
 namespace InfrastructureLight.Common.Extensions
 {
@@ -16,13 +16,13 @@ namespace InfrastructureLight.Common.Extensions
         public static bool IsNullOrOutOfRange(this DateTime? source, DateTime startDate, DateTime endDate)
             => source.HasValue
                ? IsOutOfRange(source.Value, startDate, endDate)
-               : source.IsNull();        
+               : source.IsNull();
 
         /// <summary>        
         ///     Indicates the specified <see cref="System.DateTime"/> is between a DateRange
         /// </summary>   
         public static bool IsOutOfRange(this DateTime source, DateTime startDate, DateTime endDate)
-            => source < startDate || source > endDate;        
+            => source < startDate || source > endDate;
 
         /// <summary>
         ///     Calculating total night time        
@@ -194,7 +194,8 @@ namespace InfrastructureLight.Common.Extensions
         public static int ToWeekNum(this DateTime value)
         {
             DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(value);
-            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday) {
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            {
                 value = value.AddDays(3);
             }
 

@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Linq;
 
 namespace InfrastructureLight.Wpf.Common.Dialogs
 {
@@ -13,17 +13,17 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
         /// <summary>
         ///     The margins to wrap string content with.
         /// </summary>
-        public static Thickness StringContentMarginThickness = new Thickness(10, 10, 50, 10);
+        static Thickness StringContentMarginThickness = new Thickness(10, 10, 50, 10);
 
         /// <summary>
         ///     The margins to wrap non-string content with.
         /// </summary>
-        public static Thickness DefaultContentMarginThickness = new Thickness(5);
+        static Thickness DefaultContentMarginThickness = new Thickness(5);
 
         /// <summary>
         ///     The minimum width for the content.
         /// </summary>
-        public static int ContentMinWidth = 250;
+        static int ContentMinWidth = 250;
 
         /// <summary>
         ///     Shows a dialog with a title, a content, with a specified size and an optional scrollbar.
@@ -109,7 +109,7 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
             if (Application.Current != null)
             {
                 var activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
-                dialogWindow.Owner = activeWindow != null ? activeWindow : Application.Current.MainWindow;
+                dialogWindow.Owner = activeWindow ?? Application.Current.MainWindow;
                 dialogWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             }
             else
@@ -150,7 +150,7 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
                     window.xButton1.Content = Resources.OKButtonContent;
                     window.xButton1.IsDefault = true;
 
-                    window.xButton2.Visibility = Visibility.Collapsed;                    
+                    window.xButton2.Visibility = Visibility.Collapsed;
                     break;
                 case MessageBoxButton.OKCancel:
                     window.xButton1.Visibility = Visibility.Visible;

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comparers\EntityEqualityComparer.cs" />
+    <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\ILastUpdatedEntity.cs" />
     <Compile Include="Interfaces\ISoftDeletedEntity.cs" />

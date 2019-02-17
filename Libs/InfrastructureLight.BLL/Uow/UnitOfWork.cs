@@ -1,14 +1,10 @@
-﻿using System;
+﻿using InfrastructureLight.DAL.Repositories;
+using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Reflection;
-using System.Linq;
-using InfrastructureLight.DAL.Repositories;
 
-namespace InfrastructureLight.DAL.Uow
-{    
-    using Common.Exceptions;    
-
+namespace InfrastructureLight.BLL.Uow
+{
     public class UnitOfWork : IUnitOfWork
     {
         DbContext _dataContext;
@@ -17,22 +13,6 @@ namespace InfrastructureLight.DAL.Uow
 
         public UnitOfWork(DbContext dataContext, params IRepository[] repositories)
         {
-            var oldDataContexts = repositories.Select(repo
-                                    => repo.GetType()
-                                            .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                                            .FirstOrDefault(y => y.FieldType == typeof(DbContext))?.GetValue(repo))
-                                  .OfType<DbContext>()
-                                  .ToList();
-
-            if (oldDataContexts.Any())
-            {
-                if (oldDataContexts.Any(x => !Equals(x, oldDataContexts[0])))
-                {
-                    throw new ArgumentOutOfRangeException(nameof(repositories),
-                        new ErrorSingleContextException().Message);
-                }
-            }
-
             _dataContext = dataContext;
             _repositories = repositories;
 
@@ -41,21 +21,25 @@ namespace InfrastructureLight.DAL.Uow
 
         public virtual void SaveChanges()
         {
-            try {
-                lock (_locked) {                    
+            try
+            {
+                lock (_locked)
+                {
                     _dataContext.SaveChanges();
                 }
             }
-            catch (DbUpdateConcurrencyException ex) {
+            catch (DbUpdateConcurrencyException ex)
+            {
                 throw;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw;
             }
         }
 
-        public virtual bool HasChanges() 
-            => _dataContext.ChangeTracker.HasChanges();        
+        public virtual bool HasChanges()
+            => _dataContext.ChangeTracker.HasChanges();
 
         public virtual void Rollback()
         {
@@ -91,10 +75,11 @@ namespace InfrastructureLight.DAL.Uow
         {
             if (_disposed) { return; }
 
-            foreach (var repo in _repositories) {
+            foreach (var repo in _repositories)
+            {
                 repo.Dispose();
             }
-            
+
             _dataContext?.Dispose();
             _dataContext = null;
 

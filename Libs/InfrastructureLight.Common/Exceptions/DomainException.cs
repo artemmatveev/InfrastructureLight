@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace InfrastructureLight.Common.Exceptions
 {
+    [Serializable]
     public class DomainException : Exception
     {
         public DomainException() { }

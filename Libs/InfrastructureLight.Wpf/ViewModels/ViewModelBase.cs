@@ -1,28 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
-using System.ComponentModel;
-using System.Windows.Input;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace InfrastructureLight.Wpf.ViewModels
 {
     using Commands;
-    using EventArgs;
     using ComponentModel;
+    using EventArgs;
 
-    public abstract class ViewModelBase : NotifyPropertyEntry, IDataErrorInfo
-    {
-        readonly ICommand _saveCommand;
-        readonly ICommand _cancelCommand;
-
+    public abstract class ViewModelBase : NotifyPropertyEntity, IDataErrorInfo
+    {                
         protected ViewModelBase()
         {
-            _saveCommand = new DelegateCommand(action => Save(), action => CanSave());
-            _cancelCommand = new DelegateCommand(action => Cancel(), action => CanCancel());
+            SaveCommand = new DelegateCommand(action => Apply(), action => CanApply());
+            CancelCommand = new DelegateCommand(action => Cancel(), action => CanCancel());
         }
-        
+
         #region IDataErrorInfo, Validation Logic
 
         readonly Dictionary<string, List<Binder>> ruleMap = new Dictionary<string, List<Binder>>();
@@ -73,7 +70,7 @@ namespace InfrastructureLight.Wpf.ViewModels
             get
             {
                 if (ruleMap.ContainsKey(columnName))
-                {                    
+                {
                     foreach (var value in ruleMap[columnName])
                     {
                         value.Update();
@@ -81,7 +78,7 @@ namespace InfrastructureLight.Wpf.ViewModels
                         {
                             return value.Error;
                         }
-                    }                    
+                    }
                 }
                 return string.Empty;
             }
@@ -135,40 +132,52 @@ namespace InfrastructureLight.Wpf.ViewModels
         {
             get => _title;
             set { _title = value; RaisePropertyChangedEvent(); }
-        }       
+        }
+
+        public bool? DialogResult { get; set; }
 
         #endregion
 
         #region Commands
 
-        public ICommand SaveCommand => _saveCommand;
-        protected virtual void Save() => OnSaved();
-        protected virtual bool CanSave() => true;
+        public ICommand SaveCommand { get; }
+        protected virtual void Apply()
+        {
+            DialogResult = true;
+            OnApplied();
+        }
 
-        public ICommand CancelCommand => _cancelCommand;
-        protected virtual void Cancel() => OnCanceled(false);
+        protected virtual bool CanApply() => true;
+
+        public ICommand CancelCommand { get; }
+        protected virtual void Cancel()
+        {
+            DialogResult = false;
+            OnCanceled(false);
+        }
+
         protected virtual bool CanCancel() => true;
 
         #endregion
 
         #region Events
 
-        private EventHandler _savedInvocList;
-        public event EventHandler Saved
+        private EventHandler _appliedInvocList;
+        public event EventHandler Applied
         {
             add
             {
-                if (_savedInvocList == null || _savedInvocList.GetInvocationList()
+                if (_appliedInvocList == null || _appliedInvocList.GetInvocationList()
                     .All(m => m.Method != value.Method))
                 {
-                    _savedInvocList += value;
+                    _appliedInvocList += value;
                 }
             }
-            remove { _savedInvocList -= value; }
+            remove { _appliedInvocList -= value; }
         }
-        protected virtual void OnSaved()
+        protected virtual void OnApplied()
         {
-            EventHandler handler = _savedInvocList;
+            EventHandler handler = _appliedInvocList;
             if (handler != null) handler(this, System.EventArgs.Empty);
         }
 
@@ -255,10 +264,11 @@ namespace InfrastructureLight.Wpf.ViewModels
         protected bool SetValue<T>(ref T field, T value = default(T), [CallerMemberName] string propertyName = null)
         {
             bool equalsFlag = EqualityComparer<T>.Default.Equals(field, value);
-            if (!equalsFlag) {
+            if (!equalsFlag)
+            {
                 field = value;
                 RaisePropertyChangedEvent(propertyName);
-            }            
+            }
             return !equalsFlag;
         }
 

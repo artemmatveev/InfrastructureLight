@@ -34,7 +34,7 @@
             }
             else
             {
-                return (T)dispatchObject.Invoke(action);
+                return dispatchObject.Invoke(action);
             }
         }
     }

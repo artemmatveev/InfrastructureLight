@@ -25,3 +25,6 @@ using System.Windows;
     // app, or any theme specific resource dictionaries)
     ResourceDictionaryLocation.SourceAssembly                                              
 )]
+
+[assembly: AssemblyVersion("1.0.62.89")]
+[assembly: AssemblyFileVersion("1.0.62.89")]

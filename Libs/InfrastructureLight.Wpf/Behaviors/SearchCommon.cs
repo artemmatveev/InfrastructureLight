@@ -1,21 +1,20 @@
-﻿using System;
+﻿using InfrastructureLight.Common.Extensions;
+using InfrastructureLight.Common.Helpers;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
-using System.Collections.Generic;
-
-using InfrastructureLight.Common.Extensions;
-using InfrastructureLight.Common.Helpers;
 
 namespace InfrastructureLight.Wpf.Behaviors
 {
-    using ViewModels;
     using Commands;
+    using ViewModels;
 
     public class SearchCommon<T> : ISearch where T : class
     {
         DispatcherTimer _filterTimer;
         List<T> _source;
-        CatalogViewModelBase<T> _vm;
+        readonly CatalogViewModelBase<T> _vm;
         DelegateCommand _searchCommand;
 
         public SearchCommon(CatalogViewModelBase<T> vm)
@@ -25,7 +24,7 @@ namespace InfrastructureLight.Wpf.Behaviors
 
         public DelegateCommand Searched()
             => _searchCommand ??
-                (_searchCommand = new DelegateCommand(action => Go(), action => CanGo()));        
+                (_searchCommand = new DelegateCommand(action => Go(), action => true));
 
         private void Go()
         {
@@ -43,8 +42,5 @@ namespace InfrastructureLight.Wpf.Behaviors
             }
             _filterTimer.Start();
         }
-
-        private bool CanGo()
-            => true;        
     }
 }

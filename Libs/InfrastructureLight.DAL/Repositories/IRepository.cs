@@ -3,10 +3,9 @@ using System.Collections.Generic;
 
 namespace InfrastructureLight.DAL.Repositories
 {
-    using Domain.Interfaces;
-
     public interface IRepository : IDisposable { }
-    public interface IRepository<TEntity> : IRepository where TEntity : class {
+    public interface IRepository<TEntity> : IRepository where TEntity : class
+    {
         TEntity Create();
         void Delete(TEntity entity);
         void Delete(IEnumerable<TEntity> entities);

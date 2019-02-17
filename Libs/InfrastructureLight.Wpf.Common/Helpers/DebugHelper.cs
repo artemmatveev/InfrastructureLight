@@ -1,5 +1,9 @@
 ﻿namespace InfrastructureLight.Wpf.Common.Helpers
 {
+    using Controls;
+    using Dialogs;
+    using InfrastructureLight.Common.Extensions;
+    using MahApps.Metro.Controls;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -7,13 +11,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Runtime.CompilerServices;
-    using System.Threading;
     using System.Windows;
-    using System.Windows.Threading;
-    using Controls;
-    using Dialogs;
-    using InfrastructureLight.Common.Extensions;
-    using MahApps.Metro.Controls;
 
     public class DebugHelper
     {
@@ -38,7 +36,7 @@
             bool canContinue = true;
 
             PropertiesContainer container = new PropertiesContainer(currentType.Properties.Length);
-            
+
             MetroWindow window = null;
 
             DispatchHelper.Invoke(() =>
@@ -84,7 +82,7 @@
                         }
                     }
 
-                    if (canContinue == false)
+                    if (!canContinue)
                     {
                         break;
                     }

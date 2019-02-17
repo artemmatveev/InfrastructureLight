@@ -9,9 +9,9 @@
         ///     Indicates whether the specified object is null.
         /// </summary>
         public static bool IsNull(this object source)
-            => source == null;        
+            => source == null;
 
         public static bool IsNotNull(this object source)
-            => source != null;        
+            => source != null;
     }
 }

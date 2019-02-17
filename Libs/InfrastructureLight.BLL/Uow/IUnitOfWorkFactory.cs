@@ -1,9 +1,9 @@
-﻿namespace InfrastructureLight.DAL.Uow
+﻿namespace InfrastructureLight.BLL.Uow
 {
-    using Repositories;
+    using DAL.Repositories;
+
     public interface IUnitOfWorkFactory
     {
         IUnitOfWork Create(params IRepository[] repositories);
-        void ReloadContext();
     }
 }

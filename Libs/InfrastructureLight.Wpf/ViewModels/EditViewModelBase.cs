@@ -7,6 +7,6 @@
 
     public abstract class EditViewModelBase<TEntity> : EditViewModelBase where TEntity : class
     {
-        
+
     }
 }

@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
-using System.Windows.Controls.Primitives;
 
 namespace InfrastructureLight.Wpf.Common.Notify
 {
     public abstract class NotifyWindowBase : Window
     {
-        private DoubleAnimation _fadeInAnimation;
-        private DoubleAnimation _fadeOutAnimation;
+        private readonly DoubleAnimation _fadeInAnimation;
+        private readonly DoubleAnimation _fadeOutAnimation;
         private DispatcherTimer _activeTimer;
 
         static NotifyWindowBase()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(NotifyWindowBase), 
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(NotifyWindowBase),
                 new FrameworkPropertyMetadata(typeof(NotifyWindowBase)));
         }
 
         protected NotifyWindowBase()
         {
-            Visibility = Visibility.Visible;            
+            Visibility = Visibility.Visible;
             Width = 350;
-            Height = 75;            
+            Height = 75;
             ShowInTaskbar = false;
             WindowStyle = WindowStyle.None;
             ResizeMode = ResizeMode.NoResize;
@@ -33,20 +33,20 @@ namespace InfrastructureLight.Wpf.Common.Notify
             BorderThickness = new Thickness(1);
             BorderBrush = Brushes.Black;
             Background = Brushes.White;
-            ShowActivated = false;                        
+            ShowActivated = false;
 
             _fadeInAnimation = new DoubleAnimation();
             _fadeInAnimation.From = 0;
             _fadeInAnimation.To = 0.8;
             _fadeInAnimation.Duration = new Duration(TimeSpan.Parse("0:0:1.5"));
-            
+
             _fadeOutAnimation = new DoubleAnimation();
             _fadeOutAnimation.To = 0;
             _fadeOutAnimation.Duration = new Duration(TimeSpan.Parse("0:0:1.5"));
 
             Loaded += new RoutedEventHandler(NotifyWindowBase_Loaded);
         }
-        
+
         public override void OnApplyTemplate()
         {
             ButtonBase closeButton = Template.FindName("PART_CloseButton", this) as ButtonBase;

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity;
-using System.Linq.Expressions;
 using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace InfrastructureLight.DAL.Repositories
 {
@@ -13,42 +13,42 @@ namespace InfrastructureLight.DAL.Repositories
     {
         protected DbContext _dataContext;
 
+        protected IQueryable<T> Execute<T>(string sql, params object[] parameters)
+            => _dataContext.Database.SqlQuery<T>(sql, parameters).AsQueryable();
+
         #region Dispose
 
         bool _disposed;
         public void Dispose()
         {
-            if (_disposed) { return; }            
+            if (_disposed) { return; }
             _disposed = true;
         }
 
         #endregion
     }
 
-    public abstract class Repository<TEntity> : Repository, IRepository<TEntity> 
+    public abstract class Repository<TEntity> : Repository, IRepository<TEntity>
         where TEntity : class, new()
-    {                     
-        IDbSet<TEntity> _entities;
-        
+    {
         protected IDbSet<TEntity> Entities
-            => _entities ?? (_entities = _dataContext.Set<TEntity>());
+            => _dataContext.Set<TEntity>();
 
         protected IQueryable<TEntity> AsNoTracking()
             => Entities.AsNoTracking();
-
-        protected IQueryable<T> Execute<T>(string sql, params object[] parameters)
-            => _dataContext.Database.SqlQuery<T>(sql, parameters).AsQueryable();
 
         protected IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> condition = null, bool asNoTrackingFlag = false, params Expression<Func<TEntity, object>>[] includes)
         {
             IQueryable<TEntity> set = Entities;
             set = includes.Aggregate(set, (current, include) => current.Include(include));
 
-            if (condition != null) {
+            if (condition != null)
+            {
                 set = set.Where(condition);
             }
 
-            if (asNoTrackingFlag) {
+            if (asNoTrackingFlag)
+            {
                 set = set.AsNoTracking();
             }
 
@@ -59,60 +59,61 @@ namespace InfrastructureLight.DAL.Repositories
 
         public virtual TEntity Create()
         {
-            _entities = _entities ?? (_entities = _dataContext.Set<TEntity>());
-            return _entities.Create<TEntity>();
+            return Entities.Create<TEntity>();
         }
 
         public virtual void Delete(IEnumerable<TEntity> entities)
         {
             foreach (TEntity entity in entities)
             {
-                _entities = _entities ?? (_entities = _dataContext.Set<TEntity>());
-                               
                 var sdEntity = entity as ISoftDeletedEntity;
-                if (sdEntity != null) {
+                if (sdEntity != null)
+                {
                     var trEntity = entity as ITransientEntity;
-                    if (trEntity != null) {
-                        if (trEntity.IsTransient) {
-                            _entities.Remove(entity);
+                    if (trEntity != null)
+                    {
+                        if (trEntity.IsTransient)
+                        {
+                            Entities.Remove(entity);
                         }
-                        else {
+                        else
+                        {
                             sdEntity.Delete();
                         }
                     }
-                    else {
-                        _entities.Remove(entity);
+                    else
+                    {
+                        Entities.Remove(entity);
                     }
                 }
-                else {
-                    _entities.Remove(entity);
-                }                               
+                else
+                {
+                    Entities.Remove(entity);
+                }
             }
         }
 
-        public virtual void Delete(TEntity entity) {
+        public virtual void Delete(TEntity entity)
+        {
             Delete(new[] { entity });
         }
 
         public virtual void AddOrUpdate(TEntity entity)
         {
-            _entities = _entities ?? (_entities = _dataContext.Set<TEntity>());
-            
             var trEntity = entity as ITransientEntity;
-            if (trEntity != null && trEntity.IsTransient) { _entities.Add(entity); }            
+            if (trEntity != null && trEntity.IsTransient) { Entities.Add(entity); }
         }
 
         public virtual void Attach(TEntity entity)
-        {
-            _entities = _entities ?? (_entities = _dataContext.Set<TEntity>());
-            _entities.Attach(entity);
+        {            
+            Entities.Attach(entity);
         }
 
         public virtual void Detach(TEntity entity)
         {
             ((IObjectContextAdapter)_dataContext).ObjectContext.Detach(entity);
         }
-      
+
         public virtual void Reload(TEntity entity)
         {
             _dataContext.Entry(entity).Reload();
@@ -126,8 +127,7 @@ namespace InfrastructureLight.DAL.Repositories
         public new void Dispose()
         {
             if (_disposed) { return; }
-
-            _entities = null;
+            
             _disposed = true;
         }
 

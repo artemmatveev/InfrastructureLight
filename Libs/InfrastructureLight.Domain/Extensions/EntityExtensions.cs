@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
-namespace InfrastructureLight.DAL.Extensions
+namespace InfrastructureLight.Domain.Extensions
 {
-    using Domain.Interfaces;
+    using Interfaces;
 
     public static class EntityExtensions
     {
@@ -20,8 +20,8 @@ namespace InfrastructureLight.DAL.Extensions
                 if (info.Name != "EntityConflict" && info.Name != "EntityState")
                 {
                     bool isReadOnly = info.GetCustomAttributes(false).Any(x => (x is EditableAttribute)
-                        && (x as EditableAttribute).AllowEdit == false
-                        && (x as EditableAttribute).AllowInitialValue == false);
+                        && !(x as EditableAttribute).AllowEdit
+                        && !(x as EditableAttribute).AllowInitialValue);
 
                     var secondInfo = destType.GetProperty(info.Name);
 
@@ -31,6 +31,6 @@ namespace InfrastructureLight.DAL.Extensions
                     }
                 }
             }
-        }        
+        }
     }
 }

@@ -7,11 +7,12 @@ namespace Global.Updater
     using Properties;
 
     public abstract class UpdaterBase : IUpdater
-    {        
+    {
         private readonly string _targetDirectory;
         private readonly string _sourceDirectory;
 
-        public UpdaterBase(string appName, string sourceDirectory, string CompanyName) {
+        public UpdaterBase(string appName, string sourceDirectory, string CompanyName)
+        {
             _targetDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
             _targetDirectory = Path.Combine(_targetDirectory, CompanyName, "Updater", "_data", appName);
             _sourceDirectory = sourceDirectory;
@@ -23,13 +24,13 @@ namespace Global.Updater
         ///     Путь к директории назначения
         /// </summary>
         public string TargetDirectory
-            => _targetDirectory;         
+            => _targetDirectory;
 
         /// <summary>
         ///     Путь к источнику файлов
         /// </summary>
         public string SourceDirectory
-            => _sourceDirectory;  
+            => _sourceDirectory;
 
         #endregion
 
@@ -42,7 +43,7 @@ namespace Global.Updater
         {
             Trace.WriteLine(Resources.traceStartMessage, Resources.traceCategory);
             Trace.WriteLine($"{Resources.traceTargetDirectoryMesage} {_targetDirectory}", Resources.traceCategory);
-            DirectoryCopy(_sourceDirectory, _targetDirectory, true);            
+            DirectoryCopy(_sourceDirectory, _targetDirectory, true);
             Trace.WriteLine(Resources.traceEndMessage, Resources.traceCategory);
         }
 

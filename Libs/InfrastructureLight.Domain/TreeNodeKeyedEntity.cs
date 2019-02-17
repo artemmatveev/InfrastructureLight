@@ -13,7 +13,7 @@ namespace InfrastructureLight.Domain
         #region ITreeNode
 
         public virtual T Parent { get; private set; }
-        public virtual ICollection<T> Childrens => _children;
+        public virtual ICollection<T> Children => _children;
         public virtual void AddChild(T child)
         {
             _children.Add(child);
@@ -24,7 +24,7 @@ namespace InfrastructureLight.Domain
             if (Parent == null)
                 return;
 
-            var collection = Parent.Childrens;
+            var collection = Parent.Children;
             collection.Remove(This);
             Parent = null;
         }

@@ -1,3 +1,4 @@
-﻿namespace InfrastructureLight.Domain.Interfaces {
+﻿namespace InfrastructureLight.Domain.Interfaces
+{
     public interface IEntity { }
 }

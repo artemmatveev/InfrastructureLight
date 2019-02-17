@@ -1,13 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace InfrastructureLight.Wpf.ViewModels
 {
     using Behaviors;
     using Commands;
-    using EventArgs;
 
     public abstract class CatalogViewModelBase : AsyncViewModel
     {
@@ -20,7 +17,7 @@ namespace InfrastructureLight.Wpf.ViewModels
         }
 
         #region Fileds
-       
+
         string _searchText;
         public string SearchText
         {
@@ -43,33 +40,7 @@ namespace InfrastructureLight.Wpf.ViewModels
             return true;
         }
 
-        #endregion
-
-        #region Events
-
-        private EventHandler<OpenDialogEventArgs<ViewModelBase>> _editInvocList;
-        public event EventHandler<OpenDialogEventArgs<ViewModelBase>> EditDialog
-        {
-            add
-            {
-                if (_editInvocList == null || _editInvocList.GetInvocationList()
-                    .All(m => m.Method != value.Method))
-                {
-                    _editInvocList += value;
-                }
-            }
-            remove { _editInvocList -= value; }
-        }
-        protected virtual void OnEditDialog(ViewModelBase viewModel, Action<ViewModelBase> callback = null)
-        {
-            EventHandler<OpenDialogEventArgs<ViewModelBase>> handler = _editInvocList;
-            if (handler != null)
-            {
-                handler(this, new OpenDialogEventArgs<ViewModelBase>(viewModel, callback));
-            }
-        }
-
-        #endregion
+        #endregion        
 
         public virtual void RefreshAsynch()
         {
@@ -88,32 +59,32 @@ namespace InfrastructureLight.Wpf.ViewModels
         {
             _searchCommand = new SearchCommon<T>(this);
         }
-       
+
         ObservableCollection<T> _itemsSource;
         public ObservableCollection<T> ItemsSource
         {
-            get => _itemsSource ?? (_itemsSource = new ObservableCollection<T>()); 
+            get => _itemsSource ?? (_itemsSource = new ObservableCollection<T>());
             set { _itemsSource = value; RaisePropertyChangedEvent(); }
         }
-        
+
         T _selectedItem;
         public virtual T SelectedItem
         {
-            get => _selectedItem; 
+            get => _selectedItem;
             set { _selectedItem = value; RaisePropertyChangedEvent(); }
         }
 
         ObservableCollection<T> _selectedItems;
         public virtual ObservableCollection<T> SelectedItems
         {
-            get => _selectedItems ?? (_selectedItems = new ObservableCollection<T>()); 
+            get => _selectedItems ?? (_selectedItems = new ObservableCollection<T>());
             set { _selectedItems = value; RaisePropertyChangedEvent(); }
         }
 
         #region Commands
 
-        protected override bool CanSave()
-            => SelectedItem != null;        
+        protected override bool CanApply()
+            => SelectedItem != null;
 
         #endregion
     }

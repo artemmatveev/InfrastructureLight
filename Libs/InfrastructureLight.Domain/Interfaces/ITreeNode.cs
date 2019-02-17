@@ -6,7 +6,7 @@ namespace InfrastructureLight.Domain.Interfaces
          where T : ITreeNode<T>
     {
         T Parent { get; }
-        ICollection<T> Childrens { get; }
+        ICollection<T> Children { get; }
         void AddChild(T child);
         void ClearParent();
     }

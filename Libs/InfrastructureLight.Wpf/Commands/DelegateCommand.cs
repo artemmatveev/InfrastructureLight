@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows.Input;
 using System.Diagnostics;
+using System.Windows.Input;
 
 namespace InfrastructureLight.Wpf.Commands
 {
@@ -25,7 +25,8 @@ namespace InfrastructureLight.Wpf.Commands
 
         public bool CanExecute(object parameter)
         {
-            return _canExecute == null ? true : _canExecute(parameter);
+            var flag = true;
+            return _canExecute == null ? flag : _canExecute(parameter);
         }
 
         public event EventHandler CanExecuteChanged
@@ -62,7 +63,8 @@ namespace InfrastructureLight.Wpf.Commands
         [DebuggerStepThrough()]
         public bool CanExecute(object parameter)
         {
-            return _canExecute == null ? true : _canExecute((T)parameter);
+            var flag = true;
+            return _canExecute == null ? flag : _canExecute((T)parameter);
         }
 
         public event EventHandler CanExecuteChanged

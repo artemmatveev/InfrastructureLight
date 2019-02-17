@@ -43,14 +43,14 @@ namespace InfrastructureLight.Wpf.ViewModels
             Busy = false;
 
             DispatcherOperation op = Dispatcher.CurrentDispatcher
-                .BeginInvoke(DispatcherPriority.Background, (DispatcherOperationCallback) delegate
-                {
+                .BeginInvoke(DispatcherPriority.Background, (DispatcherOperationCallback)delegate
+               {
 
-                    Busy = true;
-                    action.Invoke();                                        
-                    return null;
+                   Busy = true;
+                   action.Invoke();
+                   return null;
 
-                }, null);
+               }, null);
 
             op.Completed += (o, e) => { Busy = false; };
         }
@@ -75,31 +75,34 @@ namespace InfrastructureLight.Wpf.ViewModels
                 Busy = false;
                 Action nextOperation = null;
 
-                if (t.IsFaulted) {
-                    if (onFailure != null) {
+                if (t.IsFaulted)
+                {
+                    if (onFailure != null)
+                    {
                         nextOperation = () => onFailure(t.Exception);
                     }
-                    else {
+                    else
+                    {
                         nextOperation = () => OnFailure(t.Exception);
                     }
                 }
 
-                if (onSuccess != null) {
+                if (onSuccess != null)
+                {
                     nextOperation = onSuccess;
                 }
 
-                if (nextOperation != null) {
-                    if (context == null) {
+                if (nextOperation != null)
+                {
+                    if (context == null)
+                    {
                         nextOperation();
                     }
-                    else {
+                    else
+                    {
                         context.Post(delegate { nextOperation(); }, null);
                     }
-                }
-                else {
-                    return;
-                }
-
+                }                
             }, TaskScheduler.Current);
 
             Busy = true;

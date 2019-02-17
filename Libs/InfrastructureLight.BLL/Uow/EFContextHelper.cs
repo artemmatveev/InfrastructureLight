@@ -1,11 +1,10 @@
 ﻿using System.Data.Entity;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 
-namespace InfrastructureLight.DAL.Uow
-{    
-    using Common.Exceptions;
-    using Repositories;
+namespace InfrastructureLight.BLL.Uow
+{
+    using DAL.Repositories;
 
     internal static class EFContextHelper
     {
@@ -29,8 +28,9 @@ namespace InfrastructureLight.DAL.Uow
             var contextField = repository.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
                 .FirstOrDefault(y => y.FieldType == typeof(DbContext));
 
-            if (contextField != null) {                
-                contextField.SetValue(repository, context);                
+            if (contextField != null)
+            {
+                contextField.SetValue(repository, context);
             }
 
             // Изменение контекста полей, 

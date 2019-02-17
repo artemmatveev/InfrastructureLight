@@ -1,7 +1,7 @@
-﻿using System.Configuration;
+﻿using Global.Security;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using Global.Security;
 
 namespace InfrastructureLight.DAL.Factory
 {

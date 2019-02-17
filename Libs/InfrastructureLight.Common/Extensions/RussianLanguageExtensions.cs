@@ -9,13 +9,13 @@ namespace InfrastructureLight.Common.Extensions
     ///     Extensions class for the Russian Language
     /// </summary>
     public static class RussianLanguageExtensions
-    {       
+    {
         /// <summary>
         ///     Normalize string
         /// </summary>        
         public static string ToNormalizeString(this string value)
         {
-            string Ru = "А|В|С|Е|Н|К|М|О|Р|Т|Х";
+            string Ru = "АВСЕНКМОРТХ";
             string En = "ABCEHKMOPTX";
             var lookup = new Dictionary<char, string>();
 

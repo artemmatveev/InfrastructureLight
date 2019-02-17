@@ -1,11 +1,10 @@
-﻿using System;
-using System.Windows.Markup;
+﻿using InfrastructureLight.Common.Extensions;
+using System;
 using System.Linq;
-
-using InfrastructureLight.Common.Extensions;
+using System.Windows.Markup;
 
 namespace InfrastructureLight.Wpf.Common.MarkupExtensions
-{    
+{
     public class EnumToIEnumerable : MarkupExtension
     {
         private readonly Type _type;

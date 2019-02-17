@@ -1,12 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using InfrastructureLight.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using InfrastructureLight.ComponentModel;
 
 namespace InfrastructureLight.Domain
 {
     using Interfaces;
 
-    public class NotifyKeyedEntity : NotifyPropertyEntry, IKeyedEntity<int>
+    public class NotifyKeyedEntity : NotifyPropertyEntity, IKeyedEntity<int>
     {
         #region IKeyedEntity
 

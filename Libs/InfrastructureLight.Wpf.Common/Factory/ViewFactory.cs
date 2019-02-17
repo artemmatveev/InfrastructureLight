@@ -3,8 +3,6 @@ using System.Windows;
 
 namespace InfrastructureLight.Wpf.Common.Factory
 {
-    using System.Reflection;
-
     public class ViewFactory : IViewFactory
     {
         public FrameworkElement CreateView<TViewModel>(TViewModel viewModel)
@@ -20,7 +18,7 @@ namespace InfrastructureLight.Wpf.Common.Factory
                     string.Format($"Unable to find view type: {assemblyQualifiedName} for given view model."), nameof(viewModel));
 
             var view = (FrameworkElement)Activator.CreateInstance(viewType);
-                        
+
             return view;
         }
     }

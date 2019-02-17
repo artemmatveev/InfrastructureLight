@@ -1,5 +1,5 @@
-﻿using System.Windows.Threading;
-using System.Security.Permissions;
+﻿using System.Security.Permissions;
+using System.Windows.Threading;
 
 namespace InfrastructureLight.Wpf.Common.Helpers
 {

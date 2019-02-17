@@ -1,13 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using InfrastructureLight.ComponentModel;
 using System.Collections.Generic;
-using InfrastructureLight.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InfrastructureLight.Domain
 {
     using Interfaces;
 
-    public class NotifyTreeNodeKeyedEntity<T> : NotifyPropertyEntry, IKeyedEntity<int>, ITreeNode<T>
+    public class NotifyTreeNodeKeyedEntity<T> : NotifyPropertyEntity, IKeyedEntity<int>, ITreeNode<T>
          where T : NotifyTreeNodeKeyedEntity<T>
     {
         private readonly ICollection<T> _children = new HashSet<T>();
@@ -36,7 +36,7 @@ namespace InfrastructureLight.Domain
         #region ITreeNode
 
         public virtual T Parent { get; private set; }
-        public virtual ICollection<T> Childrens => _children;
+        public virtual ICollection<T> Children => _children;
         public virtual void AddChild(T child)
         {
             _children.Add(child);
@@ -47,7 +47,7 @@ namespace InfrastructureLight.Domain
             if (Parent == null)
                 return;
 
-            var collection = Parent.Childrens;
+            var collection = Parent.Children;
             collection.Remove(This);
             Parent = null;
         }

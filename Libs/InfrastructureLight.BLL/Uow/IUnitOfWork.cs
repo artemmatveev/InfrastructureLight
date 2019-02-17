@@ -1,5 +1,5 @@
 ﻿using System;
-namespace InfrastructureLight.DAL.Uow
+namespace InfrastructureLight.BLL.Uow
 {
     public interface IUnitOfWork : IDisposable
     {
