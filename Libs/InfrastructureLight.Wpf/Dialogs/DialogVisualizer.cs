@@ -226,14 +226,12 @@ namespace InfrastructureLight.Wpf.Dialogs
                     ? _windows[viewModel]
                     : null;
 
-        private bool TryFocusedWindow(Window window)
-        {
-            var result = false;
+        private void TryFocusedWindow(Window window)
+        {            
             if (window != null && window.WindowState == WindowState.Minimized)
             {
                 window.WindowState = WindowState.Normal;
-            }
-            return result;
+            }            
         }
 
         #endregion

@@ -4,7 +4,7 @@
     using System.Windows;
     using System.Windows.Threading;
 
-    public class DispatchHelper
+    public static class DispatchHelper
     {
         /// <summary>
         /// Выполняет операцию в осноном потоке приложения

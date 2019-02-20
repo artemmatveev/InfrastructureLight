@@ -15,7 +15,7 @@ namespace InfrastructureLight.Common.Extensions
         /// </summary>        
         public static string ToNormalizeString(this string value)
         {
-            string Ru = "АВСЕНКМОРТХ";
+            string Ru = "А|В|С|Е|Н|К|М|О|Р|Т|Х";
             string En = "ABCEHKMOPTX";
             var lookup = new Dictionary<char, string>();
 

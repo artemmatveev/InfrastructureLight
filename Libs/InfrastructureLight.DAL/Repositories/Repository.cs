@@ -16,15 +16,25 @@ namespace InfrastructureLight.DAL.Repositories
         protected IQueryable<T> Execute<T>(string sql, params object[] parameters)
             => _dataContext.Database.SqlQuery<T>(sql, parameters).AsQueryable();
 
-        #region Dispose
+        #region IDispose
 
         bool _disposed;
         public void Dispose()
         {
-            if (_disposed) { return; }
-            _disposed = true;
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this._disposed && disposing)
+            {
+                return;
+            }
+
+            _disposed = true;
+        }
+                
         #endregion
     }
 

@@ -23,7 +23,7 @@ namespace InfrastructureLight.DAL.Repositories
 
         public List<TEntity> Get<TEntity>(string query, Action<TEntity, IDataRecord> fill) where TEntity : new()
         {
-            if (string.IsNullOrEmpty(query)) { throw new ArgumentNullException(); }
+            if (string.IsNullOrEmpty(query)) { throw new ArgumentNullException(nameof(query)); }
 
             var result = new List<TEntity>();
             try

@@ -8,7 +8,7 @@ namespace InfrastructureLight.BLL.Uow
     public class UnitOfWork : IUnitOfWork
     {
         DbContext _dataContext;
-        IRepository[] _repositories;
+        readonly IRepository[] _repositories;
         readonly object _locked = new object();
 
         public UnitOfWork(DbContext dataContext, params IRepository[] repositories)
@@ -30,12 +30,8 @@ namespace InfrastructureLight.BLL.Uow
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+                throw new DbUpdateConcurrencyException("Ошибка при сохранении", ex);
+            }            
         }
 
         public virtual bool HasChanges()
@@ -62,30 +58,34 @@ namespace InfrastructureLight.BLL.Uow
                             entry.State = EntityState.Unchanged;
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            throw new InvalidOperationException();
                     }
                 }
             }
         }
-
+        
         #region IDispose
 
         bool _disposed;
-        public virtual void Dispose()
+        public void Dispose()
         {
-            if (_disposed) { return; }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-            foreach (var repo in _repositories)
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this._disposed && disposing)
             {
-                repo.Dispose();
-            }
+                foreach (var repo in _repositories) { repo.Dispose(); }
 
-            _dataContext?.Dispose();
-            _dataContext = null;
+                _dataContext?.Dispose();
+                _dataContext = null;
+            }
 
             _disposed = true;
         }
-
+        
         #endregion
     }
 }

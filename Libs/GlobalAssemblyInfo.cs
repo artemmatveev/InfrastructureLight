@@ -7,8 +7,8 @@ using System.Resources;
 
 [assembly: NeutralResourcesLanguage("en-US")]
 
-[assembly: AssemblyVersion("1.0.65.91")]
-[assembly: AssemblyFileVersion("1.0.65.91")]
+//[assembly: AssemblyVersion("1.0.62.89")]
+//[assembly: AssemblyFileVersion("1.0.62.89")]
 
 /*
     Нумерация версии ПО: 
@@ -20,6 +20,7 @@ using System.Resources;
         Для текущего проекта смотрим на AppVeyor: https://ci.appveyor.com/project/artemmatveev/infrastructurelight/history
     D - Номер ревизии, сквозной номер назначаемый автоматически программным обеспечением хранения версий (SVN).
         Для текущего проекта смотрим номер commita на GitHub
+    CиD - можно объединить и указывать номер исправления 
 
     e - условное обозначение релиза: 
             Pre-alpha (pa) – соответствует этапу начала работ над версией. Характеризуется большими изменениями 

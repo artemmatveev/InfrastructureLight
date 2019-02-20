@@ -30,7 +30,7 @@ namespace InfrastructureLight.Common.Extensions
         /// <seealso cref="http://stackoverflow.com/questions/14123679/calculating-total-night-time-from-timespan"/>
         public static double CalcNightDuration(DateTime start, DateTime end, int startHour, int startMin, int endHour, int endMin)
         {
-            if (start > end) { throw new Exception(); }
+            if (start > end) { throw new InvalidOperationException("Дата начала не может превышать дату окончания"); }
 
             TimeSpan nightStart = new TimeSpan(startHour, startMin, 0);
             TimeSpan nightEnd = new TimeSpan(endHour, endMin, 0);

@@ -11,7 +11,7 @@ namespace Global.Updater
         private readonly string _targetDirectory;
         private readonly string _sourceDirectory;
 
-        public UpdaterBase(string appName, string sourceDirectory, string CompanyName)
+        protected UpdaterBase(string appName, string sourceDirectory, string CompanyName)
         {
             _targetDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
             _targetDirectory = Path.Combine(_targetDirectory, CompanyName, "Updater", "_data", appName);

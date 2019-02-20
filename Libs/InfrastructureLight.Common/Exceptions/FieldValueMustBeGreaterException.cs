@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace InfrastructureLight.Common.Exceptions
 {
@@ -7,6 +8,9 @@ namespace InfrastructureLight.Common.Exceptions
     {
         public FieldValueMustBeGreaterException(string fieldNameOne, string filedNameTwo)
             : base($"Знаечние поля {fieldNameOne} должно быть больше значения поля {filedNameTwo}") { }
+
+        FieldValueMustBeGreaterException(SerializationInfo info, StreamingContext context)
+            : base(info, context) { }
     }
 }
 

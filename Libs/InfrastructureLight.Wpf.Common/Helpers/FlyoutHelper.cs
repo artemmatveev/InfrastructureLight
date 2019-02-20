@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace InfrastructureLight.Wpf.Common.Helpers
 {
-    public class FlyoutHelper
+    public static class FlyoutHelper
     {
         public static Flyout ActiveFlyout(int index)
         {

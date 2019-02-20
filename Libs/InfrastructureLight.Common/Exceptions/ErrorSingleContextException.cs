@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace InfrastructureLight.Common.Exceptions
 {
@@ -7,5 +8,8 @@ namespace InfrastructureLight.Common.Exceptions
     {
         public ErrorSingleContextException()
             : base("Некоторые из репозиториев имеют разные контексты. Можно передавать только репозитории с одним контекстом") { }
+
+        protected ErrorSingleContextException(SerializationInfo info, StreamingContext context)
+            : base(info, context) { }
     }
 }

@@ -38,7 +38,7 @@ namespace InfrastructureLight.Common.Extensions
         /// </summary>
         public static bool Contains(this string source, string value, StringComparison comparisonType)
         {
-            if (string.IsNullOrEmpty(source) == false)
+            if (!string.IsNullOrEmpty(source))
                 return source.IndexOf(value, comparisonType) != -1;
 
             return false;

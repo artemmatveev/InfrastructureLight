@@ -12,6 +12,7 @@
     using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Windows;
+    using System.Text;
 
     public class DebugHelper
     {
@@ -155,13 +156,13 @@
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    string exceptionText = string.Empty;
+                    StringBuilder sb = new StringBuilder();
                     foreach (Exception exception in exceptions)
                     {
-                        exceptionText += exception.GetFullErrorInfo();
+                        sb.Append(exception.GetFullErrorInfo());
                     }
 
-                    MessageDialogHelper.ShowDialog("Возникло исключение", exceptionText, 400, 300, true,
+                    MessageDialogHelper.ShowDialog("Возникло исключение", sb.ToString(), 400, 300, true,
                         MessageBoxButton.OK, ResizeMode.CanResizeWithGrip, MessageBoxImage.Error);
                 }
             }
@@ -169,7 +170,7 @@
         }
 
         internal class TypeInfo : IDisposable
-        {
+        {            
             public TypeInfo(PropertyInfo[] properties, object target, int index, string parentPropertyNane)
             {
                 Properties = properties;
@@ -190,11 +191,27 @@
                 return Target.GetType() + " Index: " + Index;
             }
 
+            #region IDispose
+
+            bool _disposed;
             public void Dispose()
             {
-                Properties = null;
-                Target = null;
+                Dispose(true);
+                GC.SuppressFinalize(this);
             }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!this._disposed && disposing)
+                {
+                    Properties = null;
+                    Target = null;
+                }
+
+                _disposed = true;
+            }
+
+            #endregion
         }
 
         internal class Property

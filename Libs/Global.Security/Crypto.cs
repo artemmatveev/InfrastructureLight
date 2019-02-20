@@ -5,8 +5,10 @@ using System.Text;
 
 namespace Global.Security
 {
-    public class Crypto
+    public static class Crypto
     {
+        const int saltLength = 8;
+
         public static string EncryptString(string text, string password)
         {
             byte[] baPwd = Encoding.UTF8.GetBytes(password);
@@ -42,8 +44,7 @@ namespace Global.Security
 
             byte[] baDecrypted = AES_Decrypt(baText, baPwdHash);
 
-            // Remove salt
-            int saltLength = GetSaltLength();
+            // Remove salt            
             byte[] baResult = new byte[baDecrypted.Length - saltLength];
             for (int i = 0; i < baResult.Length; i++)
                 baResult[i] = baDecrypted[i + saltLength];
@@ -64,15 +65,7 @@ namespace Global.Security
             {
                 using (RijndaelManaged AES = new RijndaelManaged())
                 {
-                    AES.KeySize = 256;
-                    AES.BlockSize = 128;
-
-                    var key = new Rfc2898DeriveBytes(passwordBytes, saltBytes, 1000);
-                    AES.Key = key.GetBytes(AES.KeySize / 8);
-                    AES.IV = key.GetBytes(AES.BlockSize / 8);
-
-                    AES.Mode = CipherMode.CBC;
-
+                    SetAESSettings(AES, passwordBytes, saltBytes);
                     using (var cs = new CryptoStream(ms, AES.CreateEncryptor(), CryptoStreamMode.Write))
                     {
                         cs.Write(bytesToBeEncrypted, 0, bytesToBeEncrypted.Length);
@@ -97,15 +90,7 @@ namespace Global.Security
             {
                 using (RijndaelManaged AES = new RijndaelManaged())
                 {
-                    AES.KeySize = 256;
-                    AES.BlockSize = 128;
-
-                    var key = new Rfc2898DeriveBytes(passwordBytes, saltBytes, 1000);
-                    AES.Key = key.GetBytes(AES.KeySize / 8);
-                    AES.IV = key.GetBytes(AES.BlockSize / 8);
-
-                    AES.Mode = CipherMode.CBC;
-
+                    SetAESSettings(AES, passwordBytes, saltBytes);
                     using (var cs = new CryptoStream(ms, AES.CreateDecryptor(), CryptoStreamMode.Write))
                     {
                         cs.Write(bytesToBeDecrypted, 0, bytesToBeDecrypted.Length);
@@ -118,17 +103,23 @@ namespace Global.Security
             return decryptedBytes;
         }
 
-        public static byte[] GetRandomBytes()
+        private static void SetAESSettings(RijndaelManaged aes, byte[] passwordBytes, byte[] saltBytes)
         {
-            int saltLength = GetSaltLength();
+            aes.KeySize = 256;
+            aes.BlockSize = 128;
+
+            var key = new Rfc2898DeriveBytes(passwordBytes, saltBytes, 1000);
+            aes.Key = key.GetBytes(aes.KeySize / 8);
+            aes.IV = key.GetBytes(aes.BlockSize / 8);
+
+            aes.Mode = CipherMode.CBC;
+        }
+
+        public static byte[] GetRandomBytes()
+        {            
             byte[] ba = new byte[saltLength];
             RNGCryptoServiceProvider.Create().GetBytes(ba);
             return ba;
-        }
-
-        public static int GetSaltLength()
-        {
-            return 8;
         }
     }
 }
