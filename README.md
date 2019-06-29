@@ -17,17 +17,17 @@ To use InfrastructureLight in your C# project, you can use the NuGet package man
 ### For Domain:
 
 ```
-    PM> Install-Package InfrastructureLight.Domain    
+    PM>   
 ```
 
 ### For Data Access Layer:
 
 ```
-    PM> Install-Package InfrastructureLight.DAL 
+    PM> 
 ```
 
 ### For WPF App:
 
 ```
-    PM> Install-Package InfrastructureLight.Wpf    
+    PM>  
 ```
