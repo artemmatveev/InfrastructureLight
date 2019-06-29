@@ -20,7 +20,7 @@ To use InfrastructureLight in your C# project, you can use the NuGet package man
     PM>   
 ```
 
-### For Data Access Layer:
+### For DAL:
 
 ```
     PM> 
