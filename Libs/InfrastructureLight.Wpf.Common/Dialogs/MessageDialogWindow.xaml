@@ -31,11 +31,43 @@
         </Grid.ColumnDefinitions>
 
         <ContentControl x:Name="xImageContentControl" VerticalAlignment="Top" ContentTemplateSelector="{StaticResource ImageSelector}" />
-        <ContentControl x:Name="xContentControl" Grid.Column="1" FontSize="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <ContentControl Grid.Column="1" x:Name="xContentControl"  FontSize="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-        <DockPanel Margin="0,2.5,10,0" HorizontalAlignment="Right" Grid.Row="1" Grid.ColumnSpan="2">
-            <Button x:Name="xButton1" Command="Close" FontWeight="Normal" Margin="5" FontSize="14" MinWidth="70" Background="LightCoral"/>
-            <Button x:Name="xButton2" Command="Close" FontWeight="Normal" Margin="5" FontSize="14" MinWidth="70" Background="LightGreen"/>
+        <DockPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,2.5,10,0" HorizontalAlignment="Right">
+            <DockPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Command" Value="Close"/>
+                    <Setter Property="FontWeight" Value="Normal"/>
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="MinWidth" Value="70"/>
+                </Style>
+            </DockPanel.Resources>
+            <CheckBox x:Name="xCheckBox" Content="Больше не показывать" Visibility="Collapsed"/>
+            <Button x:Name="xButton1" Background="LightCoral">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image x:Name="xImage1" Source="pack://application:,,,/InfrastructureLight.Wpf.Common;component/Assets/Images/tick.png" />
+                        <TextBlock x:Name="xTextBlock1"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button x:Name="xButton2" Command="Close" Background="LightGreen">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image x:Name="xImage2" Source="pack://application:,,,/InfrastructureLight.Wpf.Common;component/Assets/Images/cross.png" />
+                        <TextBlock x:Name="xTextBlock2"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button x:Name="xButton3" Background="LightGray" Visibility="Collapsed">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image x:Name="xImage3" Source="pack://application:,,,/InfrastructureLight.Wpf.Common;component/Assets/Images/prohibition.png"/>
+                        <TextBlock x:Name="xTextBlock3"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
         </DockPanel>
 
     </Grid>

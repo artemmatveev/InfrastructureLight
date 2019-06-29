@@ -33,13 +33,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\ArchitectureClassExample\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\ArchitectureClassExample\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
+      <HintPath>..\..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\ArchitectureClassExample\packages\NLog.4.5.10\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\..\packages\NLog.4.5.10\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -51,7 +51,7 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\ArchitectureClassExample\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -74,6 +74,13 @@
     <Compile Include="Dialogs\IDialogSettings.cs" />
     <Compile Include="Dialogs\IDialogVisualizer.cs" />
     <Compile Include="Dialogs\DialogVisualizer.cs" />
+    <Compile Include="Dialogs\Message\ButtonIcon.cs" />
+    <Compile Include="Dialogs\Message\ButtonIconSelector.cs" />
+    <Compile Include="Dialogs\Message\DialogButton.cs" />
+    <Compile Include="Dialogs\Message\MsgDialogViewModel.cs" />
+    <Compile Include="Dialogs\Message\MsgDialogWindow.xaml.cs">
+      <DependentUpon>MsgDialogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EventArgs\CloseDialogEventArgs.cs" />
     <Compile Include="EventArgs\ConfirmEventArgs.cs" />
     <Compile Include="EventArgs\InfoEventArgs.cs" />
@@ -106,6 +113,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Dialogs\DialogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\Message\MsgDialogWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

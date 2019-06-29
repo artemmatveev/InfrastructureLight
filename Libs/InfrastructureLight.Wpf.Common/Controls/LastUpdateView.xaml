@@ -9,12 +9,12 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Cоздал:"/>
             <TextBlock Text="{Binding CreatedBy}"/>
-            <TextBlock Text="{Binding CreatedDate, StringFormat=', Дата: dd.MM.yyyy, HH.mm.ss'}"/>
+            <TextBlock Text="{Binding CreatedDate, StringFormat=', Дата: dd.MM.yyyy, HH:mm:ss'}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Изменил:"/>
             <TextBlock Text="{Binding ModifyBy}"/>
-            <TextBlock Text="{Binding ModifyDate, StringFormat=', Дата: dd.MM.yyyy, HH.mm.ss'}"/>
+            <TextBlock Text="{Binding ModifyDate, StringFormat=', Дата: dd.MM.yyyy, HH:mm:ss'}"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -9,10 +9,16 @@ using System.Windows.Media;
 namespace InfrastructureLight.Wpf.Dialogs
 {
     using Common.Factory;
+    using InfrastructureLight.Wpf.Dialogs.Message;
     using ViewModels;
 
     public class DialogVisualizer : IDialogVisualizer
     {
+        /// <summary>
+        ///     The margins to wrap string content with.
+        /// </summary>
+        static Thickness StringContentMarginThickness = new Thickness(10, 10, 50, 10);
+
         private readonly IDictionary<ViewModelBase, Window> _windows
             = new Dictionary<ViewModelBase, Window>();
 
@@ -33,7 +39,7 @@ namespace InfrastructureLight.Wpf.Dialogs
             var window = GetWindow(viewModel);
             if (window != null)
             {
-                TryFocusedWindow(window);
+                FocusWindow(window);
             }
             else
             {
@@ -81,6 +87,85 @@ namespace InfrastructureLight.Wpf.Dialogs
             }
             return false;
         }
+
+        #endregion
+
+        #region Metods ShowDialog for Message Dialog Style
+
+        public bool? ShowDialog(string title, string content, ResizeMode resizeMode = ResizeMode.NoResize,
+            MessageBoxImage messageBoxImage = MessageBoxImage.None, params DialogButton[] buttons)
+        {
+            //var vm = new MsgDialogViewModel();
+            var window = new MsgDialogWindow
+            {
+                Title = title,
+                ResizeMode = resizeMode,
+                Image = messageBoxImage,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                GlowBrush = new SolidColorBrush(Color.FromArgb(0xcc, 0x1b, 0xa1, 0xe2))
+            };            
+
+            window.Content = new TextBlock
+            {
+                Text = content,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = StringContentMarginThickness
+            };
+
+            if (Application.Current != null)
+            {
+                var activeWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+                window.Owner = activeWindow ?? Application.Current.MainWindow;
+                window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            }
+            else
+            {
+                window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            }
+
+            // Buttons
+            if (buttons != null)
+            {
+                foreach (var dialogButton in buttons)
+                {
+                    Button button = new Button();
+
+                    // Content
+                    if (dialogButton.Icon != null && ButtonIconSelector.Icons.ContainsKey(dialogButton.Icon.Value))
+                    {
+                        Image img = new Image { Source = ButtonIconSelector.Icons[dialogButton.Icon.Value] };
+                        TextBlock tb = new TextBlock { Text = dialogButton.Content };
+                        StackPanel sp = new StackPanel { Orientation = Orientation.Horizontal };
+                        sp.Children.Add(img);
+                        sp.Children.Add(tb);
+                        button.Content = sp;
+                    }
+                    else
+                    {
+                        button.Content = dialogButton.Content;
+                    }
+
+                    button.IsDefault = dialogButton.IsDefault;
+                    button.IsCancel = dialogButton.IsCancel;
+
+                    // Closing
+                    if (dialogButton.CloseWindow)
+                    {
+                        button.Click += window.Button_Click;
+                    }
+
+                    button.Command = dialogButton.Command;
+
+                    window.xButtonPanel.Children.Add(button);
+                }
+            }
+
+            return window.ShowDialog();
+        }
+
+        #endregion
+
+        #region Closing
 
         public void Close<T>(T viewModel) where T : ViewModelBase
             => GetWindow(viewModel)?.Close();
@@ -213,6 +298,8 @@ namespace InfrastructureLight.Wpf.Dialogs
                     {
                         _windows.Remove(viewModel);
                     }
+
+                    viewModel.OnClosed();
                 };
 
                 _windows.Add(viewModel, window);
@@ -226,12 +313,17 @@ namespace InfrastructureLight.Wpf.Dialogs
                     ? _windows[viewModel]
                     : null;
 
-        private void TryFocusedWindow(Window window)
-        {            
-            if (window != null && window.WindowState == WindowState.Minimized)
+        private void FocusWindow(Window window)
+        {
+            if (window != null)
             {
-                window.WindowState = WindowState.Normal;
-            }            
+                if (window.WindowState == WindowState.Minimized)
+                {
+                    window.WindowState = WindowState.Normal;
+                }
+
+                window.Focus();
+            }
         }
 
         #endregion

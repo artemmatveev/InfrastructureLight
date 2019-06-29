@@ -49,7 +49,7 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
             ResizeMode resizeMode = ResizeMode.NoResize, MessageBoxImage messageBoxImage = MessageBoxImage.None)
         {
             MessageDialogWindow simpleDialogWindow = CreateMessageDialogWindow(title, resizeMode, messageBoxImage);
-            SetMessageBoxButtons(simpleDialogWindow, messageBoxButton);
+            SetMessageBoxButtons(simpleDialogWindow, messageBoxButton, null, null);
 
             if (scrollable)
             {
@@ -80,23 +80,46 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
         /// </param>
         /// <param name="resizeMode">Resize mode.</param>
         /// <param name="messageBoxImage">An image to display in window.</param>
-        /// <returns>Dialog result.</returns>
+        /// <returns>Dialog result.</returns>        
         public static bool? ShowDialog(string title, object content,
+            MessageBoxButton messageBoxButton = MessageBoxButton.OK, ResizeMode resizeMode = ResizeMode.NoResize,
+            MessageBoxImage messageBoxImage = MessageBoxImage.None, string OkContent = null, string CancelContent = null, bool? warningFlag = false)
+        {
+            return ConfigureWindow(title, content, resizeMode, messageBoxImage, messageBoxButton, OkContent, CancelContent, warningFlag).ShowDialog();
+        }        
+
+        /// <summary>
+        ///     Показывает диалоговое окно и возвращает состояние флага(Больше не показывать)
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        /// <param name="warningFlag"></param>
+        /// <param name="messageBoxButton"></param>
+        /// <param name="resizeMode"></param>
+        /// <param name="messageBoxImage"></param>
+        /// <returns></returns>
+        public static (bool? Dialog, bool? Flag) ShowDialogAndWarningFlag(string title, object content, string OkContent, string CancelContent, bool? warningFlag,
             MessageBoxButton messageBoxButton = MessageBoxButton.OK, ResizeMode resizeMode = ResizeMode.NoResize,
             MessageBoxImage messageBoxImage = MessageBoxImage.None)
         {
-            MessageDialogWindow simpleDialogWindow = CreateMessageDialogWindow(title, resizeMode, messageBoxImage);
-            simpleDialogWindow.Content = WrapContent(content);
-            simpleDialogWindow.SizeToContent = SizeToContent.WidthAndHeight;
+            var simpleDialogWindow = ConfigureWindow(title, content, resizeMode, messageBoxImage, messageBoxButton, OkContent, CancelContent, warningFlag);
 
-            SetMessageBoxButtons(simpleDialogWindow, messageBoxButton);
-
-            return simpleDialogWindow.ShowDialog();
+            return (simpleDialogWindow.ShowDialog(), simpleDialogWindow.xCheckBox.IsChecked);
         }
 
         #region Private members
 
-        private static MessageDialogWindow CreateMessageDialogWindow(string title, ResizeMode resizeMode, MessageBoxImage messageBoxImage)
+        private static MessageDialogWindow ConfigureWindow(string title, object content, ResizeMode resizeMode, MessageBoxImage messageBoxImage,
+                                                                                         MessageBoxButton messageBoxButton, string OkContent, string CancelContent, bool? warningFlag)
+        {
+            MessageDialogWindow simpleDialogWindow = CreateMessageDialogWindow(title, resizeMode, messageBoxImage, warningFlag);
+            simpleDialogWindow.Content = WrapContent(content);
+            simpleDialogWindow.SizeToContent = SizeToContent.WidthAndHeight;
+            SetMessageBoxButtons(simpleDialogWindow, messageBoxButton, OkContent, CancelContent);
+
+            return simpleDialogWindow;
+        }        
+        private static MessageDialogWindow CreateMessageDialogWindow(string title, ResizeMode resizeMode, MessageBoxImage messageBoxImage, bool? warningFlag = false)
         {
             var dialogWindow = new MessageDialogWindow
             {
@@ -117,9 +140,10 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
                 dialogWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             }
 
+            dialogWindow.xCheckBox.Visibility = warningFlag == true ? Visibility.Visible : Visibility.Collapsed;
+
             return dialogWindow;
         }
-
         private static object WrapContent(object content)
         {
             var s = content as string;
@@ -140,41 +164,47 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
                 MinWidth = ContentMinWidth
             };
         }
-
-        private static void SetMessageBoxButtons(MessageDialogWindow window, MessageBoxButton messageBoxButton)
+        private static void SetMessageBoxButtons(MessageDialogWindow window, MessageBoxButton messageBoxButton, string OkContent, string CancelContent)
         {
             switch (messageBoxButton)
             {
                 case MessageBoxButton.OK:
                     window.xButton1.Visibility = Visibility.Visible;
-                    window.xButton1.Content = Resources.OKButtonContent;
+                    
+                    window.xTextBlock1.Text = string.IsNullOrEmpty(OkContent) ? Resources.OKButtonContent : OkContent;
+                    window.xImage1.Visibility = string.IsNullOrEmpty(OkContent) ? Visibility.Collapsed : Visibility.Visible;
                     window.xButton1.IsDefault = true;
 
                     window.xButton2.Visibility = Visibility.Collapsed;
                     break;
                 case MessageBoxButton.OKCancel:
                     window.xButton1.Visibility = Visibility.Visible;
-                    window.xButton1.Content = Resources.OKButtonContent;
+                    window.xTextBlock1.Text = string.IsNullOrEmpty(OkContent) ? Resources.OKButtonContent : OkContent;
+                    window.xImage1.Visibility = string.IsNullOrEmpty(OkContent) ? Visibility.Collapsed : Visibility.Visible;
                     window.xButton1.IsDefault = true;
 
                     window.xButton2.Visibility = Visibility.Visible;
-                    window.xButton2.Content = Resources.CancelButtonContent;
+                    window.xTextBlock2.Text = string.IsNullOrEmpty(CancelContent) ? Resources.CancelButtonContent : CancelContent;
+                    window.xImage2.Visibility = string.IsNullOrEmpty(OkContent) ? Visibility.Collapsed : Visibility.Visible;
                     window.xButton2.IsCancel = true;
                     break;
                 case MessageBoxButton.YesNoCancel:
                 case MessageBoxButton.YesNo:
-                    window.xButton1.Visibility = Visibility.Visible;
-                    window.xButton1.Content = Resources.YesButtonContent;
-                    window.xButton1.IsDefault = true;
 
+                    window.xButton1.Visibility = Visibility.Visible;
+                    window.xTextBlock1.Text = string.IsNullOrEmpty(OkContent) ? Resources.YesButtonContent : OkContent;
+                    window.xImage1.Visibility = string.IsNullOrEmpty(OkContent) ? Visibility.Collapsed : Visibility.Visible;
+                    window.xButton1.IsDefault = true;
+                                 
                     window.xButton2.Visibility = Visibility.Visible;
-                    window.xButton2.Content = Resources.NoButtonContent;
+                    window.xTextBlock2.Text = string.IsNullOrEmpty(CancelContent) ? Resources.NoButtonContent : CancelContent;
+                    window.xImage2.Visibility = string.IsNullOrEmpty(OkContent) ? Visibility.Collapsed : Visibility.Visible;
                     window.xButton2.IsCancel = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(messageBoxButton), messageBoxButton, null);
             }
-        }
+        }        
 
         #endregion
     }

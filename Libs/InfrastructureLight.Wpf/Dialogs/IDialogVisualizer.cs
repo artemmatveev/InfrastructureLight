@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Windows;
+
 namespace InfrastructureLight.Wpf.Dialogs
 {
+    using Message;
     using ViewModels;
 
     public interface IDialogVisualizer
@@ -26,6 +29,11 @@ namespace InfrastructureLight.Wpf.Dialogs
         ///     и задать владельца
         /// </summary>        
         bool? ShowDialog<T, TOwner>(T viewModel, TOwner owner, IDialogSettings dialogSettings = null, Action<T> callback = null) where T : ViewModelBase where TOwner : ViewModelBase;
+
+        /// <summary>
+        ///     Отобразить диалоговое окно в стиле сообщения
+        /// </summary>
+        bool? ShowDialog(string title, string content, ResizeMode resizeMode = ResizeMode.NoResize, MessageBoxImage messageBoxImage = MessageBoxImage.None, params DialogButton[] buttons);
 
         /// <summary>
         ///     Закрывает окно, которое сопоставлено заданной модели представления

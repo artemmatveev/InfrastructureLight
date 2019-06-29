@@ -272,6 +272,10 @@ namespace InfrastructureLight.Wpf.ViewModels
             return !equalsFlag;
         }
 
+        public virtual void OnClosed()
+        {
+        }
+
         #endregion
     }
 }

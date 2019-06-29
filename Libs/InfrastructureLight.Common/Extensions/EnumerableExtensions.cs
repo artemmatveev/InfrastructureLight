@@ -11,6 +11,12 @@ namespace InfrastructureLight.Common.Extensions
     public static class EnumerableExtensions
     {
         /// <summary>
+        ///     Converte IEnumerable to HashSet
+        /// </summary>
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> enumerable)
+            => new HashSet<T>(enumerable);
+
+        /// <summary>
         ///     Converte IEnumerable to ObservableCollection
         /// </summary>
         public static ObservableCollection<T> ToObservable<T>(this IEnumerable<T> enumerable)

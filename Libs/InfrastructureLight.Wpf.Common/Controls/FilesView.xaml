@@ -83,7 +83,7 @@
                                Width="35" Height="35"/>
                             <StackPanel Margin="5">
                                 <TextBlock Text="{Binding Name}" />
-                                <TextBlock Text="{Binding ModifyDate, StringFormat='Дата загрузки: dd.MM.yyyy, HH.mm.ss'}"/>
+                                <TextBlock Text="{Binding ModifyDate, StringFormat='Дата загрузки: dd.MM.yyyy, HH:mm:ss'}"/>
                                 <TextBlock Text="{Binding ModifyBy, StringFormat='Загрузил: {0}'}" />
                             </StackPanel>
                         </StackPanel>

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogingExceptions
+namespace InfrastructureLight.Wpf.Dialogs.Message
 {
-    class Program
+    public enum ButtonIcon
     {
-        static void Main(string[] args)
-        {
-        }
+        Yes,
+        No,
+        Cancel
     }
 }

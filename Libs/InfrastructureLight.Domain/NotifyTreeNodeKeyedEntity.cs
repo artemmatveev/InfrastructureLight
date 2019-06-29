@@ -19,7 +19,7 @@ namespace InfrastructureLight.Domain
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(nameof(Id), Order = 0)]
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
 
         /// <summary>
         ///     Return <see cref="bool.True" />, 
@@ -35,12 +35,16 @@ namespace InfrastructureLight.Domain
 
         #region ITreeNode
 
-        public virtual T Parent { get; private set; }
+        [ForeignKey(nameof(Parent))]
+        public virtual int? Parent_Id { get; private set; }
+
+        public virtual T Parent { get; private set; }        
         public virtual ICollection<T> Children => _children;
         public virtual void AddChild(T child)
         {
             _children.Add(child);
             child.Parent = This;
+            child.Parent_Id = This.Id;
         }
         public virtual void ClearParent()
         {
@@ -50,6 +54,7 @@ namespace InfrastructureLight.Domain
             var collection = Parent.Children;
             collection.Remove(This);
             Parent = null;
+            Parent_Id = null;
         }
 
         #endregion

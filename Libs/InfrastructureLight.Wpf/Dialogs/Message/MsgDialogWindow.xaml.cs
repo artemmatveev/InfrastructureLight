@@ -1,33 +1,44 @@
-﻿using System.Windows.Controls;
+﻿using MahApps.Metro.Controls;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
-using MahApps.Metro.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace InfrastructureLight.Wpf.Common.Dialogs
+namespace InfrastructureLight.Wpf.Dialogs.Message
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows;
-
-    public partial class MessageDialogWindow : MetroWindow
+    /// <summary>
+    /// Логика взаимодействия для MsgDialogWindow.xaml
+    /// </summary>
+    public partial class MsgDialogWindow : MetroWindow
     {
-        public MessageDialogWindow()
+        public MsgDialogWindow()
         {
             InitializeComponent();
         }
-       
+
         public new object Content
         {
             get { return xContentControl.Content; }
             set { xContentControl.Content = value; }
         }
-        
+
         public object Image
         {
             get { return xImageContentControl.Content; }
             set { xImageContentControl.Content = value; }
-        }
+        }        
 
-        private void OnClose(object sender, ExecutedRoutedEventArgs e)
+        public void Button_Click(object sender, RoutedEventArgs e)
         {
             var button = e.Source as Button;
             if (button != null && button.IsDefault)
@@ -39,7 +50,8 @@ namespace InfrastructureLight.Wpf.Common.Dialogs
                 DialogResult = false;
             }
 
-            e.Handled = true;            
+            e.Handled = true;
+            Close();
         }
 
         private void MessageDialogWindow_OnKeyDown(object sender, KeyEventArgs e)
